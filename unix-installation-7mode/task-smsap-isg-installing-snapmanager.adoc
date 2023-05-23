@@ -1,0 +1,90 @@
+---
+permalink: unix-installation-7mode/task-smsap-isg-install-snapmanager.html 
+sidebar: sidebar 
+keywords: install, snapmanager, host, database, backup, run 
+summary: È necessario installare SnapManager su ciascun host in cui è in esecuzione il database di cui si desidera eseguire il backup. 
+---
+= Installare SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario installare SnapManager su ciascun host in cui è in esecuzione il database di cui si desidera eseguire il backup.
+
+*Cosa ti serve*
+
+È necessario aver installato SnapDrive per UNIX sull'host del database e aver stabilito una connessione al sistema di storage.
+
+Per informazioni su come installare SnapDrive e stabilire la connessione al sistema di storage, consultare la documentazione di SnapDrive per UNIX.
+
+*A proposito di questa attività*
+
+È necessario installare un'istanza di SnapManager per host di database. Se si utilizza un database Real Application Cluster (RAC) e si desidera eseguire il backup del database RAC, è necessario installare SnapManager su tutti gli host del database RAC.
+
+. Scaricare il pacchetto di installazione SnapManager per SAP per UNIX dal sito di supporto NetApp e copiarlo sul sistema host.
++
+http://mysupport.netapp.com/NOW/cgi-bin/software["Download NetApp: Software"^]
+
+. Accedere all'host del database come utente root.
+. Dal prompt dei comandi, accedere alla directory in cui è stato copiato il pacchetto di installazione.
+. Rendere eseguibile il pacchetto di installazione:
++
+`*chmod 755 _install_package.bin_*`
+
+. Installare SnapManager:
++
+`*_./install_package.bin_*`
+
+. Premere `Enter` per continuare.
+. Attenersi alla seguente procedura:
++
+.. Impostare il valore predefinito dell'utente del sistema operativo su `*ora*` `_sid_`, dove `_sid_` è l'identificatore di sistema del database.
+.. Premere `Enter` per accettare il valore predefinito per il gruppo di sistemi operativi.
++
+Il valore predefinito per il gruppo è _dba_.
+
+.. Premere `Enter` per accettare il valore predefinito per il tipo di avvio.
+
+
++
+Viene visualizzato il riepilogo della configurazione.
+
+. Esaminare il riepilogo della configurazione e premere `Enter` per continuare.
++
+SnapManager per SAP e l'ambiente di runtime Java richiesto (JRE) sono installati e il `smsap_setup` lo script viene eseguito automaticamente.
+
++
+SnapManager per SAP viene installato all'indirizzo `/opt/NetApp/smsap`.
+
+
+
+*Al termine*
+
+Per verificare se l'installazione è stata eseguita correttamente, attenersi alla seguente procedura:
+
+. Avviare per il server SnapManager eseguendo il seguente comando:
++
+`*smsap_server start*`
+
++
+Viene visualizzato un messaggio che indica che per il server SnapManager è in esecuzione.
+
+. Verificare che SnapManager per SAP per il sistema sia in esecuzione correttamente immettendo il seguente comando:
++
+`*smsap system verify*`
+
++
+Viene visualizzato il seguente messaggio: Operation ID number successed (numero ID operazione riuscita).
+
++
+Number è il numero ID dell'operazione.
+
+
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=30050["Documentazione NetApp: SnapDrive per UNIX"^]
+
+http://mysupport.netapp.com/["Documentazione sul sito di supporto NetApp: mysupport.netapp.com"^]

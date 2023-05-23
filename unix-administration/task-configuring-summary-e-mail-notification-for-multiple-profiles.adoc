@@ -1,0 +1,64 @@
+---
+permalink: unix-administration/task-configure-summary-e-mail-notification-for-multiple-profiles.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, configure, summary, email, notification, multiple, profile, repository, database, configuring 
+summary: SnapManager consente di configurare una notifica e-mail di riepilogo per più profili in un database di repository. 
+---
+= Configurare la notifica e-mail di riepilogo per più profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di configurare una notifica e-mail di riepilogo per più profili in un database di repository.
+
+*A proposito di questa attività*
+
+È possibile impostare l'host del server SnapManager come host di notifica da cui l'email di notifica di riepilogo viene inviata ai destinatari. Se il nome host o l'indirizzo IP del server SnapManager viene modificato, è possibile aggiornare anche l'host di notifica.
+
+È possibile selezionare uno degli orari di pianificazione in cui si desidera ricevere una notifica via email:
+
+* Ogni ora: Per ricevere una notifica via email ogni ora
+* Daily (giornaliero): Per ricevere una notifica via email ogni giorno
+* Settimanale: Per ricevere una notifica via email ogni settimana
+* Mensile: Per ricevere una notifica via email mensile
+
+
+Per ricevere le notifiche relative alle operazioni eseguite con tali profili, è necessario inserire un singolo indirizzo e-mail o un elenco separato da virgole. Quando si immettono più indirizzi e-mail, assicurarsi che non vi sia spazio tra la virgola e l'indirizzo e-mail successivo.
+
+SnapManager consente di aggiungere un oggetto e-mail personalizzato utilizzando le seguenti variabili:
+
+* Nome del profilo utilizzato per l'operazione del database.
+* Nome del database
+* SID del database
+* Nome del server host
+* Ora di inizio dell'operazione del database nel formato yyyymmdd:hh:ss
+* Ora di fine dell'operazione del database nel formato yyyymmdd:hh:ss
+* Stato operativo del database
+
+
+Se si sceglie di non aggiungere un oggetto personalizzato, SnapManager visualizza un messaggio di errore: `Missing value -subject`.
+
+. Immettere il seguente comando:
++
+`*smsap notification update-summary-notification -repository -port _repo_port_ -dbname _repo_service_name_ -host _repo_host_ -login-username _repo_username_ -email _email_address1,email_address2_ -subject _subject-pattern_ -frequency {-daily-time _daily_time_ | -hourly-time _hourly_time_ | -monthly-time _monthly_time_ -date {1 |2...|31} | -weekly-time _weekly_time_ -day {1 |2 |3 |4 |5 |6 |7}} -profiles _profile1 profile2_ -notification-host _notification-host_*`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+``[-force] [-noprompt]``
+
++
+``[-quiet | -verbose]``
+
+
+
+'''
+[listing]
+----
+
+smsap notification update-summary-notification –repository –port 1521 –dbname repo2 –host 10.72.197.133 –login –username oba5 –email-address admin@org.com –subject success –frequency -daily -time 19:30:45 –profiles sales1 -notification-host wales
+----
+'''

@@ -1,0 +1,20 @@
+---
+permalink: unix-administration/concept-backing-up-and-restoring-files-using-br-tools.html 
+sidebar: sidebar 
+keywords: addition, backing, up, database, file, br, tools, back, restore, sap, system, storage 
+summary: Oltre a eseguire il backup dei file di database, è possibile utilizzare BR*Tools per eseguire il backup e il ripristino di qualsiasi file, ad esempio i file di sistema SAP memorizzati nel sistema di storage 
+---
+= Backup e ripristino dei file con BR*Tools
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oltre a eseguire il backup dei file di database, è possibile utilizzare BR*Tools per eseguire il backup e il ripristino di qualsiasi file, ad esempio i file di sistema SAP memorizzati nel sistema di storage.
+
+Seguire la documentazione di SAP BR*Tools per i comandi BRBACKUP e BRRESTORE. Le seguenti informazioni aggiuntive si applicano quando si utilizza SnapManager per SAP:
+
+* I file devono essere memorizzati nel sistema di storage.
+* Assicurarsi di disporre delle autorizzazioni necessarie per i file di cui si esegue il backup. Ad esempio, eseguire il backup dei file di sistema SAP (`BRBACKUP backup_mode=sap_dir`) O i file di sistema Oracle (`BRBACKUP backup_mode=ora_dir`) richiede l'autorizzazione root sull'host. Utilizzare il comando su root prima di eseguire BRBACKUP.
+

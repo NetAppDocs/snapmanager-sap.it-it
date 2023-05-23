@@ -1,0 +1,36 @@
+---
+permalink: unix-administration/task-view-clone-split-estimate.html 
+sidebar: sidebar 
+keywords: clone, split, estimate, help, total, free, space, available, aggregate, database, view 
+summary: 'La stima della suddivisione del clone consente di conoscere lo spazio libero totale disponibile sull"aggregato, la quantità di spazio condiviso tra il clone e il database originale e lo spazio utilizzato esclusivamente dal clone. Inoltre, è possibile visualizzare la data e l"ora in cui è stato creato il clone sottostante e l"età del clone. In base a questa stima, decidi se dividere o meno un clone.' 
+---
+= Visualizzare una stima della suddivisione dei cloni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La stima della suddivisione del clone consente di conoscere lo spazio libero totale disponibile sull'aggregato, la quantità di spazio condiviso tra il clone e il database originale e lo spazio utilizzato esclusivamente dal clone. Inoltre, è possibile visualizzare la data e l'ora in cui è stato creato il clone sottostante e l'età del clone. In base a questa stima, decidi se dividere o meno un clone.
+
+*A proposito di questa attività*
+
+Per visualizzare la stima della suddivisione del clone, immettere il nome del profilo del clone originale e l'etichetta o GUID dell'operazione. Se il clone si trova in un host diverso, è possibile specificare il nome dell'host.
+
+.Fase
+. Per visualizzare la stima del clone split, immettere il seguente comando:
++
+`*smsap clone split-estimate -profile _profile_ [-host _hostname_] [-label _clone-label_ | -id _clone-id_][-quiet | -verbose]*`
+
+
+
+'''
+Nell'esempio seguente viene illustrato il comando per la stima dello storage suddiviso in cloni:
+
+[listing]
+----
+
+					smsap clone split-estimate
+-profile p1 -label clone_test_label
+----
+'''

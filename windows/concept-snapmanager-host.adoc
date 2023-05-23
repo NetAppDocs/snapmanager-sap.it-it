@@ -1,0 +1,24 @@
+---
+permalink: windows/concept-snapmanager-host.html 
+sidebar: sidebar 
+keywords: snapmanager, host, windows, server, netapp, product 
+summary: 'L"host SnapManager è un server Windows, che esegue anche altri prodotti NetApp.' 
+---
+= Host SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+L'host SnapManager è un server Windows, che esegue anche altri prodotti NetApp.
+
+L'host SnapManager viene installato con i seguenti prodotti:
+
+* SnapDrive per Windows
+* Utility host
+
+
+L'host SnapManager viene eseguito come servizio.
+
+L'host SnapManager supporta anche l'interfaccia BACKINT, utilizzata per SAP BR*Tools.

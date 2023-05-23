@@ -1,0 +1,100 @@
+---
+permalink: unix-administration/task-use-snapmanager-for-oraclesnapmanager-for-sap-to-create-the-database-profile-and-assign-a-protection-policy.html 
+sidebar: sidebar 
+keywords: create, profile, snapmanager, sap, enable, protection, assign, policy, protection, backup 
+summary: È necessario creare un profilo in SnapManager per SAP, attivare la protezione nel profilo e assegnare una policy di protezione per creare un backup protetto. 
+---
+= Utilizzare SnapManager per SAP per creare il profilo del database e assegnare una policy di protezione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario creare un profilo in SnapManager per SAP, attivare la protezione nel profilo e assegnare una policy di protezione per creare un backup protetto.
+
+*A proposito di questa attività*
+
+Un profilo contiene informazioni sul database gestito, incluse le credenziali, le impostazioni di backup e le impostazioni di protezione per i backup. Dopo aver creato un profilo, non è necessario specificare i dettagli del database ogni volta che si esegue un'operazione. Un profilo può fare riferimento a un solo database, ma lo stesso database può essere referenziato da più profili.
+
+.Fasi
+. Accedere a SnapManager per il client SAP.
+. Nella struttura dei repository, fare clic con il pulsante destro del mouse sull'host e selezionare *Create Profile* (Crea profilo).
+. Nella pagina *Profile Configuration Information* (informazioni configurazione profilo), inserire i dettagli del profilo e fare clic su *Next* (Avanti).
++
+*Esempio*
+
++
+È possibile inserire le seguenti informazioni:
+
++
+** Nome profilo: P01_BACKUP
+** Password del profilo: Payroll123
+** Commento: Database Payroll di produzione
+
+
+. Nelle pagine *Database Configuration Information* (informazioni configurazione database), inserire i dettagli del database e fare clic su *Next* (Avanti).
++
+*Esempio*
+
++
+È possibile inserire le seguenti informazioni:
+
++
+** Nome database: P01
+** SID del database: P01
+** Host database: Accettare l'impostazione predefinita. Poiché si sta creando un profilo da un host nella struttura del repository, SnapManager visualizza il nome host.
+** Host account (account host), che rappresenta l'account utente Oracle (per ornatb <sid>): Orapayrolldb
+** Host Group, che rappresenta il gruppo Oracle: dba
+
+
+. Nella pagina *Database Connection Information* (informazioni connessione database), fare clic su *Use database Authentication* (Usa autenticazione database) per consentire agli utenti di eseguire l'autenticazione utilizzando le informazioni del database.
+. Inserire i dettagli di connessione al database e fare clic su *Avanti*.
++
+*Esempio*
+
++
+È possibile inserire le seguenti informazioni:
+
++
+** SYSDBA Privileged User Name (Nome utente privilegiato SYSDBA), che rappresenta l'amministratore del database di sistema con privilegi amministrativi: SYS
+** Password (SYSDBA password): oracle
+** Porta per la connessione all'host del database: 1527
+
+
+. Nella pagina Snapshot Naming Information, specificare una convenzione di denominazione per le istantanee associate a questo profilo selezionando Variables (variabili).
++
+Il `_smid_` variable crea un identificatore di snapshot univoco.
+
++
+Effettuare le seguenti operazioni:
+
++
+.. Nell'elenco *Variable Token*, selezionare `_usertext_` E fare clic su *Aggiungi*.
+.. Invio `_prod01.sample.com__` Come nome host e fare clic su *OK*.
+.. Fare clic su *sinistra* fino a quando il nome host non viene visualizzato subito dopo Smasp nella casella formato.
+.. Fare clic su *Avanti*.
+
+
++
+Convenzione di naming Snapshot di `_smsap_hostname_smsapprofile_dbsid_scope_mode_smid_` Diventa "smsap_prpd01.sample.com_P01_BACKUP_P01_f_a_x"" (dove "f" indica un backup completo, "a" indica la modalità automatica e "x" rappresenta L'UNICO SMID).
+
+. Selezionare *Protection Manager Protection Policy*.
++
+La *Protection Manager Protection Policy* consente di selezionare una policy di protezione configurata utilizzando la NetApp Management Console.
+
+. Selezionare *TechCo Payroll Data: Backup* come policy di protezione dalle policy di protezione recuperate da NetApp Management Console e fare clic su *Avanti*.
+. Nella pagina *Perform operation* (Esegui operazione), verificare le informazioni e fare clic su *Create* (Crea).
+. Fare clic su *Dettagli operazione* per visualizzare le informazioni sull'operazione di creazione del profilo e sull'idoneità al ripristino basato sul volume.
+
+
+*Risultato*
+
+* L'assegnazione di una policy di protezione della console di gestione NetApp al profilo del database crea automaticamente un set di dati non conforme, visibile all'operatore della console di gestione NetApp, con la convenzione di denominazione smsap_<hostname>_<profilename> o, in questo esempio, smsap_prod01.sample.com_P01_BACKUP.
+* Se il profilo non è idoneo per il ripristino del volume (chiamato anche "ripristino rapido"), si verifica quanto segue:
++
+** La scheda *risultati* indica che la creazione del profilo è riuscita e che si sono verificati degli avvisi durante l'operazione.
+** La scheda *Dettagli operazione* include un registro DI AVVISO che indica che il profilo non è idoneo per il ripristino rapido e spiega il motivo.
+
+
+

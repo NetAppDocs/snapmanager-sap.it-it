@@ -1,0 +1,53 @@
+---
+permalink: unix-administration/reference-the-smo-smsap-history-show-command.html 
+sidebar: sidebar 
+keywords: smsap, command, history, enable, detail, information, specific, profile, show 
+summary: Questo comando consente di visualizzare informazioni dettagliate sulla cronologia di un profilo specifico. 
+---
+= Il comando ssap history show
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando consente di visualizzare informazioni dettagliate sulla cronologia di un profilo specifico.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap history show
+-profile _profile_]
+----
+
+
+== Parametri
+
+* `*-profile _profile_*`
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* `*-quiet*`
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* `*-verbose*`
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+'''
+
+
+== Esempio di comando
+
+[listing]
+----
+ smsap history show -profile -name PROFILE1
+ -verbose
+----
+'''

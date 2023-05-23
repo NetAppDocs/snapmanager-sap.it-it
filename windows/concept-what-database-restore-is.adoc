@@ -1,0 +1,60 @@
+---
+permalink: windows/concept-what-database-restore-is.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, perform, file-based, backup, restore, operation, database 
+summary: SnapManager consente di eseguire operazioni di backup e ripristino basate su file. 
+---
+= Che cos'è il ripristino del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di eseguire operazioni di backup e ripristino basate su file.
+
+La seguente tabella descrive i metodi di ripristino:
+
+|===
+| Processo di ripristino | Dettagli 
+
+
+ a| 
+Ripristini basati su file
+ a| 
+Ripristino completo del file system lato storage (da primario o secondario): SnapManager esegue un ripristino completo del numero di unità logica (LUN).
+
+|===
+
+
+== Ripristino completo del file system lato storage
+
+Un ripristino completo del file system lato storage viene eseguito quando non è possibile eseguire un ripristino del volume, ma è possibile ripristinare l'intero file system sul sistema storage.
+
+Quando viene eseguito un ripristino del file system lato storage, si verifica quanto segue:
+
+* In un ambiente SAN, tutte le LUN utilizzate dal file system (e se presenti nel gruppo di volumi sottostante) vengono ripristinate nel sistema di storage.
+
+
+Quando viene eseguito un ripristino del file system lato storage, a seconda della posizione di storage si verifica quanto segue:
+
+* Quando SnapManager viene ripristinato dai sistemi storage primari, i LUN (SAN) vengono ripristinati in posizione tramite SFSR.
+* Quando SnapManager viene ripristinato dai sistemi di storage secondari, le LUN (SAN) vengono copiate dai sistemi di storage secondari nel sistema di storage primario sulla rete.
+
+
+Poiché il file system è completamente ripristinato, vengono ripristinati anche i file che non fanno parte del backup. È necessario eseguire un override se nel file system che si sta ripristinando sono presenti file che non fanno parte del ripristino.
+
+
+
+== Ripristino del file sul lato host
+
+Un ripristino della copia del file lato host viene utilizzato come ultima risorsa negli ambienti SAN quando non è possibile eseguire il ripristino del file system lato storage e il ripristino del file lato storage.
+
+Il ripristino di una copia del file lato host richiede le seguenti operazioni:
+
+* Clonazione dello storage
+* Connessione dello storage clonato all'host
+* Copia dei file dal file system clone nei file system attivi
+* Disconnessione dello storage clone dall'host
+* Eliminazione dello storage clone
+

@@ -1,0 +1,83 @@
+---
+permalink: unix-installation-7mode/reference-smsap-isg-snapmanager-licensing.html 
+sidebar: sidebar 
+keywords: snapmanager, license, storage, system, require, enable, license, licensing, model, per-server, host, database 
+summary: 'Per abilitare le operazioni SnapManager sono necessarie una licenza SnapManager e diverse licenze del sistema storage. La licenza SnapManager è disponibile in due modelli di licenza: Licenza per server, in cui la licenza SnapManager risiede su ciascun host di database e licenza per sistema storage, in cui la licenza SnapManager risiede sul sistema storage.' 
+---
+= Licenze SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per abilitare le operazioni SnapManager sono necessarie una licenza SnapManager e diverse licenze del sistema storage. La licenza SnapManager è disponibile in due modelli di licenza: _Licenze per server_, in cui la licenza SnapManager risiede su ciascun host di database; e _licenze per sistema storage_, in cui la licenza SnapManager risiede sul sistema storage.
+
+I requisiti di licenza di SnapManager sono i seguenti:
+
+|===
+| Licenza | Descrizione | Dove richiesto 
+
+
+ a| 
+SnapManager per server
+ a| 
+Una licenza lato host per un host di database specifico. Le licenze sono richieste solo per gli host di database su cui è installato SnapManager. Non è richiesta alcuna licenza SnapManager per il sistema storage.
+ a| 
+Sull'host SnapManager. Non è richiesta una licenza SnapManager sui sistemi storage primari e secondari quando si utilizzano licenze per server.
+
+
+
+ a| 
+SnapManager per sistema storage
+ a| 
+Licenza lato storage che supporta qualsiasi numero di host di database. Richiesto solo se non si utilizza una licenza per server sull'host del database.
+ a| 
+Sui sistemi di storage primario e secondario.
+
+
+
+ a| 
+SnapRestore
+ a| 
+Licenza necessaria per consentire a SnapManager di ripristinare i database.
+ a| 
+Sui sistemi di storage primario e secondario. Necessario sui sistemi di destinazione SnapVault per ripristinare un file da un backup.
+
+
+
+ a| 
+FlexClone
+ a| 
+Una licenza opzionale per la clonazione dei database.
+ a| 
+Sui sistemi di storage primario e secondario.richiesto sui sistemi di destinazione SnapVault quando si creano cloni da un backup.
+
+
+
+ a| 
+SnapMirror
+ a| 
+Una licenza opzionale per il mirroring dei backup su un sistema storage di destinazione.
+ a| 
+Sui sistemi di storage primario e secondario.
+
+
+
+ a| 
+SnapVault
+ a| 
+Licenza opzionale per l'archiviazione dei backup in un sistema storage di destinazione.
+ a| 
+Sui sistemi di storage primario e secondario.
+
+
+
+ a| 
+Protocolli
+ a| 
+La licenza NFS, iSCSI o FC è richiesta a seconda del protocollo utilizzato.
+ a| 
+Sui sistemi di storage primario e secondario. Necessario sui sistemi di destinazione SnapMirror per la distribuzione dei dati se un volume di origine non è disponibile.
+
+|===

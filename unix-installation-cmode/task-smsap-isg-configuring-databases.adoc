@@ -1,0 +1,14 @@
+---
+permalink: unix-installation-cmode/task-smsap-isg-configure-databases.html 
+sidebar: sidebar 
+keywords: configure, database, target, back, up, snapmanager, repository, store, metadata, online, operation 
+summary: 'È necessario configurare almeno due database: Un database di destinazione di cui si desidera eseguire il backup utilizzando SnapManager e un database di repository per memorizzare i metadati del database di destinazione. Il database di destinazione e il database del repository SnapManager devono essere configurati e online prima di eseguire le operazioni SnapManager.' 
+---
+= Configurare i database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario configurare almeno due database: Un database di destinazione di cui si desidera eseguire il backup utilizzando SnapManager e un database di repository per memorizzare i metadati del database di destinazione. Il database di destinazione e il database del repository SnapManager devono essere configurati e online prima di eseguire le operazioni SnapManager.

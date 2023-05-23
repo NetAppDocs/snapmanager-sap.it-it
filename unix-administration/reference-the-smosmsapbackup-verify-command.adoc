@@ -1,0 +1,77 @@
+---
+permalink: unix-administration/reference-the-smosmsapbackup-verify-command.html 
+sidebar: sidebar 
+keywords: run, backup, verify, command, oracle, smsap 
+summary: È possibile eseguire il comando di verifica del backup per verificare se il backup è in un formato valido per Oracle. 
+---
+= Il comando ssap backup verify
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup verify` Per verificare se il backup è in un formato valido per Oracle.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap backup verify
+-profile _profile_name_
+[-label _backup_name- | [-id _guid_\]
+[-retain {-hourly | -daily | -weekly | -monthly | -unlimited}\] [-force\]
+[-dump\] [-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* ``*-profile _profile_name_*``
++
+Specifica il profilo per il quale si desidera verificare un backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* ``*-id _guid_*``
++
+Verifica il backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare il comando ssap backup list per visualizzare il GUID per ciascun backup.
+
+* ``*-label _label_name_*``
++
+Verifica il backup con l'etichetta specificata.
+
+* ``*-dump*``
++
+Raccoglie i file dump dopo l'operazione di verifica del backup riuscita o non riuscita.
+
+* ``*-force*``
++
+Forza il database nello stato necessario per eseguire l'operazione di verifica.
+
+* ``*-quiet*``
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* ``*-verbose*``
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+'''
+
+
+== Esempio
+
+Di seguito viene riportato un esempio di verifica del backup:
+
+[listing]
+----
+smsap backup verify -profile SALES1 -label full_backup_sales_May -quiet
+----
+[listing]
+----
+DBVERIFY - Verification starting : FILE = +SMSAP_1_1161675083835/smsmsap/datafile/data.277.582482539 ...
+----
+'''

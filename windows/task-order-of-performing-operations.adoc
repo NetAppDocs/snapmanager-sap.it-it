@@ -1,0 +1,80 @@
+---
+permalink: windows/task-order-of-performing-operations.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, perform, operation, create, profile, backup, clone, order 
+summary: 'SnapManager consente di eseguire diverse operazioni, ad esempio la creazione di profili, l"esecuzione di backup e la clonazione dei backup. Queste operazioni devono essere eseguite in un ordine specifico.' 
+---
+= Ordine di esecuzione delle operazioni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di eseguire diverse operazioni, ad esempio la creazione di profili, l'esecuzione di backup e la clonazione dei backup. Queste operazioni devono essere eseguite in un ordine specifico.
+
+.Fasi
+. Creare un profilo su un repository esistente utilizzando `smsap profile create` comando.
++
+
+NOTE: L'utente Oracle specificato per il database di destinazione deve disporre dei privilegi sysdba.
+
++
+*Esempio*
+
++
+Nell'esempio seguente viene illustrato il comando per creare un profilo:
+
++
+[listing]
+----
+smsap profile create -profile prof1 -profile-password prof1cred
+-repository -dbname HR1 -login -username admin -host server1 -port 1527
+-database -dbname SID -host db_server1 -port 1527
+----
+. Creare un backup su un profilo esistente utilizzando `smsap backup create` comando.
++
+*Esempio*
+
++
+Nell'esempio seguente viene illustrato il comando per creare un backup:
+
++
+[listing]
+----
+smsap backup create -profile prof1 -full -offline -label full_backup_prof1 -force
+----
+. Ripristinare e ripristinare un backup del database sullo storage primario utilizzando `smsap backup restore` comando.
++
+*Esempio*
+
++
+L'esempio seguente mostra il comando per ripristinare un backup:
+
++
+[listing]
+----
+smsap backup restore -profile prof1 -label full_backup_prof1
+-complete -recover -alllogs
+----
+. Creare una specifica clone utilizzando `smsap clone template` comando.
++
+È possibile utilizzare la procedura guidata Clone nell'interfaccia grafica utente (GUI) per creare una specifica di cloni del modello. È anche possibile creare il file di specifica del clone utilizzando un editor di testo.
+
+. Clonare un database con un backup esistente utilizzando `smsap clone create` comando.
++
+Per specificare le specifiche di storage e database per il clone, è necessario disporre di una specifica per il clone o crearne una.
+
++
+*Esempio*
+
++
+Nell'esempio seguente viene illustrato il comando per creare un clone:
+
++
+[listing]
+----
+smsap clone create -profile prof1 -backup-label full_backup_prof1
+-newsid clone1 -label prof1_clone -clonespec C:\\clone_spec\\prof1_clonespec.xml
+----
+

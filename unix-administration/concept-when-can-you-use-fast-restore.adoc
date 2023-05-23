@@ -1,0 +1,74 @@
+---
+permalink: unix-administration/concept-when-can-you-use-fast-restore.html 
+sidebar: sidebar 
+keywords: rule, apply, fast, restore, achieve, optimal, performance, guidelines 
+summary: 'Si applicano regole specifiche per l"utilizzo del ripristino rapido per ottenere performance di ripristino ottimali. In alcuni casi, non è possibile utilizzare il ripristino rapido.' 
+---
+= Indicazioni su quando è possibile utilizzare il ripristino rapido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si applicano regole specifiche per l'utilizzo del ripristino rapido per ottenere performance di ripristino ottimali. In alcuni casi, non è possibile utilizzare il ripristino rapido.
+
+Per ottenere prestazioni di ripristino ottimali (ripristino del volume o ripristino di un gruppo di dischi completo), è necessario rispettare le seguenti regole:
+
+* Solo i ripristini completi dei backup completi sono idonei per il ripristino rapido.
+* Solo i file di dati sono idonei per il ripristino rapido.
+* I file di dati devono essere gli unici file di un volume a poter essere ripristinati rapidamente.
++
+Sebbene i file di dati temporanei possano risiedere nel volume, i file di controllo, i log, i file pfile o altri file devono risiedere su un volume separato dai file di dati. È necessario configurare un database Oracle con file di dati su un volume separato da file di controllo, log archiviati e file di log online.
+
+* I file di dati per un solo database devono essere presenti nel volume.
+* È possibile utilizzare più file system, ma i file in questi file system devono essere file di dati per un solo database.
+* SAP richiede un layout di file leggermente diverso.
++
+La sezione "`General layout and Configuration`" contiene dettagli.
+
+* Se `BRRESTORE` viene utilizzato per ripristinare il database, il ripristino rapido viene utilizzato con il parametro fast nel file dei parametri dell'utility di backup.
+
+
+
+NOTE: Per verificare se un backup creato in precedenza è ripristinabile utilizzando il ripristino rapido, è possibile utilizzare `-preview` opzione di `smsap backup restore` comando.
+
+Il processo di ripristino rapido non può essere utilizzato nei seguenti casi:
+
+* Su backup parziali
+* Sui backup dallo storage secondario, se il backup esiste anche sullo storage primario
++
+Non è possibile ripristinarli utilizzando il ripristino basato su file o su volume.
+
+* Backup protetti con SnapVault
++
+Il processo di ripristino rapido non può essere utilizzato per i backup creati prima dell'ultimo backup protetto. Tuttavia, è possibile utilizzare il processo di ripristino rapido per i backup creati dopo l'ultimo backup protetto. Ad esempio, prendere in considerazione i backup A, B e C. B è l'ultimo backup da trasferire allo storage secondario utilizzando SnapVault. È possibile ripristinare rapidamente B e C, ma non è possibile ripristinare rapidamente A perché è stato creato prima dell'ultimo backup protetto. SnapVault ha bisogno di un SnapVault di riferimento per calcolare la differenza di tempo e inviarlo allo storage secondario al successivo trasferimento di un backup allo storage secondario. L'ultimo backup protetto funge da copia Snapshot di riferimento. Pertanto, l'utilizzo del processo di ripristino rapido impedisce a SnapVault di riconoscere la linea di base.
+
+* FlexClone o cloni LUN che utilizzano copie Snapshot create dopo la copia Snapshot in cui viene eseguito il ripristino del volume
++
+Ad esempio, i cloni possono essere il risultato di un backup successivo che viene montato o clonato da SnapManager.
+
+* LUN che non fanno parte della copia Snapshot SnapDrive attiva
+
+
+Non è possibile eseguire un ripristino rapido insieme ad altri tipi di ripristino per lo stesso backup. Ad esempio, se un volume di dati può essere ripristinato utilizzando il processo di ripristino rapido, ma un altro volume di dati non può essere ripristinato, nessuno dei due viene ripristinato utilizzando il processo di ripristino rapido. In questo caso, è possibile scegliere un ripristino basato su file.
+
+Inoltre, è necessario considerare i seguenti punti relativi ai ripristini dei database:
+
+* SnapManager non ripristina mai i log di archiviazione o di ripristino, ma monta il backup dei file di log di archiviazione e li utilizza per il ripristino.
+* SnapManager non ripristina mai i file di controllo utilizzando il ripristino del volume.
+* Se si desidera ripristinare i file di controllo e i file di dati, SnapManager esegue il ripristino in due fasi.
++
+SnapManager ripristina prima i file di controllo e poi i file di dati.
+
+* Se SnapManager trova file temporanei nello stesso volume dei file tablespace standard, non è necessario eseguire un override per eseguire un ripristino a livello di volume.
++
+Dopo il ripristino di un volume, lo spazio tabella TEMP viene riportato in linea.
+
+
+
+Sia SnapManager per SAP che l'interfaccia BACKINT utilizzano la stessa logica per determinare quale meccanismo di ripristino può essere utilizzato. È possibile utilizzare tutti i metodi di ripristino sia che il backup sia stato eseguito con SnapManager per SAP o con l'interfaccia BACKINT, sia che il ripristino sia eseguito tramite SnapManager per SAP o tramite l'interfaccia BACKINT.
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/["Documentazione sul sito di supporto NetApp: mysupport.netapp.com"]

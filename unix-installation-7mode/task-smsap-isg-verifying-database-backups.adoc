@@ -1,0 +1,38 @@
+---
+permalink: unix-installation-7mode/task-smsap-isg-verify-database-backups.html 
+sidebar: sidebar 
+keywords: verify, backup, database, ensure, backed-up, file, corrupt 
+summary: È possibile verificare il backup del database per assicurarsi che i file di cui è stato eseguito il backup non siano corrotti. 
+---
+= Verificare i backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile verificare il backup del database per assicurarsi che i file di cui è stato eseguito il backup non siano corrotti.
+
+*A proposito di questa attività*
+
+Se durante la creazione di un backup non è stata selezionata la casella di controllo *verify backup using the Oracle DBVERIFY utility* (verifica backup mediante l'utility Oracle DBVERIFY*), è necessario eseguire questa procedura manualmente per verificare il backup. Tuttavia, se si seleziona la casella di controllo, SnapManager verifica automaticamente il backup.
+
+.Fasi
+. Nella struttura *Repository*, selezionare il profilo.
+. Fare clic con il pulsante destro del mouse sul backup che si desidera verificare e selezionare *Verify* (verifica).
+. Fare clic su *fine*.
++
+Se l'operazione non riesce, fare clic su *Dettagli operazione* per visualizzare le cause dell'errore dell'operazione.
+
++
+Nella struttura *Repository*, fare clic con il pulsante destro del mouse sul backup, quindi fare clic su *Proprietà* per visualizzare i risultati dell'operazione di verifica.
+
+
+
+*Al termine*
+
+È possibile utilizzare i file di backup per eseguire operazioni di ripristino. Per informazioni su come eseguire operazioni di ripristino utilizzando l'interfaccia utente di SnapManager, consultare la _Guida in linea_. Se si desidera utilizzare l'interfaccia della riga di comando (CLI) per eseguire operazioni di ripristino, consultare la _SnapManager for SAP Administration guide for UNIX_.
+
+*Informazioni correlate*
+
+https://library.netapp.com/ecm/ecm_download_file/ECMP12481453["Guida all'amministrazione di SnapManager 3.4.1 per SAP per UNIX"^]

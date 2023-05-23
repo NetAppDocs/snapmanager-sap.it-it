@@ -1,0 +1,29 @@
+---
+permalink: windows/task-free-or-delete-retention-policy-exempt-backups.html 
+sidebar: sidebar 
+keywords: backup, retention, class, unlimited, delete, free, hourly, daily, weekly, monthly, policy, exempt backups 
+summary: 'I backup con la classe di conservazione illimitata non possono essere cancellati o liberati direttamente. Per eliminare o liberare questi backup, è necessario prima assegnare un"altra classe di conservazione, ad esempio oraria, giornaliera, settimanale o mensile. Per eliminare o liberare un backup esente dal criterio di conservazione, è necessario prima aggiornare il backup per renderlo idoneo per l"eliminazione o liberarlo.' 
+---
+= Backup esenti da policy di conservazione gratuite o di eliminazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I backup con la classe di conservazione "illimitata" non possono essere cancellati o liberati direttamente. Per eliminare o liberare questi backup, è necessario prima assegnare un'altra classe di conservazione, ad esempio oraria, giornaliera, settimanale o mensile. Per eliminare o liberare un backup esente dal criterio di conservazione, è necessario prima aggiornare il backup per renderlo idoneo per l'eliminazione o liberarlo.
+
+.Fasi
+. Per aggiornare il backup in modo che sia idoneo per l'eliminazione in base al criterio di conservazione, immettere il seguente comando:
++
+`*smsap backup update -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_} -retain [-hourly | -daily | -weekly | -monthly]*`
+
+. Dopo aver aggiornato il backup in modo che sia idoneo per l'eliminazione, è possibile eliminare il backup o liberare le risorse di backup.
++
+** Per eliminare il backup, immettere il seguente comando: +
+`*smsap backup delete -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_ | -all}*`
+** Per liberare le risorse di backup, invece di eliminarlo, immettere il seguente comando: +
+`*smsap backup free -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_ | -all} [-force] [ -dump] [-quiet | -verbose]*`
+
+
+

@@ -1,0 +1,32 @@
+---
+permalink: windows/task-freeing-or-deleting-retention-policy-exempt-backups.html 
+sidebar: sidebar 
+keywords: backup, retention, class, unlimited, delete, free, hourly, daily, weekly, monthly, policy, exempt 
+summary: 'I backup con la classe di conservazione "illimitata" non possono essere cancellati o liberati direttamente. Per eliminare o liberare questi backup, è necessario prima assegnare un"altra classe di conservazione, ad esempio oraria, giornaliera, settimanale o mensile. Per eliminare o liberare un backup esente dal criterio di conservazione, è necessario prima aggiornare il backup per renderlo idoneo per l"eliminazione o liberarlo.' 
+---
+= Liberare o eliminare i backup esenti dai criteri di conservazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I backup con la classe di conservazione "illimitata" non possono essere cancellati o liberati direttamente. Per eliminare o liberare questi backup, è necessario prima assegnare un'altra classe di conservazione, ad esempio oraria, giornaliera, settimanale o mensile. Per eliminare o liberare un backup esente dal criterio di conservazione, è necessario prima aggiornare il backup per renderlo idoneo per l'eliminazione o liberarlo.
+
+. Per aggiornare il backup in modo che sia idoneo per l'eliminazione in base al criterio di conservazione, immettere il seguente comando:
++
+`smsap backup update -profile profile_name {-label label [data | -archivelogs] | -id id} -retain [-hourly | -daily | -weekly | -monthly]`
+
+. Dopo aver aggiornato il backup in modo che sia idoneo per l'eliminazione, è possibile eliminare il backup o liberare le risorse di backup.
++
+** Per eliminare il backup, immettere il seguente comando: +
+`smsap backup delete -profile profile_name {-label label [data | -archivelogs] | -id id | -all}`
+** Per liberare le risorse di backup, invece di eliminarlo, immettere il seguente comando: +
+`smsap backup free -profile profile_name {-label label [data | -archivelogs] | -id id | -all} [-force] [ -dump] [-quiet | -verbose]`
+
+
+
+
+*Informazioni correlate*
+
+xref:reference-the-smosmsapbackup-update-command.adoc[Il comando ssap backup update]

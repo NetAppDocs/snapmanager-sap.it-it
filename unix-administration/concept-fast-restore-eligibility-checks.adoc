@@ -1,0 +1,341 @@
+---
+permalink: unix-administration/concept-fast-restore-eligibility-checks.html 
+sidebar: sidebar 
+keywords: perform, restore, backup, snapmanager, eligibility, check, fast 
+summary: Quando si sceglie di eseguire un ripristino rapido di un backup, SnapManager esegue prima un controllo di idoneità per determinare se è possibile utilizzare il processo di ripristino rapido. 
+---
+= Controlli di idoneità per il ripristino rapido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si sceglie di eseguire un ripristino rapido di un backup, SnapManager esegue prima un controllo di idoneità per determinare se è possibile utilizzare il processo di ripristino rapido.
+
+SnapManager offre i seguenti tipi di controlli:
+
+* Controlli obbligatori: SnapManager è in grado di eseguire il processo di ripristino rapido solo se tutte le condizioni di questo controllo vengono superate.
+* Controlli sovrascrivibili: Se le condizioni di questo controllo non riescono, gli amministratori possono eseguire l'override del controllo per forzare un processo di ripristino rapido. Tuttavia, è necessario ignorare questi controlli con cautela.
+
+
+La tabella seguente elenca i problemi che potrebbero verificarsi e indica se è possibile eseguire l'override del controllo di idoneità per il ripristino rapido:
+
+|===
+| Problema | Pass richiesto | Dettagli 
+
+
+ a| 
+ACFS, disco di voto o OCR sono presenti nel gruppo di dischi ASM in 11gR2
+ a| 
+Sì
+ a| 
+Impossibile eseguire il ripristino rapido. Risoluzione: Nessuna
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Solo i backup creati con SnapManager 3.0 o versioni successive possono essere ripristinati rapidamente
+ a| 
+Sì
+ a| 
+Impossibile eseguire l'override.
+
+
+
+ a| 
+È possibile ripristinare rapidamente solo le copie Snapshot create con SnapDrive per UNIX 4.0 o versioni successive
+ a| 
+Sì
+ a| 
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Volume è un volume root
+ a| 
+Sì
+ a| 
+Il volume che viene ripristinato è un volume root nel sistema di storage. Soluzione: Non utilizzare il volume root sul sistema di storage.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Il ripristino del volume non è disponibile in Windows
+ a| 
+Sì
+ a| 
+Il volume che viene ripristinato è un volume root nel sistema di storage. Risoluzione: Nessuna
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Il ripristino del volume è disattivato
+ a| 
+Sì
+ a| 
+Il ripristino del volume è stato disattivato. Risoluzione: Abilitare il ripristino del volume selezionando diverse opzioni all'avvio del ripristino. Nell'interfaccia della riga di comando, non utilizzare `-fast -off`.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+File di controllo e file di dati sullo stesso volume
+ a| 
+Sì
+ a| 
+Per i backup online, i file di controllo e i file di dati non possono trovarsi sullo stesso volume perché SnapManager esegue due copie Snapshot del volume (una in cui i file di dati sono coerenti in modalità hot backup, e uno in cui i file di controllo del backup sono coerenti dopo il completamento della modalità di backup a caldo). Il ripristino del volume viene ripristinato alla prima copia Snapshot, che elimina la seconda copia Snapshot contenente i file di controllo del backup. Quando si verifica un ripristino solo del file di dati, i file di controllo vengono ripristinati in uno stato incoerente e SnapManager ripristina il file di controllo del backup, quindi apre il database con l'opzione resetlog, che non è il comportamento desiderato.
+
+Soluzione: Migrare i file di controllo e i file di dati su file system separati che non condividono lo stesso volume sottostante. Questo non aiuta il ripristino in cui il controllo non è riuscito, ma aiuterà le future operazioni di ripristino del backup.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+I log di archiviazione e i file di dati non devono esistere sullo stesso volume
+ a| 
+Sì
+ a| 
+I file di dati e i log di archiviazione del database risiedono in file system supportati dallo stesso volume del sistema di storage. Se è stato eseguito un ripristino di un volume, SnapManager non può aprire il database dopo un ripristino di un backup online perché il file di registro archiviato che viene scritto dopo che il database viene portato fuori dalla modalità di backup a caldo non è disponibile. Inoltre, non sarebbe possibile eseguire il rollforward delle transazioni successive che potrebbero essere state nei file di log dell'archivio.
+
+Soluzione: Migrare i log di archiviazione e i file di dati su file system separati che non condividono lo stesso volume del sistema di storage sottostante. Questo non aiuta il ripristino in cui il controllo non è riuscito, ma aiuterà le future operazioni di ripristino del backup.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+I log online e i file di dati non devono esistere sullo stesso volume
+ a| 
+Sì
+ a| 
+I file di dati e i log di ripristino online del database risiedono in file system supportati dallo stesso volume del sistema di storage. Se è stato eseguito un ripristino del volume, il ripristino non può utilizzare i log di ripristino online perché sarebbero stati ripristinati.
+
+Soluzione: Migrare i log di ripristino online e i file di dati su file system separati che non condividono lo stesso volume del sistema di storage sottostante. Questo non aiuta il ripristino in cui il controllo non è riuscito, ma aiuterà le future operazioni di ripristino del backup.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+I file nel file system che non fanno parte dell'ambito di ripristino vengono ripristinati
+ a| 
+Sì
+ a| 
+I file visibili sull'host, diversi dai file da ripristinare, esistono in un file system sul volume. Se è stato eseguito un ripristino rapido o un ripristino del file system lato storage, i file visibili sull'host vengono ripristinati al contenuto originale al momento della creazione della copia Snapshot. Se SnapManager rileva 20 o meno file, questi vengono elencati nella verifica di idoneità. In caso contrario, SnapManager visualizza un messaggio che indica di esaminare il file system.
+
+Soluzione: Migrare i file non utilizzati dal database su un file system diverso che utilizza un volume diverso. In alternativa, eliminare i file.
+
+Se SnapManager non è in grado di determinare lo scopo del file, è possibile eseguire l'override dell'errore di controllo. Se si esegue l'override del controllo, i file non inclusi nell'ambito di ripristino vengono ripristinati. Eseguire l'override di questo controllo solo se si è certi che il ripristino dei file non avrà alcun effetto negativo.
+
+
+
+ a| 
+I file system nel gruppo di volumi specificato che non fanno parte dell'ambito di ripristino vengono ripristinati
+ a| 
+No
+ a| 
+Più file system si trovano nello stesso gruppo di volumi, ma non tutti i file system devono essere ripristinati. Il ripristino rapido e il ripristino del file system lato storage non possono essere utilizzati per ripristinare singoli file system all'interno di un gruppo di volumi, in quanto le LUN utilizzate dal gruppo di volumi contengono dati provenienti da tutti i file system. Tutti i file system all'interno di un gruppo di volumi devono essere ripristinati contemporaneamente per utilizzare il ripristino rapido o il ripristino del file system lato storage. Se SnapManager rileva 20 o meno file, SnapManager li elenca nel controllo di idoneità. In caso contrario, SnapManager visualizza un messaggio che indica di esaminare il file system.
+
+Soluzione: Migrare i file non utilizzati dal database in un gruppo di volumi diverso. In alternativa, eliminare i file system nel gruppo di volumi.
+
+Può eseguire l'override.
+
+
+
+ a| 
+I volumi host nel gruppo di volumi specificato che non fanno parte dell'ambito di ripristino vengono ripristinati
+ a| 
+No
+ a| 
+Più volumi host (volumi logici) si trovano nello stesso gruppo di volumi, ma non tutti i volumi host devono essere ripristinati. Questo controllo è simile a quello eseguito dai file system nel gruppo di volumi che non fanno parte dell'ambito di ripristino, ad eccezione del fatto che gli altri volumi host nel gruppo di volumi non sono montati come file system sull'host. Soluzione: Migrare i volumi host utilizzati dal database in un gruppo di volumi diverso. In alternativa, eliminare gli altri volumi host nel gruppo di volumi.
+
+Se si ignora il segno di spunta, vengono ripristinati tutti i volumi host del gruppo di volumi. Eseguire l'override di questo controllo solo se si è certi che il ripristino degli altri volumi host non influisca negativamente su nulla.
+
+
+
+ a| 
+Le estensioni dei file sono cambiate dall'ultimo backup
+ a| 
+Sì
+ a| 
+Impossibile eseguire l'override.
+
+
+
+ a| 
+I LUN mappati nel volume non inclusi nell'ambito di ripristino vengono ripristinati
+ a| 
+Sì
+ a| 
+I LUN diversi da quelli richiesti per il ripristino nel volume sono attualmente mappati a un host. Non è possibile eseguire un ripristino del volume perché altri host o applicazioni che utilizzano queste LUN diventeranno instabili. Se i nomi LUN terminano con un trattino di sottolineatura e un indice intero (ad esempio _0 o _1), questi LUN sono in genere cloni di altre LUN all'interno dello stesso volume. È possibile che venga montato un altro backup del database o che esista un clone di un altro backup.
+
+Soluzione: Migrare i LUN non utilizzati dal database su un volume diverso. Se le LUN mappate sono cloni, cercare i backup montati dello stesso database o dei cloni del database e smontare il backup o rimuovere il clone.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+I LUN non mappati nel volume non inclusi nell'ambito di ripristino vengono ripristinati
+ a| 
+No
+ a| 
+Nel volume esistono LUN diversi da quelli richiesti per il ripristino. Questi LUN non sono attualmente mappati a nessun host, pertanto il ripristino non interrompe alcun processo attivo. Tuttavia, i LUN potrebbero essere temporaneamente non mappati. Soluzione: Migrare i LUN non utilizzati dal database su un volume diverso o eliminare i LUN.
+
+Se si esegue l'override di questo controllo, il ripristino del volume ripristinerà questi LUN nello stato in cui è stata eseguita la copia Snapshot. Se il LUN non esisteva al momento della copia Snapshot, il LUN non esisterà dopo il ripristino del volume. Eseguire l'override di questo controllo solo se si è certi che il ripristino delle LUN non influisca negativamente su nulla.
+
+
+
+ a| 
+I LUN presenti nella copia Snapshot del volume potrebbero non essere coerenti quando vengono ripristinati
+ a| 
+No
+ a| 
+Durante la creazione della copia Snapshot, nel volume esistevano LUN diversi da quelli per cui era stata richiesta la copia Snapshot. Queste altre LUN potrebbero non trovarsi in uno stato coerente. Soluzione: Migrare i LUN non utilizzati dal database su un volume diverso o eliminare i LUN. Ciò non aiuta il processo di ripristino in cui il controllo non è riuscito, ma aiuta a ripristinare i backup futuri eseguiti dopo lo spostamento o l'eliminazione dei LUN.
+
+Se si esegue l'override di questo controllo, i LUN tornano allo stato incoerente in cui è stata eseguita la copia Snapshot. Eseguire l'override di questo controllo solo se si è certi che il ripristino delle LUN non influisca negativamente su nulla.
+
+
+
+ a| 
+Le nuove copie Snapshot hanno un clone del volume
+ a| 
+Sì
+ a| 
+Sono stati creati cloni di copie Snapshot create dopo la richiesta di ripristino della copia Snapshot. Poiché un ripristino di un volume elimina le copie Snapshot successive e una copia Snapshot non può essere eliminata se dispone di un clone, non è possibile eseguire un ripristino di volume. Soluzione: Eliminare i cloni delle copie Snapshot successive.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Vengono montati backup più recenti
+ a| 
+Sì
+ a| 
+Vengono montati i backup eseguiti dopo il ripristino del backup. Poiché un ripristino del volume elimina le copie Snapshot successive, una copia Snapshot non può essere eliminata se è dotata di un clone, un'operazione di montaggio del backup crea uno storage clonato e non può essere eseguito un ripristino del volume. Soluzione: Smontare il backup successivo o eseguire il ripristino da un backup eseguito dopo il backup montato.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Esistono cloni di backup più recenti
+ a| 
+Sì
+ a| 
+I backup eseguiti dopo il ripristino sono stati clonati. Poiché un ripristino di un volume elimina le copie Snapshot successive e una copia Snapshot non può essere eliminata se dispone di un clone, non è possibile eseguire un ripristino di volume. Soluzione: Eliminare il clone del backup più recente o eseguire il ripristino da un backup eseguito dopo i backup che hanno dei cloni.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Le nuove copie Snapshot del volume vengono perse
+ a| 
+No
+ a| 
+L'esecuzione di un ripristino del volume elimina tutte le copie Snapshot create dopo la copia Snapshot in cui viene ripristinato il volume. Se SnapManager è in grado di mappare una copia Snapshot successiva su un backup SnapManager nello stesso profilo, viene visualizzato il messaggio "i backup più recenti verranno liberati o cancellati". Se SnapManager non riesce a mappare una copia Snapshot successiva su un backup SnapManager nello stesso profilo, questo messaggio non viene visualizzato. Soluzione: Eseguire il ripristino da un backup successivo o eliminare le copie Snapshot successive.
+
+Può eseguire l'override.
+
+
+
+ a| 
+I backup più recenti verranno liberati o cancellati
+ a| 
+No
+ a| 
+L'esecuzione di un ripristino del volume elimina tutte le copie Snapshot create dopo la copia Snapshot in cui viene ripristinato il volume. Pertanto, tutti i backup creati dopo il ripristino vengono cancellati o liberati. I backup successivi vengono eliminati nei seguenti scenari:
+
+* Lo stato di backup non È PROTETTO
+* `retain.alwaysFreeExpiredBackups` è `*false*` poll `smsap.config`
+
+
+I backup successivi vengono liberati nei seguenti scenari:
+
+* Lo stato di backup è PROTETTO
+* `retain.alwaysFreeExpiredBackups` è vero `*false*` poll `smsap.config`
+
+
+Soluzione: Eseguire il ripristino da un backup successivo oppure liberare o eliminare i backup successivi.
+
+Se si esegue l'override di questo controllo, i backup creati dopo il ripristino vengono cancellati o liberati.
+
+
+
+ a| 
+La relazione di SnapMirror per il volume viene persa
+ a| 
+Sì (se RBAC è disattivato o non si dispone dell'autorizzazione RBAC)
+ a| 
+Il ripristino di un volume in una copia Snapshot precedente alla copia Snapshot di riferimento in una relazione SnapMirror distrugge la relazione. Risoluzione: Ripristino da un backup creato dopo la copia Snapshot di riferimento della relazione. In alternativa, interrompere manualmente la relazione di storage (quindi ricreare e basare nuovamente la relazione dopo il completamento del ripristino).
+
+Può eseguire l'override, se RBAC è attivato e si dispone dell'autorizzazione RBAC.
+
+
+
+ a| 
+La relazione SnapVault per il volume viene persa se si verifica il processo di ripristino rapido
+ a| 
+Sì (se RBAC è disattivato o non si dispone dell'autorizzazione RBAC)
+ a| 
+Il ripristino di un volume in una copia Snapshot precedente alla copia Snapshot di riferimento in una relazione SnapVault distrugge la relazione. Risoluzione: Ripristino da un backup creato dopo la copia Snapshot di riferimento della relazione. In alternativa, interrompere manualmente la relazione di storage (quindi ricreare e basare nuovamente la relazione dopo il completamento del ripristino).
+
+Impossibile eseguire l'override se RBAC è attivato e si dispone dell'autorizzazione RBAC.
+
+
+
+ a| 
+I file NFS nel volume che non fanno parte dell'ambito di ripristino vengono ripristinati
+ a| 
+No
+ a| 
+I file presenti nel volume del sistema di storage, che non sono visibili sull'host, vengono ripristinati se viene eseguito un ripristino del volume. Soluzione: Migrare i file non utilizzati dal database su un volume diverso o eliminare i file.
+
+Può eseguire l'override. Se si esegue l'override di questo errore di controllo, i LUN vengono cancellati.
+
+
+
+ a| 
+Esistono condivisioni CIFS per il volume
+ a| 
+No
+ a| 
+Il volume da ripristinare dispone di condivisioni CIFS. Altri host potrebbero accedere ai file nel volume durante il ripristino del volume. Soluzione: Rimuovere le condivisioni CIFS non necessarie.
+
+Può eseguire l'override.
+
+
+
+ a| 
+Ripristino da una posizione alternativa
+ a| 
+Sì
+ a| 
+È stata fornita una specifica di ripristino per l'operazione di ripristino che specifica che i file devono essere ripristinati da una posizione alternativa. Solo le utility di copia lato host possono essere utilizzate per il ripristino da una posizione alternativa.
+
+Risoluzione: Nessuna.
+
+Impossibile eseguire l'override.
+
+
+
+ a| 
+Il ripristino del file system lato storage non è supportato in un database RAC
+ a| 
+Sì
+ a| 
+Impossibile eseguire l'override.
+
+|===

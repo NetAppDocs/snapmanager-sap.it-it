@@ -1,0 +1,160 @@
+---
+permalink: windows/concept-how-snapmanager-retains-backups-on-the-local-storage.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, create, backup, retention, policies, policy, successful, local, storage, retain, database 
+summary: SnapManager consente di creare backup conformi alle policy di conservazione, che specificano il numero di backup riusciti nello storage locale da conservare. È possibile specificare il numero di backup riusciti da conservare nel profilo per un determinato database. 
+---
+= In che modo SnapManager conserva i backup sullo storage locale
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di creare backup conformi alle policy di conservazione, che specificano il numero di backup riusciti nello storage locale da conservare. È possibile specificare il numero di backup riusciti da conservare nel profilo per un determinato database.
+
+È possibile creare backup per:
+
+* 10 giorni di backup giornalieri sullo storage primario
+* 2 mesi di backup mensili sullo storage primario
+* 7 giorni di backup giornalieri sullo storage secondario
+* 4 settimane di backup settimanali sullo storage secondario
+* 6 mesi di backup mensili sullo storage secondario
+
+
+Per ogni profilo in SnapManager, è possibile modificare i valori per le seguenti classi di conservazione non limitate:
+
+* Ogni ora
+* Ogni giorno
+* Settimanale
+* Mensile
+
+
+SnapManager determina se conservare un backup considerando sia il numero di conservazione (ad esempio, 15 backup) che la durata della conservazione (ad esempio, 10 giorni di backup giornalieri). Un backup scade quando la sua età supera la durata di conservazione impostata per la sua classe di conservazione o il numero di backup supera il numero di conservazione. Ad esempio, se il numero di backup è 15 (SnapManager ha eseguito 15 backup riusciti) e il requisito di durata è impostato per 10 giorni di backup giornalieri, i cinque backup idonei meno recenti scadono.
+
+Dopo la scadenza di un backup, SnapManager libera o elimina il backup scaduto. SnapManager conserva sempre l'ultimo backup eseguito.
+
+SnapManager conta solo il numero di backup riusciti per il conteggio della conservazione e non prende in considerazione quanto segue:
+
+|===
+| Backup non inclusi nel numero di conservazione | Ulteriori dettagli 
+
+
+ a| 
+Backup non riusciti
+ a| 
+SnapManager conserva le informazioni relative ai backup riusciti e non riusciti. Sebbene i backup non riusciti richiedano solo uno spazio minimo nel repository, è possibile eliminarli. I backup non riusciti rimangono nel repository fino a quando non vengono cancellati.
+
+
+
+ a| 
+Backup progettati per essere conservati su base illimitata o backup per una classe di conservazione diversa
+ a| 
+SnapManager non elimina i backup da conservare senza limiti. Inoltre, SnapManager considera solo i backup nella stessa classe di conservazione (ad esempio, SnapManager considera solo i backup orari per il conteggio orario di conservazione).
+
+
+
+ a| 
+Backup montati dallo storage locale
+ a| 
+Quando vengono montate, le copie Snapshot vengono clonate e quindi non sono considerate idonee per la conservazione. SnapManager non è in grado di eliminare le copie Snapshot se clonate.
+
+
+
+ a| 
+Backup utilizzati per creare un clone sullo storage locale
+ a| 
+SnapManager conserva tutti i backup utilizzati per creare cloni, ma non li prende in considerazione per il conteggio della conservazione dei backup.
+
+|===
+SnapManager fornisce un conteggio e una durata di conservazione predefiniti per ciascuna classe di conservazione. Ad esempio, per il conteggio delle classi di conservazione orarie, SnapManager, per impostazione predefinita, conserva quattro backup orarie. È possibile ignorare queste impostazioni predefinite e impostare i valori durante la creazione o l'aggiornamento del profilo o modificare i valori predefiniti per il conteggio e la durata della conservazione in `smsap.config` file.
+
+Quando i backup locali scadono in base ai criteri di conservazione, i backup vengono cancellati.
+
+In un'operazione di backup solo archiviando, SnapManager non archivia i file di log di ripristino, a differenza del processo di backup del database online. È necessario aggiungere uno script di pretask per archiviare i file di log di ripristino prima di eseguire l'operazione di backup di solo archivioog. Lo script di pretask deve eseguire `alter system switch logfile` comando.
+
+L'esempio seguente mostra le azioni che SnapManager esegue su diversi tipi di backup, in base a una policy di conservazione dei backup tre giorni (con il conteggio impostato su 3):
+
+|===
+| Data di backup | Stato | Azione della politica di conservazione intrapresa | Spiegazione 
+
+
+ a| 
+5/10
+ a| 
+Riuscito
+ a| 
+Mantenere
+ a| 
+Si tratta del backup più recente, quindi verrà mantenuto.
+
+
+
+ a| 
+5/9
+ a| 
+Riuscito, clonato
+ a| 
+Saltare
+ a| 
+SnapManager non prende in considerazione i backup utilizzati per la clonazione nel conteggio dei criteri di conservazione. Questo backup viene omesso dal numero di backup riusciti.
+
+
+
+ a| 
+5/8
+ a| 
+Montato con successo
+ a| 
+Saltare
+ a| 
+SnapManager non considera i backup montati nel conteggio dei criteri di conservazione. Questo backup viene omesso dal numero di backup riusciti.
+
+
+
+ a| 
+5/7
+ a| 
+Non riuscito
+ a| 
+Saltare
+ a| 
+I backup non riusciti non vengono conteggiati.
+
+
+
+ a| 
+5/5
+ a| 
+Riuscito
+ a| 
+Mantenere
+ a| 
+SnapManager mantiene questo secondo backup giornaliero di successo.
+
+
+
+ a| 
+5/3
+ a| 
+Riuscito
+ a| 
+Mantenere
+ a| 
+SnapManager mantiene questo terzo backup giornaliero di successo.
+
+
+
+ a| 
+5/2
+ a| 
+Riuscito
+ a| 
+Eliminare
+ a| 
+SnapManager conta questo backup riuscito, ma dopo che SnapManager ha raggiunto tre backup giornalieri, questo backup viene eliminato.
+
+|===
+*Informazioni correlate*
+
+http://mysupport.netapp.com/["Documentazione sul sito di supporto NetApp"^]

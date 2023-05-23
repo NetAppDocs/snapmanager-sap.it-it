@@ -1,0 +1,19 @@
+---
+permalink: unix-administration/concept-why-you-should-prune-archive-log-files.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, delete, archive, log, file, active, system, back, up, prune 
+summary: 'SnapManager per SAP consente di eliminare i file di log dell"archivio dal file system attivo di cui è già stato eseguito il backup.' 
+---
+= Perché è necessario ridurre i file di log dell'archivio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP consente di eliminare i file di log dell'archivio dal file system attivo di cui è già stato eseguito il backup.
+
+L'eliminazione consente a SnapManager di creare backup di file di log di archivio distinti. L'eliminazione, insieme alla policy di conservazione del backup, libera spazio nel log di archiviazione quando i backup vengono eliminati.
+
+
+NOTE: Non è possibile eseguire l'eliminazione dei file di log dell'archivio quando Flash Recovery Area (fra) è abilitata per i file di log dell'archivio. Se si specifica la posizione del registro di archiviazione nell'area di ripristino flash, è necessario specificare anche la posizione del registro di archiviazione in `archive_log_dest` parametro.

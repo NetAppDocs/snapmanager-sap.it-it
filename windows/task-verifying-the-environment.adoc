@@ -1,0 +1,27 @@
+---
+permalink: windows/task-verifying-the-environment.html 
+sidebar: sidebar 
+keywords: verify, environment, snapdrive, snapmanager, set, up, correct 
+summary: 'È possibile verificare l"ambiente per assicurarsi che SnapDrive e SnapManager siano impostati correttamente.' 
+---
+= Verifica dell'ambiente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile verificare l'ambiente per assicurarsi che SnapDrive e SnapManager siano impostati correttamente.
+
+Scaricare, installare e impostare i prerequisiti richiesti. Assicurarsi che SnapManager sia installato e che il server host sia in esecuzione.
+
+.Fase
+. Per verificare che SnapDrive sia installato e possa essere eseguito dall'account root, eseguire il seguente comando:
++
+`smsap system verify`
+
+
+
+*Informazioni correlate*
+
+xref:reference-the-smosmsapsystem-verify-command.adoc[Il comando di verifica del sistema Smass]

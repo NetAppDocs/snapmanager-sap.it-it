@@ -1,0 +1,95 @@
+---
+permalink: windows/task-customize-e-mail-subject-for-a-new-profile.html 
+sidebar: sidebar 
+keywords: customize, email, subject, profile, create, cusomtizing 
+summary: 'È possibile personalizzare l"oggetto dell"e-mail per il nuovo profilo al momento della creazione.' 
+---
+= Personalizzare l'oggetto dell'e-mail per un nuovo profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile personalizzare l'oggetto dell'e-mail per il nuovo profilo al momento della creazione.
+
+
+
+== A proposito di questa attività
+
+Puoi personalizzare l'oggetto dell'email usando il modello{profile}_{nome-operazione}_{db-sid}_{db-host}_{data-inizio}_{data-fine}_{stato} o inserisci il tuo testo.
+
+|===
+| Nome della variabile | Descrizione | Valore di esempio 
+
+
+ a| 
+`profile`
+ a| 
+Nome del profilo utilizzato per l'operazione del database
+ a| 
+PROF1
+
+
+
+ a| 
+`operation-name`
+ a| 
+Nome operazione database
+ a| 
+Backup, backup dei dati, backup dei dati e dei registri di archiviazione
+
+
+
+ a| 
+`db-sid`
+ a| 
+SID del database
+ a| 
+DB1
+
+
+
+ a| 
+`db-host`
+ a| 
+Nome del server host
+ a| 
+Host
+
+
+
+ a| 
+`start-date`
+ a| 
+Ora di inizio dell'operazione del database nel formato mmdd:hh:ss yyyy
+ a| 
+Aprile 27 21:00:45 PST 2012
+
+
+
+ a| 
+`end-date`
+ a| 
+Ora di fine dell'operazione del database nel formato mmdd:hh:ss yyyy
+ a| 
+Aprile 27 21:10:45 PST 2012
+
+
+
+ a| 
+`status`
+ a| 
+Stato operativo del database
+ a| 
+Successo
+
+|===
+Se non si fornisce alcun valore per le variabili, SnapManager visualizza il seguente messaggio di errore: `Missing value(s) -subject`.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap profile create -profile _profile_ [-profile-password _profile_password_] -repository -dbname _repo_service_name_ -host _repo_host_ -port _repo_port_ -login -username _repo_username_ -database -dbname _db_dbname_ -host _db_host_ [-sid _db_sid_] [-login-username _db_username_ -password _db_password_ -port _db_port_] [-rman {-controlfile | {-login -username _rman_username_ -password _rman_password_ -tnsname _rman_tnsname_} } ] [-retain [-hourly [-count _n_] [-duration _m_]] [-daily [-count _n_] [-duration _m_]] [-weekly [-count _n_] [-duration _m_]] [-monthly [-count _n_] [-duration _m_]]] [-comment _comment_][-snapname -pattern _pattern_][ [ ]] [-notification [-success -email _email_address1_, _email_address2_ -subject _subject_pattern_] [-failure -email _email_address1_, _email_address2_ -subject _subject_pattern_]]*`
+
+

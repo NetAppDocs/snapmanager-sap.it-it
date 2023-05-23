@@ -1,0 +1,26 @@
+---
+permalink: windows/concept-what-snapmanager-for-oraclefor-sap-is.html 
+sidebar: sidebar 
+keywords: snapmanager, tools, perform, policy-driven, data, management, schedule, create, database, backup, restore, primary, storage, post-process, sap 
+summary: SnapManager fornisce gli strumenti necessari per eseguire la gestione dei dati basata su policy, pianificare e creare backup regolari del database, ripristinare i dati da questi backup in caso di perdita o disastro dei dati e creare cloni del database. È possibile creare backup sullo storage primario e backup protetti sullo storage secondario utilizzando script di post-elaborazione. 
+---
+= Che cos'è SnapManagerfor SAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager fornisce gli strumenti necessari per eseguire la gestione dei dati basata su policy, pianificare e creare backup regolari del database, ripristinare i dati da questi backup in caso di perdita o disastro dei dati e creare cloni del database. È possibile creare backup sullo storage primario e backup protetti sullo storage secondario utilizzando script di post-elaborazione.
+
+SnapManager sfrutta le tecnologie NetApp durante l'integrazione con le ultime release di database. SnapManager è integrato con le seguenti applicazioni e tecnologie NetApp:
+
+* SnapDrive automatizza le attività di provisioning dello storage e semplifica il processo di creazione di copie Snapshot dello storage coerenti con l'host e prive di errori.
+* Snapshot (una funzionalità di Data ONTAP) crea copie point-in-time del database.
+* SnapVault (una funzionalità su licenza di Data ONTAP) sfrutta i backup basati su disco per backup e ripristino affidabili e a basso overhead dei database.
+* SnapMirror (una funzionalità su licenza di Data ONTAP) replica i dati del database su una rete globale a velocità elevate in modo semplice, affidabile e conveniente.
+* SnapRestore (una funzionalità su licenza di Data ONTAP) ripristina un intero database in pochi secondi, indipendentemente dalla capacità o dal numero di file.
+* FlexClone (una funzionalità su licenza di Data ONTAP) consente di creare cloni di database veloci ed efficienti in termini di spazio a partire dai backup Snapshot.
+
+
+SnapManager funziona su protocolli SAN (FC e iSCSI).

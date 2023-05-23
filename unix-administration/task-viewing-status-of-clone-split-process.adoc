@@ -1,0 +1,28 @@
+---
+permalink: unix-administration/task-view-status-of-clone-split-process.html 
+sidebar: sidebar 
+keywords: view, progress, split, start, process, clone 
+summary: È possibile visualizzare lo stato di avanzamento del processo di divisione avviato. 
+---
+= Visualizzare lo stato del processo di suddivisione dei cloni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare lo stato di avanzamento del processo di divisione avviato.
+
+.Fase
+. Per visualizzare l'avanzamento del processo di suddivisione dei cloni, immettere il seguente comando:
++
+`*smsap clone split-status -profile _profile_ [-host _hostname_] [-label _split-label_ | -id _split-id_] [-quiet | -verbose]*`
+
+
+
+'''
+[listing]
+----
+smsap clone split-status -profile p1 -id 8abc01ec0e78f3e2010e78f3fdd00001
+----
+'''

@@ -1,0 +1,72 @@
+---
+permalink: unix-administration/task-use-snapmanager-for-oraclesnapmanager-for-sap-to-create-the-database-profile-for-a-local-backup.html 
+sidebar: sidebar 
+keywords: database, administrator, snapmanager, database, initiate, local, storage, primary, system, creation, process, involve, manager 
+summary: 'Gli amministratori del database utilizzano SnapManager per creare un profilo di database che verrà utilizzato per avviare un backup sullo storage locale su un sistema di storage primario. L"intero processo di creazione del profilo e di backup viene eseguito interamente in SnapManager, ma non in Gestione protezione.' 
+---
+= Utilizzare SnapManager per SAP per creare il profilo del database per un backup locale
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gli amministratori del database utilizzano SnapManager per creare un profilo di database che verrà utilizzato per avviare un backup sullo storage locale su un sistema di storage primario. L'intero processo di creazione del profilo e di backup viene eseguito interamente in SnapManager, ma non in Gestione protezione.
+
+*A proposito di questa attività*
+
+Un profilo contiene le informazioni sul database gestito, incluse le credenziali, le impostazioni di backup e le impostazioni di protezione per i backup. Creando un profilo, non è necessario specificare i dettagli del database ogni volta che si esegue un'operazione sul database, ma fornire semplicemente il nome del profilo. Un profilo può fare riferimento a un solo database. Lo stesso database può essere referenziato da più profili.
+
+.Fasi
+. Accedere a SnapManager per il client SAP.
+. Nella struttura dei repository SnapManager, fare clic con il pulsante destro del mouse sull'host che si desidera associare al profilo e selezionare *Crea profilo*.
+. Nella pagina Profile Configuration Information (informazioni configurazione profilo), immettere le seguenti informazioni e fare clic su *Next* (Avanti).
++
+** Nome profilo: Payroll_prod
+** Password del profilo: Payroll123
+** Commento: Database Payroll di produzione
+
+
+. Nella pagina Database Configuration Information (informazioni configurazione database), immettere le seguenti informazioni e fare clic su *Next* (Avanti).
++
+** Nome database: PAYDB
+** SID del database: Payrolldb
+** Host database: Accettare l'impostazione predefinita
++
+Poiché si sta creando un profilo da un host nella struttura del repository, SnapManager visualizza il nome host.
+
+
+
+. Nella seconda pagina Database Configuration Information (informazioni di configurazione del database), accettare le seguenti informazioni e fare clic su *Next* (Avanti):
++
+** Host account (account host), che rappresenta l'account utente Oracle (per ornatb <sid>): Orapayrolldb
+** Host Group, che rappresenta il gruppo Oracle: dba
+
+
+. Nella pagina Database Connection Information (informazioni connessione database), selezionare *Use database Authentication* (Usa autenticazione database) per consentire agli utenti di autenticarsi utilizzando le informazioni del database.
++
+Per questo esempio, inserire le seguenti informazioni e fare clic su *Avanti*.
+
++
+** SYSDBA Privileged User Name (Nome utente privilegiato SYSDBA), che rappresenta l'amministratore del database di sistema con privilegi amministrativi: SYS
+** Password (SYSDBA password): oracle
+** Porta per la connessione all'host del database: 1527
+
+
+. Nella pagina Snapshot Naming Information, specificare una convenzione di denominazione per le istantanee associate a questo profilo selezionando Variables (variabili). L'unica variabile richiesta è la variabile *smid*, che crea un identificatore di snapshot univoco.
++
+Per questo esempio, procedere come segue:
+
++
+.. Nell'elenco Variable Token (token variabile), selezionare la variabile *{usertext}* e fare clic su *Add* (Aggiungi).
+.. Inserire "prod01.sample.com_" come nome host e fare clic su *OK*.
+.. Fare clic su *sinistra* fino a visualizzare il nome host subito dopo "smsap" nella casella formato.
+.. Fare clic su *Avanti*.
+
+
++
+Convenzione di naming Snapshot di `_smsap_hostname_smsapprofile_dbsid_scope_mode_smid_` Diventa "smsap_prpd01.sample.com_P01_BACKUP_P01_f_a_x"" (dove "f" indica un backup completo, "a" indica la modalità automatica e "x" rappresenta L'UNICO SMID).
+
+. Nella pagina Perform operation (Esegui operazione), verificare le informazioni e fare clic su *Create* (Crea).
+. Fare clic su *Dettagli operazione* per visualizzare le informazioni sull'operazione di creazione del profilo e sull'idoneità al ripristino basato sul volume.
+

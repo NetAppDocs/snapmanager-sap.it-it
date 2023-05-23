@@ -1,0 +1,171 @@
+---
+permalink: windows/task-create-backup-schedules.html 
+sidebar: sidebar 
+keywords: schedule, backup, time, frequency, suit, data, environment, create 
+summary: 'È possibile pianificare un backup in base all"ora e alla frequenza adatte per i dati e l"ambiente.' 
+---
+= Creare pianificazioni di backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile pianificare un backup in base all'ora e alla frequenza adatte per i dati e l'ambiente.
+
+
+
+== A proposito di questa attività
+
+Da SnapManager 3.2 per SAP, è possibile pianificare i backup dei file di log dell'archivio separatamente. Tuttavia, è necessario utilizzare il profilo creato per separare i file di log dell'archivio.
+
+Se sono stati pianificati i backup dei file di dati e dei file di registro dell'archivio contemporaneamente, SnapManager crea prima il backup dei file di dati.
+
+Se si seleziona l'intervallo di pianificazione come `-onetimeonly`, quindi sono disponibili tutte le opzioni di eliminazione. Se si seleziona un intervallo di pianificazione diverso da `-onetimeonly`, quindi le opzioni di eliminazione `-until-SCN` e. `-until-date` non sono supportati e viene visualizzato il seguente messaggio di errore: `The archive log pruning option you have specified, -until-scn or -until-date for the schedule interval hourly is invalid. Specify either the -onetimeonly option for the schedule interval, or prune the archive logs using any one of the option all, or -before {-months | -days | -weeks| -hours}`.
+
+Quando si verifica un failover in ambienti Microsoft Windows Server failover Cluster (WSFC) e Microsoft Cluster Server (MSCS), è necessario riavviare il server SnapManager per SAP in modo che l'indirizzo del servizio (virtuale) sia mappato all'host attivo e le pianificazioni SnapManager siano regolate sull'host SnapManager attivo.
+
+
+NOTE: Se in un altro repository sono presenti lo stesso nome di profilo e pianificazione, l'operazione di pianificazione del backup non viene avviata in quel repository. L'operazione viene chiusa con il seguente messaggio: `operation is already running`.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap schedule create -profile _profile_name_ {[-full {-online | -offline | -auto}[-retain [-hourly | -daily | -weekly | -monthly | -unlimited] [-verify]] | [-data [-files _files_ [_files_]] | [-tablespaces _-tablespaces_ [_-tablespaces_]] {-online | -offline | -auto}[-retain [-hourly | -daily | -weekly | -monthly | -unlimited] [-verify]] | [-archivelogs]} [-comment _comment_][-backup-dest _path1_ [,[_path2_]] [-exclude-dest _path1_ [,_path2_]] [-prunelogs{-all | -untilSCN _untilSCN_ | -until-date _yyyy-MM-dd HH:mm:ss_ | -before {-months | -weeks | -days | -hours}} -prune-dest _prune_dest1_,_prune_dest2_] -schedule-name _schedule_name_ [-schedule-comment _schedule_comment_] -interval {-hourly | -daily | -weekly | -monthly | -onetimeonly} -cronstring _cronstring_ -start-time {_start-time_ _start_time_ _<yyyy-MM-dd HH:mm>_} -runasuser _-runasuser_ [-force] [-taskspec _-taskspec_] [-quiet | -verbose]*`
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*Pianificare un backup di un database online o offline*
+ a| 
+Specificare `-offline` oppure `-online` per pianificare un backup del database offline o online. Se si specificano questi valori, non è possibile utilizzare `-auto`.
+
+
+
+ a| 
+*Lasciare che SnapManager gestisca la pianificazione di un database indipendentemente dal fatto che sia online o offline*
+ a| 
+Specificare `-auto`. Se si specifica `-auto`non è possibile utilizzare `--offline` oppure `-online`.
+
+
+
+ a| 
+*Pianificare un backup dei file di dati*
+ a| 
+Specificare `-data` `-files` per elencare i file separati da virgole. Ad esempio, utilizzare i nomi dei file f1,f2,f3.
+
+
+
+ a| 
+*Pianificare un backup parziale di spazi tabella specifici*
+ a| 
+Specificare `-tablespaces` per elencare i tablespace separati da virgole. Ad esempio, utilizzare ts1,ts2,ts3.
+
+
+
+ a| 
+*Pianificare il backup dei file di log dell'archivio*
+ a| 
+Specificare quanto segue:
+
+** `-archivelogs` per pianificare il backup dei file di log dell'archivio
+** `-backup-dest` per pianificare le destinazioni dei file di log di archiviazione da includere nel backup
+** `-exclude-dest` per pianificare l'esclusione delle destinazioni del registro di archiviazione dal backup
+
+
+
+
+ a| 
+*Specificare i valori della classe di conservazione*
+ a| 
+Specificare `-retain` e indicare se il backup deve essere conservato in base a una delle seguenti classi di conservazione:
+
+** `-hourly`
+** `-daily`
+** `-weekly`
+** `-monthly`
+** `-unlimited`Per impostazione predefinita, SnapManager è impostato su oraria.
+
+
+
+
+ a| 
+*Schedule pruning dei file di log di archivio*
+ a| 
+Specificare quanto segue: ** `-prunelogs` per eseguire l'eliminazione dei file di log dell'archivio durante la pianificazione di un backup ** `-prune-dest` consente di specificare la destinazione del log di archiviazione da cui vengono eliminati i file di log di archiviazione
+
+
+
+ a| 
+*Includere un nome per la pianificazione*
+ a| 
+Specificare `-schedule-name`.
+
+
+
+ a| 
+*Pianificare il backup del database a un intervallo di tempo specifico*
+ a| 
+Specificare `interval` e selezionare l'intervallo di tempo tra i seguenti, in base al quale creare i backup:
+
+** `-hourly`
+** `-daily`
+** `-weekly`
+** `-monthly`
+** `-onetimeonly`
+
+
+
+
+ a| 
+*Configurare una pianificazione*
+ a| 
+Specificare `-cronstring` e includono le seguenti sette sottoespressioni che descrivono la singola opzione:
+
+** 1 si riferisce ai secondi.
+** 2 indica i minuti.
+** 3 si riferisce alle ore.
+** 4 si riferisce a un giorno in un mese.
+** 5 si riferisce al mese.
+** 6 si riferisce a un giorno in una settimana.
+** (Facoltativo) 7 si riferisce all'anno.
+
+
+[NOTE]
+====
+Se il backup è stato pianificato con tempi diversi in `-cronstring` e. `-start-time`, quindi, la pianificazione del backup viene sovrascritta e attivata da `-start-time`.
+
+====
+
+
+ a| 
+*Aggiungere un commento sulla pianificazione del backup*
+ a| 
+Specificare `-schedule-comment` seguito dalla stringa di descrizione.
+
+
+
+ a| 
+*Specificare l'ora di inizio dell'operazione di pianificazione*
+ a| 
+Specificare `-start-time` nel formato aaaa-mm-gg hh:mm.
+
+
+
+ a| 
+*Modificare l'utente dell'operazione di backup pianificata durante la pianificazione del backup*
+ a| 
+Specificare `-runasuser`. L'operazione viene eseguita come utente (utente root o utente Oracle) che ha creato la pianificazione. Tuttavia, è possibile utilizzare il proprio ID utente, se si dispone di credenziali valide sia per il profilo del database che per l'host.
+
+
+
+ a| 
+*Attivare un'attività di pre-task o post-task dell'operazione di pianificazione del backup utilizzando il file XML delle specifiche di pre-task e post-task*
+ a| 
+Specificare `-taskspec` E fornire il percorso assoluto del file XML delle specifiche dell'attività per l'esecuzione di un'attività di pre-elaborazione o post-elaborazione prima o dopo l'operazione di pianificazione del backup.
+
+|===
+

@@ -1,0 +1,51 @@
+---
+permalink: windows/task-creating-restore-specifications.html 
+sidebar: sidebar 
+keywords: restore, specification, file, sml, contain, original, alternate, location, snapmanager, location, creating, create 
+summary: Il file delle specifiche di ripristino è un file XML che contiene le posizioni originale e alternativa da cui è possibile ripristinare il file. SnapManager utilizza questo file di specifica per ripristinare i file dalla posizione specificata. 
+---
+= Creazione di specifiche di ripristino
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il file delle specifiche di ripristino è un file XML che contiene le posizioni originale e alternativa da cui è possibile ripristinare il file. SnapManager utilizza questo file di specifica per ripristinare i file dalla posizione specificata.
+
+È possibile creare il file delle specifiche di ripristino utilizzando qualsiasi editor di testo. È necessario utilizzare un'estensione .xml per il file.
+
+. Aprire un file di testo.
+. Immettere quanto segue: `+<restore-specification xmlns="http://www.netapp.com">+`
+. Inserire le informazioni di mappatura dei file utilizzando il formato mostrato nell'esempio seguente:
++
+[listing]
+----
+<file-mapping>
+    <original-location>E:\disks\sysaux.dbf</original-location>
+    <alternate-location>E:\disks\sysaux.dbf</alternate-location>
+</file-mapping>
+----
++
+La mappatura file specifica da dove viene ripristinato un file. La posizione originale è la posizione del file sul file system attivo al momento del backup. La posizione alternativa è la posizione da cui viene ripristinato il file.
+
+. Inserire le informazioni di mappatura del file system montato utilizzando il formato mostrato nell'esempio:
++
+[listing]
+----
+<mountpoint-mapping>
+     <original-location>E:\disks\sysaux.dbf</original-location>
+     <snapname>snapname</snapname>
+     <alternate-location>E:\disks\sysaux.dbf</alternate-location>
+</mountpoint-mapping>
+----
++
+Mountpoint si riferisce al percorso di directory C: La mappatura del punto di montaggio specifica il punto di montaggio da cui vengono ripristinati i file. La posizione originale è la posizione del punto di montaggio nel file system attivo al momento del backup. La posizione alternativa è il punto di montaggio da cui vengono ripristinati i file nella posizione originale. Snapname è il nome della copia Snapshot in cui è stato eseguito il backup dei file originali.
+
++
+
+NOTE: Il nome della copia Snapshot è un componente necessario perché lo stesso file system può essere utilizzato più volte in una singola operazione di backup (ad esempio, una volta per i file di dati e una volta per i registri).
+
+. Immettere quanto segue: `</restore-specification>`
+. Salvare il file come file .xml e chiudere la specifica.
+

@@ -1,0 +1,32 @@
+---
+permalink: windows/task-change-the-retention-policy-default-behavior.html 
+sidebar: sidebar 
+keywords: backup, expire, retention, policy, snapmanager, delete, set 
+summary: 'Quando un backup scade in base al criterio di conservazione, SnapManager determina se eliminare il backup in base alle impostazioni di conservazione. L"eliminazione dei backup è il comportamento predefinito. È possibile modificare questo comportamento predefinito e scegliere di liberare i backup non protetti.' 
+---
+= Modificare il comportamento predefinito del criterio di conservazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando un backup scade in base al criterio di conservazione, SnapManager determina se eliminare il backup in base alle impostazioni di conservazione. L'eliminazione dei backup è il comportamento predefinito. È possibile modificare questo comportamento predefinito e scegliere di liberare i backup non protetti.
+
+
+
+== A proposito di questa attività
+
+Per impostazione predefinita, Snap Manager elimina il backup alla scadenza.
+
+.Fasi
+. Accedere alla seguente posizione predefinita:
++
+`default smsap installation location\properties\smsap.config`
+
+. Modificare il `smsap.config` file.
+. Impostare `retain.alwaysFreeExpiredBackups` proprietà in `smsap.config` file su *true*.
++
+Ad esempio, `*retain.alwaysFreeExpiredBackups = true*`
+
+

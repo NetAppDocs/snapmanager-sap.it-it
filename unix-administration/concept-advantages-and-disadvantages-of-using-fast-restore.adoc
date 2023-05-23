@@ -1,0 +1,33 @@
+---
+permalink: unix-administration/concept-advantages-and-disadvantages-of-using-fast-restore.html 
+sidebar: sidebar 
+keywords: dba, aware, advantage, disadvantage, volume-base, fast, restore, disadvantage 
+summary: 'I DBA devono essere consapevoli dei vantaggi e degli svantaggi dell"utilizzo di ripristini rapidi basati su volumi.' 
+---
+= Vantaggi e svantaggi dell'utilizzo del ripristino rapido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I DBA devono essere consapevoli dei vantaggi e degli svantaggi dell'utilizzo di ripristini rapidi basati su volumi.
+
+Il ripristino dei backup del database con ripristini rapidi offre i seguenti vantaggi:
+
+* I ripristini basati su volume riducono il tempo necessario per il ripristino dei backup.
+* SnapManager offre controlli rapidi di idoneità per il ripristino. SnapManager analizza il backup del database e visualizza informazioni sulla possibilità di eseguire il ripristino basato su volume.
+* È possibile visualizzare in anteprima l'operazione di ripristino e decidere se continuare con il percorso consigliato o ignorare il suggerimento con il processo selezionato.
+
+
+Il ripristino dei backup del database con ripristini rapidi presenta i seguenti svantaggi:
+
+* L'intero file system viene invertito, inclusi i file che non sono stati considerati parte del backup. Verranno ripristinati anche altri file, file system o LUN sul volume.
+* SnapManager rimuove tutte le copie Snapshot eseguite dopo l'istantanea a cui si sta ripristinando. In effetti, si perde la cronologia dopo la data di copia Snapshot. Ad esempio, non è possibile ripristinare il backup di martedì se è già stato ripristinato il backup di lunedì.
+
+
+È possibile evitare gli svantaggi seguendo questi consigli:
+
+* Ottimizza il layout del database in base alle Best practice.
+* Proteggere i backup sullo storage secondario. Tuttavia, se si eliminano le copie Snapshot dallo storage primario, non è possibile utilizzare ripristini rapidi per ripristinarle dallo storage secondario.
+

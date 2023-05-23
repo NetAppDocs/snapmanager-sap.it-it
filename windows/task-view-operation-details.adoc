@@ -1,0 +1,36 @@
+---
+permalink: windows/task-view-operation-details.html 
+sidebar: sidebar 
+keywords: view, detail, information, particular, profile, verify, success, failure, operation, resource, operation 
+summary: 'È possibile visualizzare informazioni dettagliate su un particolare profilo per verificare l"esito positivo o negativo di un"operazione. Inoltre, consente di determinare le risorse di storage in uso per una determinata operazione.' 
+---
+= Visualizzare i dettagli delle operazioni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare informazioni dettagliate su un particolare profilo per verificare l'esito positivo o negativo di un'operazione. Inoltre, consente di determinare le risorse di storage in uso per una determinata operazione.
+
+
+
+== A proposito di questa attività
+
+È possibile visualizzare i seguenti dettagli relativi a una determinata operazione:
+
+* ID operazione
+* Tipo di operazione
+* Se l'operazione è stata forzata
+* Informazioni di runtime, tra cui stato, data di inizio e di fine dell'operazione
+* L'host su cui è stata eseguita l'operazione, inclusi l'ID del processo e la versione di SnapManager
+* Informazioni sul repository
+* Risorse di storage in uso
+
+
+.Fase
+. Per visualizzare le informazioni dettagliate relative a un ID operazione specifico, immettere il seguente comando:
++
+`*smsap operation show -profile _profile_name_ [-label _label_ | -id _id_] [-quiet | -verbose]*`
+
+

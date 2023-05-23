@@ -1,0 +1,52 @@
+---
+permalink: windows/concept-prerequisites-for-performing-rolling-upgrade.html 
+sidebar: sidebar 
+keywords: perform, roll, upgrade, ensure, environment, requirement, prerequisite 
+summary: 'Prima di eseguire un aggiornamento a rotazione, è necessario assicurarsi che l"ambiente soddisfi determinati requisiti.' 
+---
+= Prerequisiti per l'esecuzione degli aggiornamenti in sequenza
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di eseguire un aggiornamento a rotazione, è necessario assicurarsi che l'ambiente soddisfi determinati requisiti.
+
+* Se si utilizza una versione precedente a SnapManager 3.1 e si desidera eseguire un aggiornamento a rotazione a SnapManager 3.3 o versione successiva, è necessario prima eseguire l'aggiornamento alla versione 3.2 e poi alla versione più recente.
++
+È possibile eseguire direttamente l'aggiornamento da SnapManager 3.2 a SnapManager 3.3 o versioni successive.
+
+* È necessario eseguire il backup degli script esterni utilizzati per eseguire la protezione esterna dei dati o la conservazione dei dati.
+* La versione di SnapManager che si desidera aggiornare deve essere installata.
++
+
+NOTE: Se si esegue l'aggiornamento da una versione precedente a SnapManager 3.1 a SnapManager 3.3 o successiva, è necessario installare SnapManager 3.2 ed eseguire un aggiornamento in sequenza. Dopo aver eseguito l'aggiornamento alla versione 3.2, è possibile installare SnapManager 3.3 o versione successiva ed eseguire un altro aggiornamento a SnapManager 3.3 o versione successiva.
+
+* È necessario installare la versione di SnapDrive per Windows supportata con la versione di SnapManager alla quale si desidera eseguire l'aggiornamento.
++
+La documentazione di SnapDrive contiene dettagli sull'installazione di SnapDrive.
+
+* È necessario eseguire il backup del database del repository.
+* La quantità di utilizzo del repository SnapManager deve essere minima.
+* Se l'host da aggiornare utilizza un repository, le operazioni SnapManager non devono essere eseguite sugli altri host che utilizzano lo stesso repository.
++
+Le operazioni pianificate o in esecuzione sugli altri host attendono il completamento dell'aggiornamento in sequenza.
+
++
+
+NOTE: Si consiglia di eseguire un aggiornamento in sequenza quando il repository è meno occupato, ad esempio durante il fine settimana o quando le operazioni non sono pianificate.
+
+* I profili che puntano allo stesso database di repository devono essere creati con nomi diversi negli host del server SnapManager.
++
+Se si utilizzano profili con lo stesso nome, l'aggiornamento in sequenza che coinvolge il database del repository non riesce senza preavviso.
+
+* Le operazioni SnapManager non devono essere eseguite sull'host da aggiornare.
+
+
+
+NOTE: L'aggiornamento a rotazione viene eseguito più a lungo, in quanto aumenta il numero di backup degli host che vengono aggiornati insieme. La durata dell'aggiornamento può variare in base al numero di profili e backup associati a un determinato host.
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/["Documentazione sul sito di supporto NetApp: mysupport.netapp.com"^]

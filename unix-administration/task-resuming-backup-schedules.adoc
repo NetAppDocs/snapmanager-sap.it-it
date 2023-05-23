@@ -1,0 +1,24 @@
+---
+permalink: unix-administration/task-resume-backup-schedules.html 
+sidebar: sidebar 
+keywords: administrator, option, suspend, backup, schedule, resuming, resume 
+summary: Gli amministratori hanno la possibilità di riprendere la pianificazione del backup sospeso. 
+---
+= Riprendere le pianificazioni di backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gli amministratori hanno la possibilità di riprendere la pianificazione del backup sospeso.
+
+*A proposito di questa attività*
+
+Se si tenta di riprendere le pianificazioni attive, potrebbe essere visualizzato il messaggio di errore: `"Cannot resume: schedule <schedulename> already in resume state"`.
+
+. Per riprendere la pianificazione del backup sospeso, immettere il seguente comando:
++
+`*smsap schedule resume -profile _profile_name_ -schedule-name _schedulename_ [-quiet | -verbose]*`
+
+

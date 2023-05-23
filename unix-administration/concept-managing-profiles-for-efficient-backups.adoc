@@ -1,0 +1,106 @@
+---
+permalink: unix-administration/concept-managing-profiles-for-efficient-backups.html 
+sidebar: sidebar 
+keywords: create, profile, snapmanager, database, operation, manage, managing, efficient 
+summary: 'È necessario creare un profilo in SnapManager per il database sul quale si desidera eseguire un"operazione. Selezionare il profilo e quindi l"operazione che si desidera eseguire.' 
+---
+= Gestione dei profili per backup efficienti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario creare un profilo in SnapManager per il database sul quale si desidera eseguire un'operazione. Selezionare il profilo e quindi l'operazione che si desidera eseguire.
+
+
+
+== Attività correlate ai profili
+
+È possibile eseguire le seguenti operazioni:
+
+* Creare profili per consentire backup completi o parziali e backup su storage primario, secondario o anche terzo.
++
+È inoltre possibile creare profili per separare i backup del registro di archiviazione dai backup del file di dati.
+
+* Verificare i profili.
+* Aggiornare i profili.
+* Eliminare i profili.
+
+
+
+
+== Informazioni sui profili e sull'autenticazione
+
+Quando si crea un profilo, è possibile specificare un database e scegliere uno dei seguenti metodi per connettersi al database:
+
+* Autenticazione Oracle con nome utente, password e porta
+* Autenticazione del sistema operativo senza nome utente, password o porta.
++
+Per l'autenticazione del sistema operativo, è necessario immettere le informazioni relative all'utente e al gruppo dell'account del sistema operativo.
+
++
+
+NOTE: Per utilizzare l'autenticazione del sistema operativo per i database dei cluster di applicazioni reali (RAC), il server SnapManager deve essere in esecuzione su ciascun nodo dell'ambiente RAC e la password del database deve essere la stessa per tutte le istanze Oracle in un ambiente RAC. SnapManager utilizza il nome utente e la password del database per connettersi a ogni istanza RAC nel profilo.
+
+* Autenticazione del database quando `sqlnet.authentication_services` è impostato su `*NONE*`. SnapManager utilizza quindi il nome utente e la password del database per tutte le connessioni al database di destinazione.
++
+
+NOTE: Per utilizzare l'autenticazione del database per un'istanza di Automatic Storage Management (ASM), è necessario immettere il nome utente e la password utilizzati per accedere all'istanza di ASM.
+
+
+
+È possibile impostare `sqlnet.authentication_services` a. `*NONE*` solo nei seguenti ambienti:
+
+[cols="1a,1a,1a,1a"]
+|===
+| Layout del database | Versione di Oracle | È supportata l'autenticazione del database per il database di destinazione | L'autenticazione del database è supportata per l'istanza ASM 
+
+
+ a| 
+Qualsiasi database non ASM e non RAC
+ a| 
+Oracle 10g e Oracle 11g (meno di 11.2.0.3)
+ a| 
+Sì
+ a| 
+No
+
+
+
+ a| 
+Database ASM standalone su UNIX
+ a| 
+Oracle 11.2.0.3 e versioni successive
+ a| 
+Sì
+ a| 
+Sì
+
+
+
+ a| 
+Istanza ASM sul database RAC su UNIX
+ a| 
+Oracle 11.2.0.3
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Database RAC su NFS
+ a| 
+Oracle 11.2.0.3
+ a| 
+Sì
+ a| 
+No
+
+|===
+
+NOTE: Dopo la disattivazione `sqlnet.authentication_services` e modificare il metodo di autenticazione in autenticazione del database, è necessario impostare `sqlnet.authentication_services` a. `*NONE*`.
+
+Se si accede a un profilo per la prima volta, è necessario inserire la password del profilo. Dopo aver immesso le credenziali, è possibile visualizzare i backup del database all'interno del profilo.

@@ -1,0 +1,70 @@
+---
+permalink: windows/reference-the-backint-register-sld-command.html 
+sidebar: sidebar 
+keywords: sap, br, tools, backint, register-sld, command, snapmanager, interface, landscape, system, directory, sld, vendor 
+summary: 'Se si desidera utilizzare SAP BR*Tools, è possibile eseguire il comando backint register-sld con SnapManager per SAP per registrare l"interfaccia BACKINT nella directory di ambiente di sistema (SLD). L"interfaccia BACKINT viene fornita dal vendor dello storage per far funzionare il sistema storage con i comandi BR*Tools. SnapManager per SAP installa il file di interfaccia BACKINT in C: File di programma NetApp SnapManager per SAP.' 
+---
+= Il comando backint register-sld
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se si desidera utilizzare SAP BR*Tools, è possibile eseguire `backint register-sld` Comando con SnapManager per SAP per registrare l'interfaccia BACKINT nella directory orizzontale del sistema (SLD). L'interfaccia BACKINT viene fornita dal vendor dello storage per far funzionare il sistema storage con i comandi BR*Tools. SnapManager per SAP installa il file di interfaccia BACKINT all'indirizzo `C:\Program Files\NetApp\SnapManager for SAP\bin\`.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+backint register-sld
+-host  host_name
+-port  port_id
+-username username
+-password password
+-template template_ID
+----
+
+
+== Parametri
+
+* *`-host _host_name_`*
++
+Specifica il nome dell'host su cui viene eseguito SAP SLD.
+
+* *`-port _port_id_`*
++
+Specifica l'ID della porta su cui SAP SLD accetta le richieste HTTP. L'ID deve essere numerico e inferiore o uguale a nove cifre.
+
+* *`-username _username_`*
++
+Specifica un nome utente SAP SLD valido e autorizzato.
+
+* *`-password _password_`*
++
+Specifica una password utente SAP SLD valida e autorizzata. Questa opzione è facoltativa. Se non si imposta la password utilizzando `-password`, viene richiesto di inserire una password nel seguente formato: `+username@http://host:port+`
+
++
+Se non si riesce a inserire la password corretta, dopo tre tentativi il comando non riesce e viene chiuso.
+
+* *`-template _template_id_`*
++
+Specifica il nome del file XML del modello master, che può essere utilizzato come base per il file personalizzato.
+
+
+
+
+
+== Esempio di comando
+
+L'esempio seguente mostra il completamento corretto del comando:
+
+[listing]
+----
+backint register-sld -host jack12 -port 50100
+-username j2ee_admin -password user123 -template E:\template.xml
+Operation Id [N96f4142a1442b31ee4636841babbc1d7] succeeded.
+----

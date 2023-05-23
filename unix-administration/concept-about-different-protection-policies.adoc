@@ -1,0 +1,111 @@
+---
+permalink: unix-administration/concept-about-different-protection-policies.html 
+sidebar: sidebar 
+keywords: policies, policy, protect, backup, secondary, tertiary, storage, system, protection 
+summary: È possibile selezionare criteri diversi per proteggere i backup sui sistemi di storage secondari o terziari. 
+---
+= Sulle diverse policy di protezione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile selezionare criteri diversi per proteggere i backup sui sistemi di storage secondari o terziari.
+
+Se si utilizza Data ONTAP in modalità 7 e SnapManager è integrato con Gestione protezione, è necessario selezionare una delle seguenti policy di protezione durante la creazione del profilo. La console di gestione di Protection Manager fornisce modelli per configurare le policy di protezione per i set di dati. Anche se i criteri di protezione del disaster recovery sono elencati nell'interfaccia utente di SnapManager, questi criteri non sono supportati.
+
+[cols="1a,3a"]
+|===
+| Policy | Descrizione 
+
+
+ a| 
+Backup
+ a| 
+Il backup di un set di dati viene eseguito localmente e anche dallo storage primario a quello secondario utilizzando SnapVault o SnapMirror.
+
+
+
+ a| 
+Eseguire il backup, quindi eseguire il mirroring
+ a| 
+Viene eseguito il backup di un set di dati dallo storage primario a quello secondario utilizzando SnapVault o SnapMirror e quindi il mirroring su un partner SnapMirror.
+
+
+
+ a| 
+Solo copie Snapshot locali
+ a| 
+Un dataset utilizza solo copie Snapshot locali nello storage primario.
+
+
+
+ a| 
+Mirrorare
+ a| 
+Il mirroring di un dataset dallo storage primario a quello secondario viene eseguito mediante SnapMirror.
+
+
+
+ a| 
+Eseguire il mirroring e il backup
+ a| 
+Viene eseguito il mirroring di un set di dati dallo storage primario a quello secondario utilizzando SnapMirror e quindi il backup sullo storage secondario mediante SnapVault o SnapMirror.
+
+
+
+ a| 
+Mirrorare e mirrorare
+ a| 
+Un set di dati viene mirrorato dallo storage primario a quello secondario su due partner SnapMirror diversi.
+
+
+
+ a| 
+Mirrorare, quindi eseguire il backup
+ a| 
+Viene eseguito il mirroring di un set di dati dallo storage primario a quello secondario utilizzando SnapMirror e quindi il backup sullo storage terzo utilizzando SnapVault o SnapMirror.
+
+
+
+ a| 
+Mirrorare, quindi mirrorare
+ a| 
+Un set di dati viene mirrorato dallo storage primario a quello secondario utilizzando SnapMirror e quindi eseguito il mirroring su un partner SnapMirror aggiuntivo.
+
+
+
+ a| 
+Nessuna protezione
+ a| 
+Un set di dati non dispone di copie Snapshot, backup o protezione con copia speculare di alcun tipo.
+
+
+
+ a| 
+Solo backup remoto
+ a| 
+Il backup dei dati su un sistema storage viene eseguito in remoto sullo storage secondario utilizzando SnapVault o SnapMirror. L'applicazione concessa in licenza non esegue alcun backup locale sullo storage primario. Questo criterio di protezione può essere applicato a sistemi di terze parti con Open Systems SnapVault installato.
+
+|===
+Se si utilizza Clustered Data ONTAP, è necessario selezionare una delle seguenti policy di protezione durante la creazione del profilo.
+
+[cols="1a,1a"]
+|===
+| Policy | Descrizione 
+
+
+ a| 
+SnapManager_cDOT_Mirror
+ a| 
+Esegue il mirroring del backup.
+
+
+
+ a| 
+SnapManager_cDOT_Vault
+ a| 
+Effettua il vault del backup.
+
+|===

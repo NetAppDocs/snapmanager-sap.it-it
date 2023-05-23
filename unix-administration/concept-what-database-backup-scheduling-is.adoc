@@ -1,0 +1,118 @@
+---
+permalink: unix-administration/concept-what-database-backup-scheduling-is.html 
+sidebar: sidebar 
+keywords: schedule, update, monitor, backup, database, graphical, user, interface, scheduling 
+summary: 'È possibile pianificare, aggiornare e monitorare i backup dei database utilizzando la scheda Schedule (Pianificazione) dell"interfaccia utente grafica.' 
+---
+= Che cos'è la pianificazione del backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile pianificare, aggiornare e monitorare i backup dei database utilizzando la scheda Schedule (Pianificazione) dell'interfaccia utente grafica.
+
+La seguente tabella affronta alcune domande comuni relative alla pianificazione:
+
+|===
+| Domanda | Risposta 
+
+
+ a| 
+Cosa accade ai backup pianificati quando il server SnapManager viene riavviato?
+ a| 
+Quando il server SnapManager viene riavviato, riavvia automaticamente tutte le pianificazioni. Tuttavia, SnapManager non segue le occorrenze perse.
+
+
+
+ a| 
+Cosa succede quando si piangono due backup su due database contemporaneamente?
+ a| 
+SnapManager avvia le operazioni di backup una alla volta e consente l'esecuzione dei backup in parallelo. Ad esempio, se un amministratore del database crea sei pianificazioni di backup giornaliere per sei profili di database diversi a 1:00, tutti e sei i backup vengono eseguiti in parallelo.
+
+Se si piangono più backup su un singolo profilo di database in un breve periodo di tempo, il server SnapManager esegue solo l'operazione di backup con la durata di conservazione più lunga.
+
+Prima di avviare un'operazione di backup, SnapManager determina quanto segue:
+
+* Negli ultimi 30 minuti, un'altra pianificazione ha creato correttamente un backup, con una maggiore conservazione, per lo stesso profilo?
+* Entro i prossimi 30 minuti, un'altra pianificazione tenterà di creare un backup, con una maggiore conservazione, per lo stesso profilo?
+
+
+Se la risposta a una delle due domande è sì, SnapManager salta il backup.
+
+Ad esempio, un amministratore di database potrebbe creare una pianificazione giornaliera, settimanale e mensile per un profilo di database, che viene pianificata per eseguire i backup alle 1:00 In quel giorno del mese in cui sono pianificati tre backup simultanei alle 1:00, SnapManager esegue solo l'operazione di backup in base alla pianificazione mensile.
+
+La finestra temporale di 30 minuti può essere modificata in un file di proprietà di SnapManager.
+
+
+
+ a| 
+Con quale utente viene eseguita l'operazione di backup?
+ a| 
+L'operazione viene eseguita sotto l'utente che ha creato la pianificazione. Tuttavia, è possibile modificare l'ID utente se si dispone di credenziali valide sia per il profilo del database che per l'host. Ad esempio, lanciando le proprietà di backup pianificato per la pianificazione di backup creata da Avida Davis, Stella Morrow può selezionare il proprio ID utente in Esegui questa operazione come utente per eseguire il backup pianificato.
+
+
+
+ a| 
+In che modo lo scheduler SnapManager interagisce con lo scheduler nativo del sistema operativo?
+ a| 
+Sul server SnapManager, non è possibile visualizzare i backup pianificati tramite lo scheduler nativo del sistema operativo. Ad esempio, dopo aver creato un backup pianificato, non vengono visualizzate voci aggiuntive in cron.
+
+
+
+ a| 
+Cosa succede se gli orologi nell'interfaccia grafica utente e nel server non sono sincronizzati?
+ a| 
+Gli orologi sul client e sul server non sono sincronizzati. Pertanto, è possibile pianificare un backup in cui l'ora di inizio sia in futuro sul client ma in passato sul server.
+
+Per i backup ricorrenti, il server continua a soddisfare la richiesta. Ad esempio, se il server riceve una richiesta di eseguire backup orari a partire dal 01/30/08 alle 15:00 ma l'ora attuale è alle 15:30 in quel giorno, il server esegue il primo backup alle 16:00 e continua a eseguire backup ogni ora.
+
+Tuttavia, per i backup una sola volta, il server gestisce la richiesta nel modo seguente:
+
+* Se l'ora di inizio è compresa entro gli ultimi cinque minuti dall'ora corrente del server, SnapManager avvia immediatamente il backup.
+* Se l'ora di inizio è superiore a cinque minuti, SnapManager non avvia il backup.
+
+
+Ad esempio, considerare il seguente scenario:
+
+* L'orologio nell'host dell'interfaccia grafica è indietro di tre minuti rispetto all'ora effettiva.
+* L'ora corrente sul client è alle 8:58
+* È possibile pianificare un backup una tantum alle 9:00
+* È possibile pianificare un altro backup una tantum alle 8:30
+
+
+Quando il server riceve la prima richiesta, l'ora sul server è 9:01 Sebbene l'ora di inizio del backup sia passata, SnapManager esegue immediatamente il backup.
+
+Quando il server riceve la seconda richiesta, l'ora di inizio del backup è superiore a cinque minuti. Viene visualizzato un messaggio che indica che la richiesta di pianificazione non è riuscita perché l'ora di inizio è passata.
+
+È possibile modificare l'intervallo di cinque minuti in un file di proprietà di SnapManager.
+
+
+
+ a| 
+Cosa accade ai backup pianificati per un profilo quando questo viene cancellato?
+ a| 
+Quando viene eliminato un profilo di database, il server SnapManager elimina i backup pianificati definiti per tale profilo.
+
+
+
+ a| 
+Come si comportano i backup pianificati durante l'ora legale o quando si modifica l'ora del server SnapManager?
+ a| 
+Le pianificazioni dei backup di SnapManager vengono influenzate a causa dell'ora legale o quando si modifica l'ora del server SnapManager.
+
+Considerare le seguenti implicazioni in caso di modifica dell'ora del server SnapManager:
+
+* Una volta attivata la pianificazione del backup, se l'ora del server SnapManager diminuisce, la pianificazione del backup non si attiva di nuovo.
+* Se l'ora legale inizia prima dell'ora di inizio pianificata, le pianificazioni di backup vengono attivate automaticamente.
+* Ad esempio, se ci si trova negli Stati Uniti e si pianificano backup orari alle 4:00 che dovrebbe avvenire ogni 4 ore, i backup si verificheranno alle 4:00, 8:00, 12:00, 4:00, 20:00, E mezzanotte nei giorni precedenti e successivi alle modifiche dell'ora legale di marzo e novembre.
+* Tenere presente quanto segue se i backup sono pianificati per le 2:30 ogni notte:
++
+** Quando i clock tornano indietro di un'ora, poiché il backup è già attivato, il backup non si attiva di nuovo.
+** Quando i clock vengono attivati in avanti di un'ora, il backup viene attivato immediatamente. Se ci si trova negli Stati Uniti e si desidera evitare questo problema, è necessario pianificare l'avvio dei backup al di fuori delle 2:00 alle 3:00 intervallo.
+
+
+
+
+|===

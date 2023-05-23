@@ -1,0 +1,60 @@
+---
+permalink: windows/concept-snapmanager-for-oraclefor-sap-deployment-considerations.html 
+sidebar: sidebar 
+keywords: deploy, snapmanager, environment, application, technology, technologies, operation, sap, deployment, consideration 
+summary: Prima di implementare SnapManager nel proprio ambiente, è necessario conoscere le altre applicazioni e tecnologie necessarie per le diverse operazioni. 
+---
+= Considerazioni sull'implementazione di SnapManager per SAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di implementare SnapManager nel proprio ambiente, è necessario conoscere le altre applicazioni e tecnologie necessarie per le diverse operazioni.
+
+La seguente tabella elenca le diverse applicazioni e tecnologie:
+
+|===
+| Applicazioni e tecnologie | Dettagli 
+
+
+ a| 
+Data ONTAP
+ a| 
+SnapManager sfrutta i tool e le tecnologie NetApp, incluse le copie Snapshot.
+
+
+
+ a| 
+SnapDrive per Windows
+ a| 
+SnapManager utilizza le funzionalità di SnapDrive. È necessario installare SnapDrive prima di eseguire i servizi SnapManager. SnapManager gestisce tutte le interazioni con SnapDrive. SnapDrive per Windows deve essere configurato correttamente in base al sistema di storage e alle scelte di protocollo.
+
+
+
+ a| 
+SnapRestore
+ a| 
+SnapManager riduce il tempo medio di ripristino di un database utilizzando SnapRestore. Ogni sistema storage deve disporre di una licenza SnapRestore.
+
+
+
+ a| 
+FlexClone
+ a| 
+FlexClone è una funzionalità su licenza di Data ONTAP.
+
+
+
+ a| 
+Protocolli FC e iSCSI
+ a| 
+È necessario disporre delle versioni con licenza dei protocolli appropriati.
+
+|===
+Per utilizzare i comandi BR*Tools, è necessario installare la versione appropriata di SAP BR*Tools per la propria versione di Oracle.
+
+*Informazioni correlate*
+
+http://media.netapp.com/documents/tr-3823.pdf["Best practice SnapManager per SAP: media.netapp.com/documents/tr-3823.pdf"^]

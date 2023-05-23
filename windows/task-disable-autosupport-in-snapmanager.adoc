@@ -1,0 +1,32 @@
+---
+permalink: windows/task-disable-autosupport-in-snapmanager.html 
+sidebar: sidebar 
+keywords: disable, autosupport, storage, system, receive, message, snapmanager, backup, operation 
+summary: È necessario disattivare AutoSupport se non si desidera che il sistema di storage riceva messaggi dal server SnapManager per ogni operazione di backup eseguita correttamente. 
+---
+= Disattiva AutoSupport in SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario disattivare AutoSupport se non si desidera che il sistema di storage riceva messaggi dal server SnapManager per ogni operazione di backup eseguita correttamente.
+
+
+
+== A proposito di questa attività
+
+Per impostazione predefinita, AutoSupport è attivato se il file di configurazione non contiene `auto_support.on` parametro. In questo scenario, è necessario aggiungere `auto_support.on` Nel file di configurazione e impostare il valore su *FALSE*.
+
+.Fasi
+. Arrestare il server SnapManager.
+. In `smsap.config` file di configurazione, impostare il valore di `auto_support.on` Parametro su FALSE.
++
+*Esempio*
+
++
+auto_support.on=FALSE
+
+. Riavviare il server SnapManager.
+

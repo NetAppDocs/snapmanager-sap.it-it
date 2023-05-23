@@ -1,0 +1,32 @@
+---
+permalink: unix-administration/task-stop-the-clone-split-process.html 
+sidebar: sidebar 
+keywords: stop, run, clone, split, process 
+summary: È possibile interrompere il processo di suddivisione dei cloni in esecuzione. 
+---
+= Interrompere il processo di suddivisione dei cloni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile interrompere il processo di suddivisione dei cloni in esecuzione.
+
+*A proposito di questa attività*
+
+Una volta interrotto il processo di divisione, non è possibile ripristinarlo.
+
+.Fase
+. Per interrompere l'operazione di suddivisione dei cloni, immettere il seguente comando:
++
+`*smsap clone split-stop -profile _profile_ [-host _hostname_] [-label _split-label_ | -id _split-id_] [-quiet | -verbose]*`
+
+
+
+'''
+[listing]
+----
+smsap clone split-stop -profile p1 -id 8abc01ec0e78f3e2010e78f3fdd00001
+----
+'''

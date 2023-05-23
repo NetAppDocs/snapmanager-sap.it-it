@@ -1,0 +1,20 @@
+---
+permalink: unix-installation-7mode/reference-supported-configurations.html 
+sidebar: sidebar 
+keywords: host, install, snapmanager, software, browser, database, operating, system, requirement, verify, configuration, upgrade 
+summary: Gli host su cui si installa SnapManager devono soddisfare i requisiti specificati per software, browser, database e sistema operativo. Prima di installare o aggiornare SnapManager, è necessario verificare il supporto per la configurazione. 
+---
+= Configurazioni supportate
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gli host su cui si installa SnapManager devono soddisfare i requisiti specificati per software, browser, database e sistema operativo. Prima di installare o aggiornare SnapManager, è necessario verificare il supporto per la configurazione.
+
+Per informazioni sulle configurazioni supportate, consultare http://mysupport.netapp.com/matrix["Tool di matrice di interoperabilità"^].
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/matrix["Tool di matrice di interoperabilità NetApp"^]

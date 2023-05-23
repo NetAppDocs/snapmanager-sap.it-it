@@ -1,0 +1,25 @@
+---
+permalink: windows/task-access-and-print-online-help.html 
+sidebar: sidebar 
+keywords: online, help, instruction, task, snapmanager, graphical, user, interface, windows, wizard, access, print 
+summary: 'La Guida in linea fornisce istruzioni per le attività che è possibile eseguire utilizzando l"interfaccia grafica utente di SnapManager. La Guida in linea fornisce anche descrizioni dei campi delle finestre e delle procedure guidate.' 
+---
+= Consente di accedere e stampare la Guida in linea
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La Guida in linea fornisce istruzioni per le attività che è possibile eseguire utilizzando l'interfaccia grafica utente di SnapManager. La Guida in linea fornisce anche descrizioni dei campi delle finestre e delle procedure guidate.
+
+.Fasi
+. Eseguire una delle seguenti operazioni:
++
+** Nella finestra principale, fare clic su *Guida* > *Guida*.
+** In qualsiasi finestra o procedura guidata, fare clic su *Help* (Guida) per visualizzare la guida specifica per la finestra.
+
+
+. Utilizzare il *Sommario* nel riquadro di sinistra per spostarsi tra gli argomenti.
+. Fare clic sull'icona stampante nella parte superiore della finestra della guida per stampare singoli argomenti.
+

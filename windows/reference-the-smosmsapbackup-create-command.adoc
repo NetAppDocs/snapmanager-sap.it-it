@@ -1,0 +1,178 @@
+---
+permalink: windows/reference-the-smosmsapbackup-create-command.html 
+sidebar: sidebar 
+keywords: run, backup, create, command, database, storage, system, smsap 
+summary: È possibile eseguire il comando di creazione del backup per creare backup del database su uno o più sistemi storage. 
+---
+= Il comando smsap backup create
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup create` per creare backup di database su uno o più sistemi storage.
+
+
+
+== Sintassi
+
+
+NOTE: Prima di eseguire questo comando, è necessario creare un profilo di database utilizzando `profile create` comando.
+
+[listing]
+----
+
+smsap backup create
+-profile profile_name
+{[-full{-auto | -online | -offline}[-retain {-hourly | -daily | -weekly | -monthly | -unlimited} [-verify]  |
+[-data [[-files files [files]] |
+[-tablespaces tablespaces [tablespaces]] [-label label] {-auto | -online | -offline}
+[-retain {-hourly | -daily | -weekly | -monthly | -unlimited} [-verify] |
+[-archivelogs [-label label]] [-comment comment]}
+
+[-backup-dest path1 [ , path2]]
+[-exclude-dest path1 [ , path2]]
+[-prunelogs {-all | -until-scn until-scn | -until-date yyyy-MM-dd:HH:mm:ss] | -before {-months | -days | -weeks | -hours}}
+-prune-dest prune_dest1,[prune_dest2]]
+[-taskspec taskspec]
+[-dump]
+-force
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il nome del profilo correlato al database di cui si desidera eseguire il backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-auto option`*
++
+Se il database si trova nello stato montato o non in linea, SnapManager esegue un backup non in linea. Se il database si trova nello stato aperto o in linea, SnapManager esegue un backup in linea. Se si utilizza `-force` con `-offline` SnapManager impone un backup offline anche se il database è attualmente in linea.
+
+* *`-online option`*
++
+Specifica un backup del database online.
+
++
+** Se l'istanza locale si trova nello stato di arresto e almeno un'istanza si trova nello stato aperto, è possibile utilizzare `-force` opzione per cambiare l'istanza locale allo stato montato.
+** Se nessuna istanza è in stato aperto, è possibile utilizzare `-force` opzione per modificare l'istanza locale in stato aperto.
+
+
+* *`-offline option`*
++
+Specifica un backup non in linea mentre il database si trova nello stato di chiusura. Se il database si trova nello stato aperto o montato, il backup non viene eseguito correttamente. Se il `-force` Viene utilizzata l'opzione, SnapManager tenta di modificare lo stato del database per arrestare il database per un backup offline.
+
+* *`-full option`*
++
+Esegue il backup dell'intero database. Sono inclusi tutti i dati, il log archiviato e i file di controllo. Il backup dei log di ripristino e dei file di controllo archiviati viene eseguito indipendentemente dal tipo di backup eseguito. Se si desidera eseguire il backup solo di una parte del database, utilizzare `-files` opzione o. `-tablespaces` opzione.
+
+* *`-data option`*
++
+Specifica i file di dati.
+
+* *`-files _list_`*
++
+Esegue il backup solo dei file di dati specificati e dei file di log e di controllo archiviati. Separare l'elenco dei nomi dei file con spazi. Se il database è in stato aperto, SnapManager verifica che gli spazi delle tabelle appropriati siano in modalità di backup online.
+
+* *`-tablespaces _tablespaces_`*
++
+Esegue il backup solo degli spazi delle tabelle del database specificati e dei file di log e di controllo archiviati. Separare i nomi di tablespace con gli spazi. Se il database è in stato aperto, SnapManager verifica che gli spazi delle tabelle appropriati siano in modalità di backup online.
+
+* *`-label _label_`*
++
+Specifica un nome opzionale per questo backup. Questo nome deve essere univoco all'interno del profilo. Il nome può contenere lettere, numeri, caratteri di sottolineatura (_) e trattini (-). Non può iniziare con un trattino. Se non si specifica un'etichetta, SnapManager crea un'etichetta predefinita nel formato scope_type_date:
+
++
+** L'ambito è F per indicare un backup completo o P per indicare un backup parziale.
+** Digitare C per indicare un backup offline (cold), H per indicare un backup online (hot) o A per indicare un backup automatico, ad esempio P_A_20081010060037IST.
+** Data indica l'anno, il mese, il giorno e l'ora del backup.
++
+SnapManager utilizza un orologio a 24 ore.
+
+
+
++
+Ad esempio, se è stato eseguito un backup completo con il database offline il 16 gennaio 2007, alle 17:45:16 Ora standard orientale, SnapManager crea l'etichetta F_C_20070116174516EST.
+
+* *`-comment _string_`*
++
+Specifica un commento facoltativo per descrivere questo backup. Racchiudere la stringa tra virgolette singole (').
+
++
+
+NOTE: Alcuni shell stripano le virgolette. In questo caso, è necessario includere la virgoletta con una barra rovesciata (). Ad esempio, potrebbe essere necessario immettere quanto segue: `\' this is a comment\'`.
+
+* *`-verify option`*
++
+Verifica che i file nel backup non siano corrotti eseguendo l'utility Oracle dbv.
+
++
+
+NOTE: Se si specifica `-verify` l'operazione di backup non viene completata fino al completamento dell'operazione di verifica.
+
+* *`-force option`*
++
+Forza una modifica dello stato se il database non si trova nello stato corretto. Ad esempio, SnapManager potrebbe modificare lo stato del database da online a offline, in base al tipo di backup specificato e allo stato in cui si trova il database.
+
++
+** Se l'istanza locale si trova nello stato di chiusura e almeno un'istanza è aperta, utilizzare `-force` l'opzione cambia l'istanza locale nello stato montato.
+** Se nessuna istanza si trova nello stato aperto, utilizzare `-force` l'opzione consente di modificare l'istanza locale nello stato di apertura.
+
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+* *`-retain { -hourly | -daily | -weekly | -monthly | -unlimited}`*
++
+Specifica se il backup deve essere conservato su base oraria, giornaliera, settimanale, mensile o illimitata. Se il `-retain` opzione non specificata, per impostazione predefinita la classe di conservazione è `-hourly` opzione. Per conservare i backup per sempre, utilizzare `-unlimited` opzione. Il `-unlimited` l'opzione rende il backup non idoneo per l'eliminazione in base al criterio di conservazione.
+
+* *`-archivelogs option`*
++
+Crea backup del registro di archiviazione.
+
+* *`-backup-dest _path1_, [, [_path2_]]`*
++
+Specifica le destinazioni del log di archiviazione di cui eseguire il backup per il log di archiviazione.
+
+* *`-exclude-dest _path1_, [, [_path2_]]`*
++
+Specifica le destinazioni del registro di archiviazione da escludere dal backup.
+
+* *`-prunelogs {-all | -until-scnuntil-scn | -until-date _yyyy-MM-dd:HH:mm:ss_ | -before {-months | -days | -weeks | -hours}`*
++
+Elimina i file di log dell'archivio dalle destinazioni del log dell'archivio in base alle opzioni fornite durante la creazione di un backup. Il `-all` l'opzione elimina tutti i file di log dell'archivio dalle destinazioni del log dell'archivio. Il `-until-scn` Elimina i file di log dell'archivio fino a quando non viene specificato un numero SCN (System Change Number). Il `-until-date` consente di eliminare i file di log dell'archivio fino al periodo di tempo specificato. Il `-before` consente di eliminare i file di log dell'archivio prima del periodo di tempo specificato (giorni, mesi, settimane, ore).
+
+* *`-prune-dest _prune_dest1,prune_dest2_`*
++
+Elimina i file di log dell'archivio dalle destinazioni del log dell'archivio durante la creazione del backup.
+
+* *`-taskspec _taskspec_`*
++
+Specifica il file XML della specifica dell'attività che può essere utilizzato per l'attività di pre-elaborazione o di post-elaborazione dell'operazione di backup. Il percorso completo del file XML deve essere fornito mentre si fornisce `-taskspec` opzione.
+
+* *`-dump option`*
++
+Raccoglie i file dump dopo un'operazione di backup del database riuscita o non riuscita.
+
+
+
+
+
+== Esempio di comando
+
+Il seguente comando crea un backup online completo, crea un backup sullo storage secondario e imposta il criterio di conservazione su giornaliero:
+
+[listing]
+----
+smsap backup create -profile SALES1 -full -online
+-label full_backup_sales_May -profile SALESDB -force -retain -daily
+Operation Id [8abc01ec0e79356d010e793581f70001] succeeded.
+----

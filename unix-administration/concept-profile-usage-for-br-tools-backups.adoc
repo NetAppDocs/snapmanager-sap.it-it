@@ -1,0 +1,183 @@
+---
+permalink: unix-administration/concept-profile-usage-for-br-tools-backups.html 
+sidebar: sidebar 
+keywords: backint, snapmanager, profile, repository, backup 
+summary: 'Quando si esegue un comando BR*Tools che utilizza l"interfaccia BACKINT, SnapManager utilizza un profilo dal repository. Il repository è determinato dalle credenziali SnapManager dell"utente che esegue il comando BR*Tools.' 
+---
+= Utilizzo del profilo per i backup di BR*Tools
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si esegue un comando BR*Tools che utilizza l'interfaccia BACKINT, SnapManager utilizza un profilo dal repository. Il repository è determinato dalle credenziali SnapManager dell'utente che esegue il comando BR*Tools.
+
+Per impostazione predefinita, SnapManager utilizza il profilo con lo stesso nome dell'identificatore di sistema del database SAP.
+
+
+
+== Informazioni sulla creazione di credenziali per accedere al repository
+
+È possibile utilizzare `smsap credential set` Per impostare le credenziali del repository per l'utente BR*Tools.
+
+
+
+== Informazioni sulla specifica di un nome di profilo SnapManager diverso
+
+Se l'identificatore di sistema è univoco per tutti gli host i cui profili SnapManager si trovano in un determinato repository, il nome del profilo predefinito è sufficiente. È possibile creare il profilo SnapManager e assegnargli un nome utilizzando il valore identificativo del sistema del database.
+
+Tuttavia, se lo stesso identificatore di sistema viene utilizzato su host diversi o se si desidera specificare più di un profilo SnapManager da utilizzare con BR*Tools su una data istanza SAP, è necessario definire il nome del profilo per i comandi BR*Tools.
+
+Le operazioni del database pianificate all'interno dell'applicazione SAP vengono eseguite come utente. BR*Tools le operazioni pianificate all'interno delle applicazioni SAP vengono eseguite come `sidadm`. Questi utenti devono avere accesso al repository e al profilo.
+
+Per impostare le credenziali per un utente, attenersi alla seguente procedura:
+
+. Accedere come `sidadm`.
+. Impostare le credenziali del repository immettendo il comando:
++
+`*smsap credential set command*`
+
+. Sincronizzare i profili immettendo il seguente comando:
++
+`*smsap profile sync*`
+
+. Impostare la password per i profili rilevati immettendo il comando:
++
+`*smsap credential set*`
+
+
+
+
+
+== Informazioni sulla creazione del file dei parametri dell'utility di backup
+
+Il comando BR*Tools può facoltativamente passare un file di parametri dell'utility di backup (parametro .utl) all'interfaccia BACKINT. Per impostazione predefinita, il nome del file è `initSID.utl`, Dove SID è l'identificatore di sistema del database.
+
+Per impostazione predefinita, BR*Tools utilizza il file dei parametri specificato da `_util_par_file_` nel `initSID.sap file`. Il file dei parametri dell'utility di backup viene normalmente memorizzato nella stessa directory di `initSID.sap file`.
+
+Aggiungi `profile_name = <profile>` al `.utl` file e salvataggio. Il `_profile_` È il nome del profilo SnapManager che si desidera utilizzare per i comandi BR*Tools.
+
+La seguente tabella elenca i parametri aggiuntivi dell'utilità di backup inclusi in `.utl` file per operazioni come la conservazione del backup, il ripristino rapido e la protezione dei dati:
+
+[cols="1a,3a"]
+|===
+| Operazioni | Parametri dell'utility di backup 
+
+
+ a| 
+Conservazione del backup
+ a| 
+* Chiave: Conservare
+* Valore: Illimitato | orario | giornaliero | settimanale | mensile
+
+
+
+
+ a| 
+Ripristino rapido
+ a| 
+* Chiave: Veloce
+* Valore: Richiedi | ignora | fallback | Off
+
+
+
+
+ a| 
+Protezione dei dati
+ a| 
+* Chiave: Proteggere
+* Valore: sì | no | vuoto
+
+
+
+NOTE: Le diverse opzioni indicate per il parametro Value sono simili a `-protect` opzione utilizzata nell'interfaccia della riga di comando.
+
+
+
+ a| 
+Eseguire il backup dei dati dallo storage secondario in una posizione impostata in base alle preferenze dell'utente
+ a| 
+* Chiave: Preferred_backup_locations
+* Valore: I nomi dei nodi di protezione dei dati sono separati da virgole.
+* Predefinito: Nessun valore impostato.
+
+
+
+NOTE: Per aggiungere un nome di nodo del criterio di protezione dei dati, vedere xref:concept-about-different-protection-policies.adoc[Informazioni sulle descrizioni dei criteri di protezione].
+
+
+
+ a| 
+Ripristinare i dati dallo storage secondario in una posizione preferita
+ a| 
+* Chiave: Restore_from_Nearest_backup_location
+* Valore: sì | no
+* Predefinito: sì
+
+
+|===
+La seguente tabella descrive i diversi parametri dell'utility di backup per queste operazioni:
+
+[cols="1a,1a,1a"]
+|===
+| Operazione | Chiave | Valore 
+
+
+ a| 
+Conservazione del backup
+ a| 
+veloce=
+ a| 
+fallback
+
+
+
+ a| 
+Ripristino rapido
+ a| 
+retain=
+ a| 
+ogni ora
+
+
+
+ a| 
+Protezione dei dati
+ a| 
+protect=
+ a| 
+no
+
+|===
+
+
+== Aggiunta del parametro dell'utility di backup al file di inizializzazione BR*Tools
+
+SAP crea un file di profilo di backup denominato `initSID.sap` Per ogni istanza di database SAP in `$ORACLE_HOME/dbs/`. È possibile utilizzare questo file per specificare il parametro predefinito dell'utilità di backup (`.utl`) Utilizzato per i comandi BR*Tools.
+
+. Modificare il `initSID.sap` file e individuare la riga che inizia con `util_par_file =`.
+. Rimuovere il commento da questa riga e aggiungere il percorso al file dei parametri dell'utility di backup che contiene il nome del profilo, ad esempio `util_par_file = initSA1.utl`.
+. Se si specifica un valore per `util_par_file`, assicurarsi che il file esista.
++
+Se il file non viene trovato, i comandi BRBACKUP non riescono perché tentano di includere il file in un backup.
+
+
+
+Se viene rilevata una delle seguenti condizioni di errore, è necessario utilizzare `-u` come nome del profilo:
+
+* `Parameter files does not exist`
+* `No profile_name entry`
+
+
+Sia orasid che sidadm devono accedere al profilo che verrà utilizzato per creare o gestire i backup creati con BR*Tools.
+
+
+
+== Specificare il nome del file dei parametri dell'utility di backup nel comando BR*Tools
+
+È possibile specificare il file dei parametri dell'utility di backup (parametro .utl) nei comandi BR*Tools utilizzando l'opzione -r. Il valore sulla riga di comando sovrascrive il valore specificato nel file di inizializzazione SAP.
+
+BR*Tools ricerca il file dei parametri in `$ORACLE_HOME/dbs/` directory. Se si memorizza il file in un'altra posizione, è necessario specificare il percorso completo con l'opzione -r. Ad esempio:
+
+`*+brbackup -r /opt/NetApp_fcp_price_10g_enterprise_inst_vol1/dbs/initCER.utl ...+*`

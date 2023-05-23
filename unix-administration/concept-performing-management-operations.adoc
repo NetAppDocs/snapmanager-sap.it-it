@@ -1,0 +1,16 @@
+---
+permalink: unix-administration/concept-performing-management-operations.html 
+sidebar: sidebar 
+keywords: perform, management, task, configure, snapmanager, restore, back, up, restoring, restore, cloning, clone, operation 
+summary: È possibile eseguire attività di gestione dopo aver configurato e configurato SnapManager. Queste attività consentono di gestire le normali operazioni oltre al backup, al ripristino e alla clonazione. 
+---
+= Esecuzione delle operazioni di gestione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire attività di gestione dopo aver configurato e configurato SnapManager. Queste attività consentono di gestire le normali operazioni oltre al backup, al ripristino e alla clonazione.
+
+Gli amministratori possono eseguire le operazioni utilizzando l'interfaccia grafica utente o l'interfaccia della riga di comando.

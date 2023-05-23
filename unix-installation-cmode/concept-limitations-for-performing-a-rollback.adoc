@@ -1,0 +1,43 @@
+---
+permalink: unix-installation-cmode/concept-limitations-for-performing-a-rollback.html 
+sidebar: sidebar 
+keywords: scenario, perform, rollback, task, limitation 
+summary: È necessario conoscere gli scenari in cui non è possibile eseguire un rollback. Tuttavia, per alcuni di questi scenari è possibile eseguire alcune attività aggiuntive prima di eseguire il rollback. 
+---
+= Limitazioni per l'esecuzione di un rollback
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario conoscere gli scenari in cui non è possibile eseguire un rollback. Tuttavia, per alcuni di questi scenari è possibile eseguire alcune attività aggiuntive prima di eseguire il rollback.
+
+Gli scenari in cui non è possibile eseguire il rollback o eseguire le attività aggiuntive sono i seguenti:
+
+* Se si esegue una delle seguenti operazioni dopo aver eseguito un aggiornamento in sequenza:
++
+** Creare un nuovo profilo.
+** Separare un clone.
+** Modificare lo stato di protezione del profilo.
+** Assegnare criteri di protezione, classe di conservazione o relazioni SnapVault e SnapMirror.
++
+In questo scenario, dopo aver eseguito un rollback, è necessario rimuovere manualmente i criteri di protezione, la classe di conservazione o le relazioni SnapVault e SnapMirror assegnate.
+
+** Modificare lo stato di montaggio del backup.
++
+In questo scenario, è necessario prima modificare lo stato di montaggio e poi eseguire un rollback.
+
+** Ripristinare un backup.
+** Modificare la modalità di autenticazione dall'autenticazione del database all'autenticazione del sistema operativo.
++
+In questo scenario, dopo aver eseguito un rollback, è necessario modificare manualmente la modalità di autenticazione dal sistema operativo al database.
+
+
+
+* Se il nome host del profilo viene modificato
+* Se i profili sono separati per creare backup del registro di archiviazione
++
+In questo scenario, non è possibile eseguire il rollback a una versione precedente a SnapManager 3.2.
+
+

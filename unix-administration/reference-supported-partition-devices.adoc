@@ -1,0 +1,104 @@
+---
+permalink: unix-administration/reference-supported-partition-devices.html 
+sidebar: sidebar 
+keywords: partition, device, support, snapmanager 
+summary: È necessario conoscere i diversi dispositivi di partizione supportati in SnapManager. 
+---
+= Periferiche di partizione supportate
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario conoscere i diversi dispositivi di partizione supportati in SnapManager.
+
+La seguente tabella fornisce informazioni sulle partizioni e su come attivarle per i diversi sistemi operativi:
+
+[cols="3a,1a,1a,1a,1a"]
+|===
+| Sistema operativo | Partizione singola | Partizione multipla | Dispositivi senza partizione | File system o dispositivi RAW 
+
+
+ a| 
+Red Hat Enterprise Linux 5 volte
+
+oppure
+
+Oracle Enterprise Linux 5 volte
+ a| 
+Sì
+ a| 
+No
+ a| 
+No
+ a| 
+ext3*
+
+
+
+ a| 
+Red Hat Enterprise Linux 6 volte
+
+oppure
+
+Oracle Enterprise Linux 6 volte
+ a| 
+Sì
+ a| 
+No
+ a| 
+No
+ a| 
+ext3 o ext4*
+
+
+
+ a| 
+SUSE Linux Enterprise Server 11
+ a| 
+Sì
+ a| 
+No
+ a| 
+No
+ a| 
+ext3*
+
+
+
+ a| 
+SUSE Linux Enterprise Server 10
+ a| 
+No
+ a| 
+No
+ a| 
+Sì
+ a| 
+ext3***
+
+
+
+ a| 
+*
+
+Per un ambiente non MPIO, immettere il seguente comando:
+
+`sfdisk -uS -f -L -q /dev/ device_name`
+
+Per un ambiente MPIO, immettere i seguenti comandi:
+
+* `sfdisk -uS -f -L -q /dev/ device_name`
+* `kpartx -a -p p /dev/mapper/ device_name`
+
+
+
+
+ a| 
+*_*_* *_*_* *_*_*
+
+Non applicabile.
+
+|===
+Per ulteriori informazioni sulle versioni dei sistemi operativi supportate, fare riferimento alla matrice di interoperabilità.

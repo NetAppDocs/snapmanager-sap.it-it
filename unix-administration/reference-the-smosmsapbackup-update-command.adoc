@@ -1,0 +1,83 @@
+---
+permalink: unix-administration/reference-the-smosmsapbackup-update-command.html 
+sidebar: sidebar 
+keywords: run, backup, update, command, retention, policy, smsap 
+summary: È possibile eseguire il comando di aggiornamento del backup per aggiornare il criterio di conservazione del backup. 
+---
+= Il comando ssap backup update
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup update` per aggiornare il criterio di conservazione del backup.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap backup update
+-profile _profile_name_
+[-label _label_ [-data | -archivelogs\] | [-id _guid_\]
+[-retain {-hourly | -daily | -weekly | -monthly | -unlimited}\]
+[-comment _comment_text_\]
+[-quiet | -verbose]]
+----
+
+
+== Parametri
+
+* ``*-profile _profile_name_*``
++
+Specifica il profilo per cui aggiornare i backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* ``*-id _guid_*``
++
+Verifica il backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare il comando ssap backup list per visualizzare il GUID per ciascun backup.
+
+* ``*-label _label_*``
++
+Specifica l'etichetta di backup e l'ambito del backup come file di dati o log di archiviazione.
+
+* ``*-data*``
++
+Specifica i file di dati.
+
+* ``*-archivelogs*``
++
+Specifica i file di log dell'archivio.
+
+* ``*-comment _comment_text_*``
++
+Inserire testo (fino a 200 caratteri) sull'aggiornamento del backup. È possibile includere spazi.
+
+* ``*-quiet*``
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* ``*-verbose*``
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+* ``*-retain {-hourly | -daily | -weekly | -monthly | -unlimited}*``
++
+Specifica se il backup deve essere conservato su base oraria, giornaliera, settimanale, mensile o illimitata. Se `-retain` non viene specificato, per impostazione predefinita la classe di conservazione è `-hourly`. Per conservare i backup per sempre, utilizzare `-unlimited` opzione. Il `-unlimited` l'opzione rende il backup non idoneo per l'eliminazione.
+
+
+
+'''
+
+
+== Esempio
+
+Nell'esempio seguente viene aggiornato il backup per impostare il criterio di conservazione su Unlimited:
+
+[listing]
+----
+smsap backup update -profile SALES1 -label full_backup_sales_May
+-retain -unlimited -comment save_forever_monthly_backup
+----
+'''

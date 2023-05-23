@@ -1,0 +1,87 @@
+---
+permalink: unix-administration/concept-creating-task-specification-file-and-scripts-for-snapmanager-operations.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, task, specification, extensible, markup, language, xml, pretask, backup, restore, clone, operation, creating, create, file, script, operation 
+summary: 'SnapManager per SAP utilizza un file XML (Extensible Markup Language) con specifica di attività che indica le attività preliminari e successive per le operazioni di backup, ripristino e clonazione. È possibile aggiungere i nomi degli script di pre-task e post-task nel file XML per le attività da eseguire prima o dopo le operazioni di backup, ripristino e clonazione.' 
+---
+= Creazione di script e file di specifica delle attività per le operazioni SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP utilizza un file XML (Extensible Markup Language) con specifica di attività che indica le attività preliminari e successive per le operazioni di backup, ripristino e clonazione. È possibile aggiungere i nomi degli script di pre-task e post-task nel file XML per le attività da eseguire prima o dopo le operazioni di backup, ripristino e clonazione.
+
+In SnapManager (3.1 o versioni precedenti), è possibile eseguire gli script di pre-task e post-task solo per l'operazione di clone. In SnapManager (3.2 o versioni successive) per SAP, è possibile eseguire gli script di pre-task e post-task per le operazioni di backup, ripristino e clonazione.
+
+In SnapManager (3.1 o versioni precedenti), la sezione delle specifiche delle attività fa parte del file XML delle specifiche dei cloni. A partire da SnapManager 3.2 per SAP, la sezione relativa alle specifiche delle attività è un file XML separato.
+
+
+NOTE: SnapManager 3.3 o versioni successive non supporta l'utilizzo del file XML delle specifiche dei cloni creato nelle release precedenti a SnapManager 3.2.
+
+In SnapManager (3.2 o versioni successive) per SAP, devi assicurarti che siano soddisfatte le seguenti condizioni per il successo delle operazioni SnapManager:
+
+* Per le operazioni di backup e ripristino, utilizzare il file XML delle specifiche dell'attività.
+* Per l'operazione di cloni, fornire due file di specifica: Un file XML di specifica di cloni e un file XML di specifica di attività.
++
+Se si desidera attivare l'attività di pre-task o post-task, è possibile aggiungere il file XML delle specifiche dell'attività.
+
+
+
+È possibile creare il file di specifica dell'attività utilizzando l'interfaccia grafica utente (GUI) di SnapManager, l'interfaccia della riga di comando (CLI) o un editor di testo. Per abilitare le funzionalità di modifica appropriate, è necessario utilizzare un'estensione .xml per il file. Si consiglia di salvare questo file in modo da poterlo utilizzare per operazioni di backup, ripristino e clonazione future.
+
+Il file XML delle specifiche delle attività include due sezioni:
+
+* La sezione delle attività preliminari include script che possono essere eseguiti prima delle operazioni di backup, ripristino e clonazione.
+* La sezione post-task include script che possono essere eseguiti dopo le operazioni di backup, ripristino e clonazione.
+
+
+I valori inclusi nelle sezioni pre-task e post-task devono rispettare le seguenti linee guida:
+
+* Task name (Nome attività): Il nome dell'attività deve corrispondere al nome dello script visualizzato quando si esegue `plugin.sh -describe` comando.
++
+
+NOTE: In caso di mancata corrispondenza, potrebbe essere visualizzato il seguente messaggio di errore: `the file not found`.
+
+* Parameter name (Nome parametro): Il nome del parametro deve essere una stringa che può essere utilizzata come impostazione di una variabile di ambiente.
++
+La stringa deve corrispondere al nome del parametro nello script personalizzato, che viene visualizzato quando si esegue `plugin.sh -describe` comando.
+
+
+
+È possibile creare il file di specifica in base alla struttura del seguente file di esempio:
+
+[listing]
+----
+
+<task-specification>
+  <pre-tasks>
+<task>
+      <name>name</name>
+      <parameter>
+          <name>name</name>
+          <value>value</value>
+       </parameter>
+    </task>
+  </pre-tasks>
+  <post-tasks>
+    <task>
+      <name>name</name>
+      <parameter>
+          <name>name</name>
+          <value>value</value>
+       </parameter>
+    </task>
+  </post-tasks>
+</task-specification>
+----
+
+NOTE: Il file XML delle specifiche delle attività non deve contenere alcun criterio.
+
+Dalla GUI di SnapManager, è possibile impostare il valore del parametro e salvare il file XML. È possibile utilizzare la pagina Task abilitation (abilitazione attività) della procedura guidata Backup Create (creazione backup), della procedura guidata Restore (Ripristino) o Recovery (Ripristino) e della procedura guidata Clone Create (creazione clone) per caricare il file XML delle specifiche attività esistenti e utilizzare il file selezionato per l'attività di pre-task o post-task.
+
+Un'attività può essere eseguita più volte, con combinazioni di parametri e valori uguali o diverse. Ad esempio, è possibile utilizzare un'operazione di salvataggio per salvare più file.
+
+
+NOTE: SnapManager utilizza i tag XML forniti nel file di specifica dell'attività per l'attività di pre-elaborazione o post-elaborazione per le operazioni di backup, ripristino e clonazione indipendentemente dall'estensione del file di specifica dell'attività.

@@ -1,0 +1,75 @@
+---
+permalink: unix-administration/task-use-protection-manager-to-configure-secondary-backup-schedules.html 
+sidebar: sidebar 
+keywords: support, backup, database, secondary, storage, administrator, protection, manager, configure, schedule 
+summary: 'Per supportare il backup del database sullo storage secondario, l"amministratore dello storage utilizza Protection Manager per configurare una pianificazione di backup.' 
+---
+= Utilizzare Protection Manager per configurare le pianificazioni di backup secondarie
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per supportare il backup del database sullo storage secondario, l'amministratore dello storage utilizza Protection Manager per configurare una pianificazione di backup.
+
+*Cosa ti serve*
+
+Prima di configurare la pianificazione per i backup secondari, l'amministratore dello storage consegna al partner DBA le seguenti informazioni:
+
+* La pianificazione che il DBA desidera seguire per i backup secondari.
++
+In questo caso, i backup una volta al giorno si verificano alle 19:00 Inoltre, i backup una volta alla settimana vengono eseguiti il sabato alle 1:00
+
+
+
+.Fasi
+. Accedere alla console di gestione NetApp di Protection Manager.
+. Dalla barra dei menu, fare clic su *Policy* > *Protection* > *Schedules*.
++
+Viene visualizzata la scheda programmi della finestra Criteri di protezione.
+
+. Selezionare il programma giornaliero**giornaliero alle 20:00** nell'elenco dei programmi.
+. Fare clic su *Copy* (Copia).
++
+Nell'elenco viene visualizzato un nuovo programma giornaliero, *Copy of Daily at 20:00*. È già selezionato.
+
+. Fare clic su *Edit* (Modifica).
++
+La scheda delle proprietà Modifica pianificazione giornaliera si apre nella scheda Pianificazione.
+
+. Modificare il nome del programma in *Payroll Daily at 19.00*, aggiornare la descrizione, quindi fare clic su *Apply* (Applica).
++
+Le modifiche vengono salvate.
+
+. Fare clic sulla scheda *Eventi giornalieri*.
++
+Il tempo di backup giornaliero corrente del programma è di 20:00 viene visualizzato.
+
+. Fare clic su *Add* (Aggiungi) e immettere *7:00 PM* nel nuovo campo Time (ora), quindi fare clic su *Apply* (Applica).
++
+Il tempo di backup giornaliero corrente della pianificazione è ora alle 19:00
+
+. Fare clic su *OK* per salvare le modifiche e uscire dalla scheda delle proprietà.
++
+Il nuovo programma giornaliero, *Payroll Daily at 19.00*, viene visualizzato nell'elenco dei programmi.
+
+. Selezionare il programma settimanale**Domenica alle 20:00 più giornaliero** nell'elenco dei programmi.
+. Fare clic su *Copy* (Copia).
++
+Un nuovo programma settimanale, *Copia di domenica alle 20:00 più giornaliero*, viene visualizzato nell'elenco. È già selezionato.
+
+. Fare clic su *Edit* (Modifica).
++
+La scheda delle proprietà Modifica pianificazione settimanale si apre nella scheda Pianificazione.
+
+. Modificare il nome del programma in *Payroll Saturday at 1 AM più Daily at 7 PM* e aggiornare la descrizione.
+. Dall'elenco a discesa *Daily Schedule* (programma giornaliero), selezionare il programma giornaliero appena creato, *Payroll Daily at 19.00*.
++
+Selezionando *Payroll Daily alle 19:00*, questo programma definisce il momento in cui le operazioni giornaliere si verificano quando il programma *Payroll Saturday alle 1:00 più giornaliero alle 19:00* viene applicato a una policy.
+
+. Fare clic su *OK* per salvare le modifiche e uscire dalla scheda delle proprietà.
++
+Il nuovo programma settimanale, *Payroll Saturday at 1 AM più Daily at 7 PM*, viene visualizzato nell'elenco dei programmi.
+
+

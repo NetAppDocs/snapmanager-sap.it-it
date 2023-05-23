@@ -1,0 +1,31 @@
+---
+permalink: unix-administration/task-clone-a-database-to-an-alternate-host.html 
+sidebar: sidebar 
+keywords: clone, create, command, database, alternate, host, cloning 
+summary: È possibile utilizzare il comando clone create per clonare un backup del database su un host alternativo. 
+---
+= Clonare un database in un host alternativo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare `clone create` comando per clonare un backup del database su un host alternativo.
+
+*Cosa ti serve*
+
+* Creare un profilo o disporre di un profilo esistente.
+* Creare un backup completo o disporre di un backup del database esistente.
+* Creare una specifica di cloni o disporre di una specifica di cloni esistente.
+
+
+.Fase
+. Per clonare un database in un host alternativo, immettere il seguente comando:
++
+`*smsap clone create -backup-label _backup_label_name_ -newsid _new_sid_ -host _target_host_ -label _clone_label_ -comment _comment_text_ -profile _profile_name_ -clonespec _full_path_to_clonespecfile_*`
+
++
+Oracle non consente di eseguire contemporaneamente due database con lo stesso SID sullo stesso host. Per questo motivo, è necessario fornire un nuovo SID per ciascun clone. Tuttavia, è possibile avere un database su un altro host con lo stesso SID.
+
+

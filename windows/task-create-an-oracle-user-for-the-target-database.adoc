@@ -1,0 +1,38 @@
+---
+permalink: windows/task-create-an-oracle-user-for-the-target-database.html 
+sidebar: sidebar 
+keywords: create, oracle, user, sysdba, role, connect, database, perform, operation, target 
+summary: È necessario creare un utente Oracle con il ruolo sysdba che si connette al database ed esegue operazioni di database. 
+---
+= Creare un utente Oracle per il database di destinazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario creare un utente Oracle con il ruolo sysdba che si connette al database ed esegue operazioni di database.
+
+
+
+== A proposito di questa attività
+
+SnapManager può utilizzare qualsiasi utente Oracle con privilegi sysdba presenti nel database di destinazione, ad esempio l'utente "sys" predefinito. È inoltre possibile creare un utente nel database di destinazione da utilizzare esclusivamente con SnapManager.
+
+.Fasi
+. Accedere a SQL *Plus.
++
+Al prompt dei comandi, immettere il seguente comando:
+
++
+`*sqlplus '/ as sysdba'*`
+
+. Per creare un utente, ad esempio `_smsap_oper_` con la password dell'amministratore, ad esempio `_adminpw1_`Al prompt di SQL, immettere il seguente comando:
++
+`*SQL> create user _smsap_oper_ identified by _adminpw1_;*`
+
+. Concedere privilegi sysdba all'utente Oracle immettendo il seguente comando:
++
+`*SQL> grant sysdba to _smsap_oper_;*`
+
+

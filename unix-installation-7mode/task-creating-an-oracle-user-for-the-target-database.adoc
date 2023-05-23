@@ -1,0 +1,38 @@
+---
+permalink: unix-installation-7mode/task-create-an-oracle-user-for-the-target-database.html 
+sidebar: sidebar 
+keywords: oracle, database, user, require, log, in, snapmanager, operation, create, user, sysdba, privilege, target, creating, target 
+summary: 'Un utente del database Oracle deve effettuare l"accesso al database ed eseguire le operazioni SnapManager. È necessario creare questo utente con il privilegio sysdba se un utente con il privilegio sysdba non esiste per il database di destinazione.' 
+---
+= Creare un utente di database Oracle per il database di destinazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un utente del database Oracle deve effettuare l'accesso al database ed eseguire le operazioni SnapManager. È necessario creare questo utente con il privilegio _sysdba_ se un utente con il privilegio _sysdba_ non esiste per il database di destinazione.
+
+*A proposito di questa attività*
+
+SnapManager può utilizzare qualsiasi utente Oracle con il privilegio _sysdba_ esistente per il database di destinazione. Ad esempio, SnapManager può utilizzare l'utente _sys_ predefinito. Tuttavia, anche se l'utente esiste, è possibile creare un nuovo utente per il database di destinazione e assegnare il privilegio _sysdba_.
+
+È inoltre possibile utilizzare il metodo di autenticazione del sistema operativo che consente al database Oracle di utilizzare le credenziali gestite dal sistema operativo per autenticare gli utenti per accedere al database ed eseguire operazioni SnapManager. Se si è autenticati dal sistema operativo, è possibile connettersi al database Oracle senza specificare un nome utente o una password.
+
+.Fasi
+. Accedi a SQL *Plus:
++
+`*sqlplus '/ as sysdba'*`
+
+. Creare un nuovo utente con una password di amministratore:
++
+`*create user _user_name_ identified by _admin_password;_*`
+
++
+`_user_name_` è il nome dell'utente che si sta creando e. `_admin_password_` è la password che si desidera assegnare all'utente.
+
+. Assegnare il privilegio sysdba al nuovo utente Oracle:
++
+`*grant sysdba to _user_name;_*`
+
+

@@ -1,0 +1,20 @@
+---
+permalink: unix-administration/concept-full-or-partial-restoration-of-the-database.html 
+sidebar: sidebar 
+keywords: snapmanager, provide, flexibility, restore, full, database, specific, tablespace, control, file, combination, full, partial 
+summary: SnapManager offre la flessibilità necessaria per ripristinare database completi, spazi tabella specifici, file, file di controllo o una combinazione di queste entità. SnapManager consente di ripristinare i dati utilizzando un processo di ripristino basato su file o un processo di ripristino basato su volume più veloce. Gli amministratori del database possono selezionare il processo che desiderano utilizzare o lasciare che SnapManager decida quale processo è appropriato. 
+---
+= Ripristino completo o parziale dei database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager offre la flessibilità necessaria per ripristinare database completi, spazi tabella specifici, file, file di controllo o una combinazione di queste entità. SnapManager consente di ripristinare i dati utilizzando un processore di ripristino basato su file, un processo di ripristino più rapido e basato su volume. Gli amministratori del database possono selezionare il processo che desiderano utilizzare o lasciare che SnapManager decida quale processo è appropriato.
+
+SnapManager consente agli amministratori di database (DBA) di visualizzare in anteprima le operazioni di ripristino. La funzione di anteprima consente ai DBA di visualizzare ogni operazione di ripristino file per file.
+
+I DBA possono specificare il livello di ripristino e ripristino delle informazioni da parte di SnapManager durante le operazioni di ripristino. Ad esempio, i DBA possono ripristinare e ripristinare i dati in punti specifici nel tempo. Il punto di ripristino può essere una data e un'ora o un numero SCN (System Change Number) Oracle.
+
+SnapManager (3.2 o versione successiva) consente di ripristinare e ripristinare automaticamente i backup del database senza l'intervento di DBA. È possibile utilizzare SnapManager per creare backup del registro di archiviazione e utilizzarli per ripristinare e ripristinare i backup del database. Anche se i file di log dell'archivio del backup sono gestiti in una posizione di log dell'archivio esterna, è possibile specificare la posizione esterna in modo che i log dell'archivio possano aiutare a ripristinare il database ripristinato.

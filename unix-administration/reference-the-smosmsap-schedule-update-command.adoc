@@ -1,0 +1,75 @@
+---
+permalink: unix-administration/reference-the-smosmsap-schedule-update-command.html 
+sidebar: sidebar 
+keywords: command, update, schedule, backup, smsap 
+summary: Questo comando aggiorna la pianificazione di un backup. 
+---
+= Il comando ssap schedule update
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando aggiorna la pianificazione di un backup.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap schedule update -profile _profile_name_
+-schedule-name _schedule_name_ [-schedule-comment _schedule_comment_\]
+-interval {_-hourly_ | _-daily_ | _-weekly_ | _-monthly_ | _-onetimeonly_}
+-cronstring _cron_string_  -start-time {_start_time < yyyy-MM-dd HH:mm>_}
+-runasuser _runasuser_ [-taskspec _taskspec_\] -force
+[-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* `*-profile _profile_name_*`
++
+Specifica il nome del profilo correlato al database che si desidera pianificare il backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* `*-schedule-name _schedule_name_*`
++
+Specifica il nome fornito per la pianificazione.
+
+* `*-schedule-comment _schedule_comment_*`
++
+Specifica un commento facoltativo da descrivere sulla pianificazione del backup.
+
+* `*-interval { -hourly | -daily | -weekly | -monthly | -onetimeonly}*`
++
+Indica l'intervallo di tempo entro il quale vengono creati i backup. È possibile pianificare il backup su un orario, giornaliero, settimanale, mensile o una sola volta.
+
+* `*-cronstring _cron_string_*`
++
+Specifica di pianificare il backup utilizzando cronstring. Le espressioni cron vengono utilizzate per configurare le istanze di CronTrigger. Le espressioni cron sono stringhe composte da sette sottoespressioni:
+
++
+** 1 si riferisce ai secondi
+** 2 indica i minuti
+** 3 si riferisce alle ore
+** 4 si riferisce a un giorno in un mese
+** 5 si riferisce al mese
+** 6 si riferisce a un giorno in una settimana
+** 7 si riferisce all'anno (facoltativo)
+
+
+* `*-start-time yyyy-MM-dd HH:mm*`
++
+Specifica l'ora di inizio dell'operazione di pianificazione. L'ora di inizio della pianificazione deve essere inclusa nel formato yyyy-MM-dd HH:mm.
+
+* `*-runasuser _runasuser_*`
++
+Specifica di modificare l'utente dell'operazione di backup pianificata durante la pianificazione del backup.
+
+* `*-taskspec _taskspec_*`
++
+Specifica il file XML delle specifiche dell'attività che può essere utilizzato per l'attività di pre-elaborazione o di post-elaborazione dell'operazione di backup. Il percorso completo del file XML deve essere fornito con l'opzione -taskspec.
+
+

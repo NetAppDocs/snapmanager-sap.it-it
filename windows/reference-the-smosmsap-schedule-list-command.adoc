@@ -1,0 +1,35 @@
+---
+permalink: windows/reference-the-smosmsap-schedule-list-command.html 
+sidebar: sidebar 
+keywords: command, list, schedule, operation, associate, profile, smsap 
+summary: Questo comando elenca le operazioni pianificate associate a un profilo. 
+---
+= Il comando sspap schedule list
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando elenca le operazioni pianificate associate a un profilo.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap schedule list
+-profile profile_name
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il nome del profilo correlato al database, utilizzando il quale è possibile visualizzare un elenco di operazioni pianificate. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+

@@ -1,0 +1,35 @@
+---
+permalink: unix-administration/task-unmount-backups.html 
+sidebar: sidebar 
+keywords: snapmanager, automatic, unmount, backup, unavailable, host, server, unmount, external, tool, oracle, recovery, manager, rman, file, backup, state, remove, access 
+summary: 'SnapManager disinstalla automaticamente il backup per renderlo non disponibile sul server host. SnapManager consente inoltre di disinstallare se si utilizza uno strumento esterno, ad esempio Gestione ripristino Oracle (RMAN), per accedere ai file nel backup e modificare lo stato del backup per rimuovere l"accesso.' 
+---
+= Smontare i backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager disinstalla automaticamente il backup per renderlo non disponibile sul server host. SnapManager consente inoltre di disinstallare se si utilizza uno strumento esterno, ad esempio Gestione ripristino Oracle (RMAN), per accedere ai file nel backup e modificare lo stato del backup per rimuovere l'accesso.
+
+*A proposito di questa attività*
+
+Se si dismonta un backup del database da un host remoto, assicurarsi che le credenziali di Automatic Storage Management (ASM) siano le stesse su entrambi gli host.
+
+È possibile raccogliere i file dump dopo un'operazione di disinstallazione di backup riuscita o non riuscita.
+
+Se il punto di montaggio è occupato, ad esempio, l'operazione di disinstallazione potrebbe non riuscire e potrebbe essere visualizzato un messaggio di errore. `--[ERROR] FLOW-11019: Failure in Disconnect: SD-10046: You cannot unmount the backup as the mount point is busy with the following mount paths and PID's: /opt/NetApp/smsap/mnt/-mnt-neuse_nfsvrdb_arch-20120427052319903_0 with PID 6598.`
+
+È necessario identificare il PID della sessione che causa il guasto dell'operazione di disinstallazione. Interrompere la sessione eseguendo il seguente comando:
+
+`*kill _pid_*`
+
+È quindi possibile eseguire l'operazione di disinstallazione.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap backup unmount -profile _profile_name_ {label _label_ [data | -archivelogs] | -id _id_} [-quiet | -verbose]*`
+
+

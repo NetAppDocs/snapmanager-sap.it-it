@@ -1,0 +1,228 @@
+---
+permalink: unix-administration/task-create-profiles.html 
+sidebar: sidebar 
+keywords: creating, create, profile, assign, oracle, database, account, retention, policy, protection, backup, duration, class 
+summary: Durante la creazione dei profili, è possibile assegnare un account utente del database Oracle specifico al profilo. È possibile impostare il criterio di conservazione per il profilo, attivare la protezione del backup sullo storage secondario per tutti i backup utilizzando questo profilo e impostare il numero e la durata di conservazione per ciascuna classe di conservazione. 
+---
+= Creare profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durante la creazione dei profili, è possibile assegnare un account utente del database Oracle specifico al profilo. È possibile impostare il criterio di conservazione per il profilo, attivare la protezione del backup sullo storage secondario per tutti i backup utilizzando questo profilo e impostare il numero di conservazione e la durata per ciascuna classe di conservazione.
+
+*A proposito di questa attività*
+
+Se non si forniscono i valori di `-login`, `-password`, e. `-port` Parametri del database, la modalità di autenticazione del sistema operativo utilizza le credenziali predefinite.
+
+Durante la creazione di un profilo, SnapManager esegue un controllo dell'idoneità al ripristino per determinare il meccanismo di ripristino che può essere utilizzato per ripristinare il database. Se il database si trova su un qtree e il volume padre non è idoneo per un ripristino rapido o basato su volume, l'analisi potrebbe essere errata.
+
+SnapManager (3.2 o versione successiva) consente di separare i file di log dell'archivio dai file di dati durante la creazione di un nuovo profilo o l'aggiornamento di un profilo esistente. Dopo aver separato il backup utilizzando il profilo, è possibile creare solo il backup dei file di dati o il backup del database solo log di archiviazione. È possibile utilizzare il nuovo profilo o il profilo aggiornato per creare il backup contenente sia i file di dati che i file di log dell'archivio. Tuttavia, non è possibile utilizzare il profilo per creare il backup completo o ripristinare le impostazioni.
+
+*Profili per la creazione di backup completi e parziali*
+
+È possibile creare profili per creare il backup completo del database contenente i file di dati, i file di controllo e i file di log dell'archivio e il backup parziale del database contenente file di dati o tablespace specifici, tutti i file di controllo e tutti i file di log dell'archivio. SnapManager non consente di creare backup separati del registro di archiviazione utilizzando i profili creati per backup completi e parziali.
+
+*Profili per la creazione di backup solo file di dati e backup solo archivio*
+
+Quando si crea un nuovo profilo, è possibile includere `-separate-archivelog-backups` per separare il backup del registro di archiviazione dal backup del file di dati. È inoltre possibile aggiornare il profilo esistente per separare il backup del registro di archiviazione dal backup del file di dati.
+
+Utilizzando le nuove opzioni del profilo per separare i backup del registro di archiviazione, è possibile eseguire le seguenti operazioni SnapManager:
+
+* Creare un backup del registro di archiviazione
+* Eliminare un backup del registro di archiviazione
+* Montare un backup del registro di archiviazione
+* Liberare un backup del registro di archiviazione
+
+
+Durante la creazione del profilo per separare i backup del log di archiviazione dal backup dei file di dati, se i file di log di archiviazione non esistono nel database per cui è stato creato il profilo, viene visualizzato un messaggio di avviso.
+
+
+WARNING: `Archived log file does not exist in the active file system. The archived log file versions earlier than the <archive log thread version> log file will not be included in the backup`
+
+Anche se si creano backup per questo database, i file di log dell'archivio non sono disponibili nei backup del database.
+
+
+NOTE: Se si verifica un errore durante la creazione di un profilo, utilizzare `smsap system dump` comando. Dopo aver creato un profilo, se si verifica un errore, utilizzare `smsap operation` scaricare e. `smsap profile dump` comandi.
+
+. Per creare un profilo con nome utente, password e porta (autenticazione Oracle), immettere il seguente comando:
++
+`*smsap profile create -profileprofile [-profile-password _profile_password_] -repository-dbname _repo_dbname_ -host _repo_host_ -port _repo_port_ -login -username _repo_username_ -database -dbname _db_dbname_ -host _db_host_ [-siddb_sid] [-login [-username _db_username_-password _db_password_ -port _db_port_][-asminstance -asmusername _asminstance_username_ -asmpassword _asminstance_password_]] [-rman {-controlfile | {-login-username _rman_username_ -password _rman_password_ -tnsname _rman_tnsname_} } ] -osaccount osaccount-osgroup _osgroup_ [-retain [-hourly [-count _n_] [-duration _m_]] [-daily [-count _n_] [-duration _m_]] [-weekly [-count _n_] [-duration _m_]] [-monthly [-count _n_] [-duration _m_]]] [-comment _comment_][-snapname-pattern _pattern_][-protect [-protection-policy _policy_name_]] [-summary-notification] [-notification [-success-email _email_address1, email_address2_ -subject _subject_pattern_] [-failure-email _email_address1, email_address2_ -subject _subject_pattern_]][-separate-archivelog-backups-retain-archivelog-backups-hours _hours_ | -days _days_ | -weeks _weeks_ | -months _months_ [-protect [-protection-policy _policy_name_] | -noprotect] [-include-with-online-backups | -no-include-with-online-backups]] [-dump]*`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+``[-force] [-noprompt]``
+
++
+``[-quiet | verbose]``
+
++
+
+NOTE: Per gli ambienti RAC (Real Application Clusters), quando si crea un nuovo profilo, è necessario fornire il valore di `db_unique_name` parametro as `_db_dbname_`.
+
++
+È inoltre possibile includere altre opzioni durante la creazione dei profili, a seconda di come si desidera accedere al database.
+
++
+|===
+| Se... | Quindi... 
+
+
+ a| 
+*Si desidera utilizzare l'autenticazione del sistema operativo per creare il profilo*
+ a| 
+Specificare le variabili per un account del sistema operativo nel gruppo DBA (in genere l'account utilizzato per installare Oracle). Invece di aggiungere il nome utente, la password e la porta, specificare quanto segue:
+
+** `-osaccount _account_name_` come nome dell'account del sistema operativo
+** `-osgroup _osgroup_` come gruppo associato all'account del sistema operativo
+
+
+
+
+ a| 
+*Si desidera utilizzare l'autenticazione dell'istanza di Automatic Storage Management (ASM) per creare il profilo*
+ a| 
+Specificare le credenziali per l'autenticazione dell'istanza ASM.
+
+** `-asmusername _asmintance_username_` È il nome utente utilizzato per accedere all'istanza di ASM.
+** `-asmpassword _asminstance_password_` È la password utilizzata per accedere all'istanza di ASM.
+
+
+
+
+ a| 
+*Si desidera utilizzare l'autenticazione del database per creare un profilo*
+ a| 
+Specificare i dettagli di accesso al database. Se la password contiene caratteri speciali come punto esclamativo (!), simbolo del dollaro (`) o accento grave (), SnapManager non consente di creare il profilo autenticato dal database dall'interfaccia della riga di comando (CLI).
+
+
+
+ a| 
+*Stai utilizzando un catalogo come repository di Oracle Recovery Manager (RMAN)*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-tnsname _tnsname_` come nome tnsname definito in `tnsnames.ora` file.
+** `-login -username _username_` Come nome utente richiesto per la connessione al catalogo RMAN.
++
+Se non specificato, SnapManager utilizza le informazioni di autenticazione del sistema operativo. Non è possibile utilizzare l'autenticazione del sistema operativo con i database RAC.
+
+** `-password _password_` Come password RMAN richiesta per la connessione al catalogo RMAN.
+
+
+
+
+ a| 
+*Il file di controllo viene utilizzato come repository RMAN*
+ a| 
+Specificare `-controlfile` opzione.
+
+
+
+ a| 
+*Specificare un criterio di conservazione del backup per i backup*
+ a| 
+Specificare il numero di conservazione o la durata di una classe di conservazione o entrambi. La durata è espressa in unità della classe (ad esempio, ore per ora, giorni per giorno).
+
+** `-hourly` è la classe di conservazione oraria per la quale `[-count _n_]` `[-duration _m_]` sono rispettivamente il numero di conservazione e la durata della conservazione.
+** `-daily` è la classe di conservazione giornaliera per cui `[-count _n_]` `[-duration _m_]` sono rispettivamente il numero di conservazione e la durata della conservazione.
+** `-weekly` è la classe di conservazione settimanale, per cui `[-count _n_]` `[-duration _m_]` sono rispettivamente il numero di conservazione e la durata della conservazione.
+** `-monthly` è la classe di conservazione mensile, per cui `[-count _n_]` `[-duration _m_]` sono rispettivamente il numero di conservazione e la durata della conservazione.
+
+
+
+
+ a| 
+*Si desidera attivare la protezione di backup per il profilo*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-protect` abilita la protezione del backup.
++
+Se si utilizza Data ONTAP in 7-Mode, questa opzione crea un set di dati dell'applicazione nel server DFM (Data Fabric Manager) e aggiunge membri correlati al database, al file di dati, ai file di controllo e ai registri di archiviazione. Se il dataset esiste già, lo stesso dataset viene riutilizzato quando viene creato un profilo.
+
+** `-protection-policy _policy_` consente di specificare il criterio di protezione.
++
+Se si utilizza Data ONTAP in 7-Mode e SnapManager è integrato con Protection Manager, è necessario specificare uno dei criteri di Protection Manager.
+
++
+
+NOTE: Per elencare i possibili criteri di protezione, utilizzare lo smsap `protection-policy list` comando.
+
++
+Se si utilizza Clustered Data ONTAP, selezionare _SnapManager_cDOT_Mirror_ o _SnapManager_cDOT_Vault_.
+
++
+
+NOTE: L'operazione di creazione del profilo non riesce nei seguenti scenari:
+
++
+*** Se si utilizza Clustered Data ONTAP ma si seleziona il criterio Gestione protezione
+*** Se si utilizza Data ONTAP in 7-Mode ma si seleziona il criterio _SnapManager_cDOT_Mirror_ o _SnapManager_cDOT_Vault_
+*** Se è stata creata una relazione SnapMirror ma è stata selezionata la policy _SnapManager_cDOT_Vault_ o è stata creata una relazione SnapVault, ma è stata selezionata la policy _SnapManager_cDOT_Mirror_
+*** Se non è stata creata una relazione SnapMirror o SnapVault ma è stata selezionata la policy _SnapManager_cDOT_Vault_ o _SnapManager_cDOT_Mirror_
+
+
+** `-noprotect` indica di non proteggere i backup del database creati utilizzando il profilo.
+
+
+
+NOTE: Se `-protect` è specificato senza `-protection-policy`, quindi, il dataset non avrà una policy di protezione. Se `-protect` è specificato e. `-protection-policy` non viene impostato al momento della creazione del profilo, quindi può essere impostato in seguito da `smsap profile update` Comando o impostazione da parte dell'amministratore dello storage mediante la console di Protection Manager.
+
+
+
+ a| 
+*Si desidera attivare la notifica via email per lo stato di completamento delle operazioni del database*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-summary-notification` consente di configurare una notifica email di riepilogo per più profili in un database repository.
+** `-notification` consente di ricevere una notifica via email per lo stato di completamento dell'operazione del database per un profilo.
+** `-success-email _email_address2_` consente di ricevere una notifica via email sull'operazione di database eseguita correttamente utilizzando un profilo nuovo o esistente.
+** `-failure-email _email_address2_` consente di ricevere una notifica via email sull'operazione di database non riuscita eseguita utilizzando un profilo nuovo o esistente.
+** `-subject _subject_text_` specifica il testo dell'oggetto della notifica e-mail durante la creazione di un nuovo profilo o di un profilo esistente. Se le impostazioni di notifica non sono configurate per il repository e si tenta di configurare le notifiche di profilo o di riepilogo utilizzando la CLI, il seguente messaggio viene registrato nel log della console: `SMSAP-14577: Notification Settings not configured.`
++
+Se sono state configurate le impostazioni di notifica e si tenta di configurare la notifica di riepilogo utilizzando l'interfaccia CLI senza attivare la notifica di riepilogo per il repository, nel log della console viene visualizzato il seguente messaggio: `SMSAP-14575: Summary notification configuration not available for this repository`
+
+
+
+
+
+ a| 
+*Si desidera eseguire il backup dei file di log dell'archivio separatamente dai file di dati*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-separate-archivelog-backups` consente di separare il backup del registro di archiviazione dal backup del file di dati.
+** `-retain-archivelog-backups` imposta la durata della conservazione per i backup del registro di archiviazione. Specificare una durata di conservazione positiva.
++
+I backup del registro di archiviazione vengono conservati in base alla durata della conservazione del registro di archiviazione. I backup dei file di dati vengono conservati in base alle policy di conservazione esistenti.
+
+** `-protect` abilita la protezione per i backup del log di archiviazione.
+** `-protection-policy` imposta il criterio di protezione sui backup del registro di archiviazione.
++
+I backup del registro di archiviazione sono protetti in base alla policy di protezione del registro di archiviazione. I backup dei file di dati sono protetti in base alle policy di protezione esistenti.
+
+** `-include-with-online-backups` include il backup del registro di archiviazione e il backup del database online.
++
+Questa opzione consente di creare insieme un backup dei file di dati online e un backup dei registri di archiviazione per la clonazione. Quando questa opzione è impostata, ogni volta che si crea un backup dei file di dati online, i backup dei registri dell'archivio vengono creati immediatamente insieme ai file di dati.
+
+** `-no-include-with-online-backups` non include il backup del registro di archiviazione insieme al backup del database.
+
+
+
+
+ a| 
+*È possibile raccogliere i file dump dopo l'operazione di creazione del profilo riuscita*
+ a| 
+Specificare l'opzione -dump alla fine di `profile create` comando.
+
+|===
++
+Quando si crea un profilo, SnapManager analizza i file nel caso in cui si desideri eseguire un'operazione di ripristino basata su volume sui file specificati nel profilo.
+
+

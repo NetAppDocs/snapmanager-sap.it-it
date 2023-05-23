@@ -1,0 +1,74 @@
+---
+permalink: unix-administration/task-use-protection-manager-to-configure-a-secondary-backup-protection-policy.html 
+sidebar: sidebar 
+keywords: configure, configuring, backup, schedule, storage, administrator, protect, protection, manager, secondary, policy 
+summary: 'Dopo aver configurato la pianificazione di backup, l"amministratore dello storage configura un criterio di backup storage protetto in cui includere tale pianificazione.' 
+---
+= Utilizzare Protection Manager per configurare un criterio di protezione secondario per il backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver configurato la pianificazione di backup, l'amministratore dello storage configura un criterio di backup storage protetto in cui includere tale pianificazione.
+
+*Cosa ti serve*
+
+Prima di configurare il criterio di protezione, l'amministratore dello storage conferisce al partner DBA le seguenti informazioni:
+
+* Durata della conservazione da specificare per lo storage secondario
+* Tipo di protezione dello storage secondario richiesta
+
+
+*A proposito di questa attività*
+
+La policy di protezione creata può essere elencata in SnapManager per SAP dal partner DBA e assegnata a un profilo di database per i dati da proteggere.
+
+. Accedere alla NetApp Management Console di Protection Manager.
+. Dalla barra dei menu, fare clic su *Criteri* > *protezione* > *Panoramica*.
++
+Viene visualizzata la scheda Overview (Panoramica) della finestra Protection Policies (Criteri di protezione).
+
+. Fare clic su *Aggiungi policy* per avviare la procedura guidata *Aggiungi policy di protezione*.
+. Completare la procedura guidata seguendo questa procedura:
++
+.. Specificare un nome di policy descrittivo.
++
+Per questo esempio, inserire *dati TechCo Payroll: Backup* e una descrizione, quindi fare clic su *Avanti*.
+
+.. Selezionare un criterio di base.
++
+Per questo esempio, selezionare *Backup* e fare clic su *Avanti*.
+
+.. Nella scheda delle proprietà nodo *dati primari*, accettare le impostazioni predefinite e fare clic su *Avanti*.
++
+
+NOTE: In questo esempio, viene applicata la pianificazione di backup locale configurata in SnapManager. Qualsiasi pianificazione di backup locale specificata utilizzando questo metodo viene ignorata.
+
+.. Nella scheda delle proprietà connessione *Primary Data to Backup*, selezionare una pianificazione di backup.
++
+Per questo esempio, selezionare *Payroll Saturday at 1 AM più Daily at 7 PM* come programma di backup, quindi fare clic su *Next*.
+
++
+In questo esempio, la pianificazione selezionata include sia la pianificazione settimanale che quella giornaliera precedentemente configurate.
+
+.. Nella scheda delle proprietà *Backup policy*, specificare il nome del nodo di backup e i tempi di conservazione per i backup giornalieri, settimanali o mensili.
++
+Per questo esempio, specificare una conservazione giornaliera del backup di 10 giorni e una conservazione settimanale del backup di 52 settimane. Dopo aver completato ogni scheda delle proprietà, fare clic su *Avanti*.
+
++
+Una volta completati tutti i fogli delle proprietà, la procedura guidata Aggiungi criterio di protezione visualizza un riepilogo del criterio di protezione che si desidera creare.
+
+
+
+. Fare clic su *fine* per salvare le modifiche.
+
+
+*Risultato*
+
+La policy di protezione *TechCo Payroll Data: Backup* è elencata tra le altre policy configurate per Protection Manager.
+
+*Al termine*
+
+Il partner DBA può ora utilizzare SnapManager per SAP per elencare e assegnare questa policy durante la creazione del profilo del database per i dati da proteggere.

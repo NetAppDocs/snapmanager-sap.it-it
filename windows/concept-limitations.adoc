@@ -1,0 +1,163 @@
+---
+permalink: windows/concept-limitations.html 
+sidebar: sidebar 
+keywords: aware, scenario, limitation, environment, work, snapmanager 
+summary: 'È necessario conoscere gli scenari e le limitazioni che potrebbero influire sull"ambiente.' 
+---
+= Limitazioni quando si lavora con SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario conoscere gli scenari e le limitazioni che potrebbero influire sull'ambiente.
+
+*Limitazioni relative ai layout e alle piattaforme dei database*
+
+* SnapManager supporta i file di controllo su un file system e non supporta i file di controllo sui dispositivi raw.
+* SnapManager opera in un ambiente di clustering Microsoft (MSCS) ma non riconosce lo stato della configurazione MSCS (attiva o passiva) e non trasferisce la gestione attiva di un repository a un server di standby in un cluster MSCS.
+* Il database del repository potrebbe essere presente su un host a cui è possibile accedere utilizzando più indirizzi IP.
++
+Se si accede al repository utilizzando più indirizzi IP, viene creato il file di pianificazione per ciascuno degli indirizzi IP. Se il backup della pianificazione viene creato per un profilo (ad esempio, il profilo A) sotto uno degli indirizzi IP (ad esempio, IP1), il file di pianificazione per solo quell'indirizzo IP viene aggiornato. Se si accede al profilo A da un altro indirizzo IP (ad esempio, IP2), il backup pianificato non viene elencato perché il file di pianificazione di IP2 non dispone di una voce per la pianificazione creata con IP1.
+
++
+È possibile attendere che la pianificazione venga attivata da tale indirizzo IP e che il file di pianificazione venga aggiornato oppure riavviare il server.
+
+
+
+*Limitazioni relative alla configurazione SnapManager*
+
+* SnapManager supporta i database sui sistemi storage MultiStore con i seguenti requisiti:
++
+** È necessario configurare SnapDrive per impostare le password per i sistemi di storage MultiStore.
+** SnapDrive non può creare una copia Snapshot di un LUN o di un file che risiede in un qtree in un sistema di storage MultiStore se il volume sottostante non si trova nello stesso sistema di storage MultiStore.
+
+
+* SnapManager non supporta l'accesso a due server SnapManager in esecuzione su porte diverse da un singolo client (entrambi dalla CLI o dalla GUI).
++
+I numeri di porta devono essere gli stessi per gli host di destinazione e remoti.
+
+* Le operazioni SnapManager non riescono e non è possibile accedere alla GUI quando il database del repository non è attivo.
++
+È necessario verificare che il database del repository sia in esecuzione quando si eseguono operazioni SnapManager.
+
+* SnapManager non supporta la mobilità delle partizioni live (LPM) e la mobilità delle applicazioni live (LAM).
+* SnapManager non supporta Oracle Wallet Manager e la crittografia trasparente dei dati (TDE).
+* SnapManager non supporta le configurazioni MetroCluster in ambienti RDM (raw device mapping) perché le configurazioni MetroCluster devono ancora essere supportate dalla console di storage virtuale (VSC).
+
+
+*Limitazioni relative alla gestione del profilo*
+
+* Se si aggiorna il profilo per separare i backup del registro di archiviazione, non è possibile eseguire un'operazione di rollback sull'host.
+* Se si abilita un profilo dalla GUI per creare backup del registro di archiviazione e in seguito si tenta di aggiornare il profilo utilizzando la finestra Multi Profile Update (aggiornamento multiprofilo) o la finestra Profile Update (aggiornamento profilo), non è possibile modificare tale profilo per creare un backup completo.
+* Se si aggiornano più profili nella finestra Multi Profile Update (aggiornamento multiprofilo) e alcuni profili hanno l'opzione *Backup Archives separatamente* attivata e altri profili hanno l'opzione disattivata, l'opzione *Backup Archives separatamente* viene disattivata.
+* Se si aggiornano più profili e alcuni profili hanno l'opzione *Backup Archives separatamente* attivata e altri profili hanno l'opzione disattivata, l'opzione *Backup Archives separatamente* nella finestra Multi Profile Update viene disattivata.
+* Se si rinomina il profilo, non è possibile eseguire il rollback dell'host.
+
+
+*Limitazioni relative alle operazioni di rollback o aggiornamento in corso*
+
+* Se si tenta di installare una versione precedente di SnapManager per un host senza eseguire l'operazione di rollback sull'host nel repository, potrebbe non essere possibile effettuare le seguenti operazioni:
++
+** Visualizzare i profili creati con versioni precedenti o successive di SnapManager per l'host.
+** Accesso a backup o cloni creati in versioni precedenti o successive di SnapManager.
+** Eseguire operazioni di rollback o upgrade rollback sull'host.
+
+
+* Dopo aver separato i profili per creare i backup del registro di archiviazione, non è possibile eseguire un'operazione di rollback sul relativo repository host.
+
+
+*Limitazioni relative alle operazioni di backup*
+
+* Durante il ripristino, se il backup è già stato montato, SnapManager non esegue nuovamente il montaggio e utilizza il backup già montato.
++
+Se il backup viene montato da un altro utente e non si dispone dell'accesso al backup precedentemente montato, l'altro utente deve fornire l'autorizzazione.
+
++
+Tutti i file di log dell'archivio dispongono dei permessi di lettura per gli utenti assegnati a un gruppo; se il backup viene montato da un altro gruppo di utenti, potrebbe non essere possibile accedere al file di log dell'archivio. Gli utenti possono concedere manualmente l'autorizzazione ai file di registro dell'archivio montati, quindi riprovare l'operazione di ripristino o ripristino.
+
+* SnapManager imposta lo stato di backup come "`PROTECTED`", anche quando una delle copie Snapshot del backup del database viene trasferita al sistema di storage secondario.
+* È possibile utilizzare il file delle specifiche delle attività per il backup pianificato solo da SnapManager 3.2 o versione successiva.
+* Se il database del repository punta a più di un indirizzo IP e ciascun indirizzo IP ha un nome host diverso, l'operazione di pianificazione del backup viene eseguita correttamente per un indirizzo IP, ma non riesce per l'altro indirizzo IP.
+* Negli ambienti ONTAP, SnapManager non supporta più destinazioni secondarie per un volume di origine.
+
+
+*Limitazioni relative alle operazioni di ripristino*
+
+* SnapManager non supporta il ripristino dei backup del database mediante operazioni di ripristino rapido o basato su volume in Windows.
++
+SnapManager 3.3 visualizza un messaggio di errore quando si tenta di eseguire un'operazione di ripristino rapido dall'interfaccia utente di SnapManager.
+
+
+
+*Limitazioni relative alle operazioni di cloni*
+
+* SnapManager 3.3 o versioni successive non supporta l'utilizzo del file XML delle specifiche dei cloni creato nelle release precedenti a SnapManager 3.2.
+* Se gli spazi delle tabelle temporanei si trovano in una posizione diversa da quella dei file di dati, un'operazione di clonazione crea gli spazi delle tabelle nella posizione dei file di dati.
++
+Tuttavia, se gli spazi delle tabelle temporanei sono file gestiti Oracle (OMF) che si trovano in una posizione diversa da quella dei file di dati, l'operazione di clonazione non crea gli spazi delle tabelle nella posizione dei file di dati. Gli OMF non sono gestiti da SnapManager.
+
+* Se si seleziona, SnapManager non riesce a clonare un database RAC `-resetlogs` opzione.
+
+
+*Limitazioni relative ai file di log e ai backup dell'archivio*
+
+* SnapManager non supporta l'eliminazione dei file di log dell'archivio dalla destinazione dell'area di ripristino flash.
+* SnapManager non supporta l'eliminazione dei file di log dell'archivio dalla destinazione di standby.
+* I backup del registro di archiviazione vengono conservati in base alla durata della conservazione e alla classe di conservazione oraria predefinita.
++
+Quando la classe di conservazione del backup del registro di archiviazione viene modificata utilizzando l'interfaccia utente grafica o l'interfaccia utente grafica di SnapManager, la classe di conservazione modificata non viene considerata per il backup, in quanto i backup del registro di archiviazione vengono conservati in base alla durata della conservazione.
+
+* Se si eliminano i file di log dell'archivio dalle destinazioni del log dell'archivio, il backup del log dell'archivio non include i file di log dell'archivio precedenti al file di log dell'archivio mancante.
++
+Se manca l'ultimo file di log dell'archivio, l'operazione di backup del log dell'archivio non riesce.
+
+* Se si eliminano i file di log dell'archivio dalle destinazioni del log dell'archivio, l'eliminazione dei file di log dell'archivio non riesce.
+* SnapManager consolida i backup del log di archiviazione anche quando si eliminano i file di log di archiviazione dalle destinazioni del log di archiviazione o quando i file di log di archiviazione sono corrotti.
+
+
+*Limitazioni relative alla modifica del nome host del database di destinazione*
+
+Le seguenti operazioni SnapManager non sono supportate quando si modifica il nome host del database di destinazione:
+
+* Modifica del nome host del database di destinazione dalla GUI di SnapManager.
+* Eseguire il rollback del database del repository dopo aver aggiornato il nome host del database di destinazione del profilo.
+* Aggiornamento simultaneo di più profili per un nuovo nome host del database di destinazione.
+* Modifica del nome host del database di destinazione quando è in esecuzione un'operazione SnapManager.
+
+
+*Limitazioni relative alla CLI o alla GUI di SnapManager*
+
+* I comandi dell'interfaccia utente di SnapManager per `profile create` Le operazioni generate dalla GUI di SnapManager non dispongono di opzioni di configurazione della cronologia.
++
+Non è possibile utilizzare `profile create` Comando per configurare le impostazioni di conservazione della cronologia dalla CLI di SnapManager.
+
+* SnapManager non visualizza la GUI in Mozilla Firefox quando non è disponibile alcun ambiente di runtime Java sul client Windows.
+* SnapManager 3.3 non visualizza l'interfaccia grafica di SnapManager in Microsoft Internet Explorer 6 su Windows Server 2008 e Windows 7.
+* Durante l'aggiornamento del nome host del database di destinazione utilizzando l'interfaccia utente di SnapManager, se sono presenti una o più sessioni GUI di SnapManager aperte, tutte le sessioni GUI di SnapManager aperte non rispondono.
+* Quando si installa SnapManager su Windows e si avvia l'interfaccia CLI in UNIX, vengono visualizzate le funzionalità non supportate da Windows.
+
+
+*Limitazioni relative a SnapMirror e SnapVault*
+
+* In alcuni scenari, non è possibile eliminare l'ultimo backup associato alla prima copia Snapshot quando il volume ha una relazione SnapVault stabilita.
++
+È possibile eliminare il backup solo quando si rompe la relazione. Questo problema è dovuto a una restrizione ONTAP con copie Snapshot di base. In una relazione SnapMirror, la copia Snapshot di base viene creata dal motore SnapMirror e, in una relazione SnapVault, la copia Snapshot di base è il backup creato utilizzando SnapManager. Per ogni aggiornamento, la copia Snapshot di base indica il backup più recente creato utilizzando SnapManager.
+
+
+
+*Limitazioni relative ai database Data Guard Standby*
+
+* SnapManager non supporta i database di standby di protezione dati logica.
+* SnapManager non supporta i database di standby di Active Data Guard.
+* SnapManager non consente backup online dei database di standby di Data Guard.
+* SnapManager non consente backup parziali dei database di standby di Data Guard.
+* SnapManager non consente il ripristino dei database di standby di Data Guard.
+* SnapManager non consente l'eliminazione dei file di log dell'archivio per i database di standby Data Guard.
+* SnapManager non supporta Data Guard Broker.
+
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/["Documentazione sul sito di supporto NetApp"^]

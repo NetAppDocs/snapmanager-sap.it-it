@@ -1,0 +1,39 @@
+---
+permalink: unix-installation-cmode/task-post-rollback-tasks.html 
+sidebar: sidebar 
+keywords: perform, additional, step, rollback, repository, database, downgrade, snapmanager, schedule, version, post, tasks 
+summary: 'Per visualizzare le pianificazioni create nella versione precedente del database del repository, è necessario eseguire alcuni passaggi aggiuntivi dopo il rollback di un database del repository e il downgrade dell"host SnapManager da SnapManager 3.2 a SnapManager 3.0.' 
+---
+= Attività di post-rollback
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per visualizzare le pianificazioni create nella versione precedente del database del repository, è necessario eseguire alcuni passaggi aggiuntivi dopo il rollback di un database del repository e il downgrade dell'host SnapManager da SnapManager 3.2 a SnapManager 3.0.
+
+.Fasi
+. Selezionare `cd /opt/NetApp/smsap/repositories`.
++
+Il `repositories` la directory potrebbe contenere due file per ciascun repository. Il nome del file con il numero viene creato utilizzando SnapManager 3.1 o versione successiva e il nome del file con il trattino (-) viene creato utilizzando SnapManager 3.0.
+
++
+*Esempio*
+
++
+I nomi dei file potrebbero essere i seguenti:
+
++
+** `repository#SMSAP300a#SMSAPREPO1#10.72.197.141#1521`
+** `repository-smsap300a-smsaprepo1-10.72.197.141-1521`
+
+
+. Sostituire il segno del numero (n.) nel nome del file con il trattino (-).
++
+*Esempio*
+
++
+Il nome del file con il numero (n.), ora contiene il trattino (-): `repository-SMSAP300a-SMSAPREPO1-10.72.197.141-1521.`
+
+

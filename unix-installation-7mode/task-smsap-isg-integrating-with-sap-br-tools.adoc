@@ -1,0 +1,104 @@
+---
+permalink: unix-installation-7mode/task-smsap-isg-integrate-with-sap-br-tools.html 
+sidebar: sidebar 
+keywords: sap, br, tools, contain, sap, oracle, database, administration, brarchive, brbackup, brconnect, brrecover, brrestore, brspace, brtools, backint, snapmanager, backint, integrating 
+summary: 'I tool SAP BR* che contengono tool SAP per l"amministrazione dei database Oracle, ad esempio BRARCHIVE, BRBACKUP, BRCONNECT, BRRECOVER, BRRESTORE, BRSPACE e BRTOOLS utilizzano l"interfaccia BACKINT fornita da SnapManager per SAP. Per integrare SAP BR* Tools, è necessario creare un collegamento dalla directory BR* Tools a /opt/NetApp/smsap/bin/, dove è installato il file BACKINT.' 
+---
+= Integrazione con i tool SAP BR*
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I tool SAP BR* che contengono tool SAP per l'amministrazione dei database Oracle, ad esempio BRARCHIVE, BRBACKUP, BRCONNECT, BRRECOVER, BRRESTORE, BRSPACE e BRTOOLS utilizzano l'interfaccia BACKINT fornita da SnapManager per SAP. Per integrare SAP BR* Tools, è necessario creare un collegamento dalla directory BR* Tools a. ``/opt/NetApp/smsap/bin/,`` Dove è installato il file BACKINT.
+
+*Cosa ti serve*
+
+* È necessario assicurarsi di aver installato SAP BR* Tools.
+
+
+.Fasi
+. Creare un collegamento dalla directory BR*Tools a ``/opt/NetApp/smsap/bin/backint`` File per ogni istanza SAP.
++
+
+NOTE: È necessario utilizzare il link invece di copiare il file in modo che quando si installa una nuova versione di SnapManager, il link faccia riferimento alla nuova versione dell'interfaccia di BACKINT.
+
+. Impostare le credenziali per l'utente che esegue i comandi BR*Tools.
++
+L'utente del sistema operativo ha bisogno delle credenziali del repository, del profilo e del server SnapManager per SAP per supportare il backup e il ripristino dell'istanza SAP.
+
+. Specificare un nome di profilo diverso.
++
+Per impostazione predefinita, SnapManager utilizza il profilo con lo stesso nome dell'identificatore di sistema SAP durante l'elaborazione dei comandi da BR*Tools. Se questo identificatore di sistema non è univoco nell'ambiente, modificare `initSID.utl` File di inizializzazione SAP e creare un parametro per specificare il profilo corretto. Il `initSID.utl` il file si trova in `%ORACLE_HOME%\database`.
+
++
+*Esempio*
+
++
+Un esempio `initSID.utl` il file è il seguente:
+
++
+[listing]
+----
+# Backup Retention policy.
+# Specifies the retention / lifecycle of backups on the filer.
+#
+----------------------------------------------------------------------
+----------
+# Default Value: daily
+# Valid Values: unlimited/hourly/daily/weekly/monthly
+# retain = daily
+# Enabling Fast Restore.
+#
+----------------------------------------------------------------------
+----------
+# Default Value: fallback
+# Valid Values: require/fallback/off
+#
+# fast = fallback
+# Data Protection.
+#
+----------------------------------------------------------------------
+----------
+# Default Value: empty
+# Valid Values: empty/yes/no
+# protect =
+# profile_name = SID_BRTOOLS
+----
++
+
+NOTE: Il nome del parametro è sempre in minuscolo e i commenti devono avere un numero (n.).
+
+. Modificare il `initSID.sap` BR*Tools Configuration file (file di configurazione BR*Tools) eseguendo le seguenti operazioni:
++
+.. Aprire `initSID.sap` file.
+.. Individuare la sezione contenente le informazioni sul file dei parametri dell'utility di backup.
++
+*Esempio*
+
++
+[listing]
+----
+# backup utility parameter file
+# default: no parameter file
+# util_par_file =
+----
+.. Modificare l'ultima riga per includere `initSID.utl` file.
++
+*Esempio*
+
++
+[listing]
+----
+# backup utility parameter file
+# default: no parameter file
+# util_par_file = initSID.utl
+----
+
+
+
+
+*Al termine*
+
+Registrare l'interfaccia BACKINT nella System Landscape Directory (SLD) eseguendo il `backint register-sld` comando.

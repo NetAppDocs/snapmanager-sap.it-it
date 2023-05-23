@@ -1,0 +1,69 @@
+---
+permalink: windows/concept-database-state-needed-for-restore-process.html 
+sidebar: sidebar 
+keywords: state, database, restore, depend, process, perform, type, file 
+summary: Lo stato del database da ripristinare dipende dal tipo di processo di ripristino che si desidera eseguire e dal tipo di file da includere. 
+---
+= Stato del database necessario per il processo di ripristino
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lo stato del database da ripristinare dipende dal tipo di processo di ripristino che si desidera eseguire e dal tipo di file da includere.
+
+La tabella seguente elenca lo stato in cui il database deve essere in base all'opzione di ripristino selezionata e al tipo di file che si desidera includere nel ripristino:
+
+|===
+| Tipo di ripristino | File inclusi | Stato del database per questa istanza 
+
+
+ a| 
+Solo ripristino
+ a| 
+File di controllo
+ a| 
+Spegnere
+
+
+
+ a| 
+File di sistema
+ a| 
+Montare o spegnere
+
+
+
+ a| 
+Nessun file di sistema
+ a| 
+Qualsiasi stato
+
+
+
+ a| 
+Ripristino e ripristino
+ a| 
+File di controllo
+ a| 
+Spegnere
+
+
+
+ a| 
+File di sistema
+ a| 
+Montare
+
+
+
+ a| 
+Nessun file di sistema
+ a| 
+Montare o aprire
+
+|===
+Lo stato del database richiesto da SnapManager per un'operazione di ripristino dipende dal tipo di ripristino eseguito (file completi, parziali o di controllo). SnapManager non sposta il database in uno stato inferiore (ad esempio, da aperto a montato) a meno che non lo sia `force` opzione specificata.
+
+SnapManager per SAP non verifica se SAP è in esecuzione. SnapManager per SAP attende lo scadere di un timeout e quindi arresta il database, che può aggiungere un'ora di tempo di ripristino aggiuntivo.

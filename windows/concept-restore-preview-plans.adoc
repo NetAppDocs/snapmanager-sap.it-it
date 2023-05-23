@@ -1,0 +1,87 @@
+---
+permalink: windows/concept-restore-preview-plans.html 
+sidebar: sidebar 
+keywords: snapmanager, restore, plan, operation, preview, review, analyze, regard, method 
+summary: 'SnapManager fornisce piani di ripristino prima e dopo il completamento di un"operazione di ripristino. I piani di ripristino vengono utilizzati per visualizzare in anteprima, rivedere e analizzare i diversi metodi di ripristino.' 
+---
+= Quali sono i piani di anteprima del ripristino
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager fornisce piani di ripristino prima e dopo il completamento di un'operazione di ripristino. I piani di ripristino vengono utilizzati per visualizzare in anteprima, rivedere e analizzare i diversi metodi di ripristino.
+
+
+
+== Struttura del piano di ripristino
+
+Il piano di ripristino è costituito dalle seguenti due sezioni:
+
+* Anteprima/Rivedi: Questa sezione descrive come SnapManager ripristinerà (o ha ripristinato) ogni file.
+* Analisi: Questa sezione descrive il motivo per cui alcuni meccanismi di ripristino non sono stati utilizzati durante l'operazione di ripristino.
+
+
+
+
+== La sezione Anteprima/Rivedi
+
+Questa sezione mostra come ogni file sarà o è stato ripristinato. Quando si visualizza il piano di ripristino prima di un'operazione di ripristino, viene chiamato anteprima. Quando viene visualizzata dopo il completamento di un'operazione di ripristino, viene chiamata revisione.
+
+L'esempio di anteprima seguente mostra che i file vengono ripristinati utilizzando i metodi di ripristino del file system lato storage e lato storage. Per determinare il motivo per cui tutti i file non vengono ripristinati utilizzando lo stesso metodo di ripristino, vedere la sezione analisi.
+
+[listing]
+----
+Preview:
+The following files will be restored completely via: storage side full file system restore
+E:\rac6\sysaux.dbf
+E:\rac6\system.dbf
+----
+Ogni metodo di ripristino dispone di una sottosezione contenente informazioni sui file che possono essere ripristinati utilizzando tale metodo. Le sottosezioni vengono ordinate in base ai livelli di efficienza dei metodi di storage in diminuzione.
+
+È possibile ripristinare un file con più metodi di ripristino. I metodi di ripristino multipli vengono utilizzati quando i LUN (Logical Unit Number) sottostanti utilizzati per un file system sono distribuiti tra diversi volumi del sistema di storage e alcuni volumi sono idonei per il ripristino del volume, mentre altri no. Se si utilizzano più metodi di ripristino per ripristinare lo stesso file, la sezione di anteprima sarà simile a quanto segue:
+
+[listing]
+----
+The following files will be restored via a combination of:
+[storage side file system restore and storage side system restore]
+----
+
+
+== La sezione analisi
+
+La sezione analisi illustra i motivi per cui alcuni meccanismi di ripristino non vengono utilizzati o non sono stati utilizzati. È possibile utilizzare queste informazioni per determinare i requisiti necessari per attivare meccanismi di ripristino più efficienti.
+
+L'esempio seguente mostra una sezione di analisi:
+
+[listing]
+----
+Analysis:
+
+The following reasons prevent certain files from being
+restored completely via: storage side full file system restore
+   * LUNs present in snapshot of volume fas960:
+        \vol\disks may not be consistent when reverted:
+        [fas960:\vol\disks\DG4D1.lun]
+     Mapped LUNs in volume fas960:\vol\disks
+        not part of the restore scope will be reverted: [DG4D1.lun]
+
+Files to restore:
+     E:\disks\sysaux.dbf
+     E:\disks\system.dbf
+     E:\disks\undotbs1.dbf
+     E:\disks\undotbs2.dbf
+
+* Reasons denoted with an asterisk (*) are overridable.
+----
+Nell'esempio, è possibile eseguire l'override del primo errore dall'interfaccia della riga di comando (CLI) o selezionando *Override* nell'interfaccia grafica utente (GUI). Il secondo errore relativo alle LUN mappate nel volume è obbligatorio e non sovrascrivibile.
+
+Per risolvere i controlli, procedere come segue:
+
+* Per risolvere un errore di controllo obbligatorio, modificare l'ambiente in modo che il controllo venga superato.
+* Per risolvere un errore di controllo sovrascrivibile, è possibile modificare l'ambiente o eseguire l'override del controllo.
++
+Tuttavia, è necessario prestare attenzione perché l'override del controllo può causare conseguenze indesiderate.
+
+

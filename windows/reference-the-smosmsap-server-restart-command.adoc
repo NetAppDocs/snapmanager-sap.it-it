@@ -1,0 +1,48 @@
+---
+permalink: windows/reference-the-smosmsap-server-restart-command.html 
+sidebar: sidebar 
+keywords: command, restart, snapmanager, host, server, enter, root, smsap_server, smsap 
+summary: Questo comando riavvia il server host SnapManager e viene immesso come root. 
+---
+= Il comando smsap_server restart
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando riavvia il server host SnapManager e viene immesso come root.
+
+
+
+== Sintassi
+
+[listing]
+----
+smsap_server restart
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-quiet`*
++
+Specifica che sulla console vengono visualizzati solo i messaggi di errore. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Specifica che i messaggi di errore, di avviso e informativi vengono visualizzati sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente viene riavviato il server host.
+
+[listing]
+----
+smsap_server restart
+----

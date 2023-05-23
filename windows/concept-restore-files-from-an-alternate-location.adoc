@@ -1,0 +1,22 @@
+---
+permalink: windows/concept-restore-files-from-an-alternate-location.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, restore, data, file, control, location, snapshot, copies, copy, volume, alternate, location 
+summary: SnapManager consente di ripristinare i file di dati e i file di controllo da una posizione diversa da quella delle copie Snapshot nel volume originale. 
+---
+= Ripristinare i file da una posizione alternativa
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di ripristinare i file di dati e i file di controllo da una posizione diversa da quella delle copie Snapshot nel volume originale.
+
+La posizione originale corrisponde alla posizione del file sul file system attivo al momento del backup. La posizione alternativa è la posizione da cui verrà ripristinato un file.
+
+È possibile eseguire il ripristino da una posizione alternativa per ripristinare i file di dati da un file system intermedio a un file system attivo.
+
+Il recovery è automatizzato da SnapManager. Quando si ripristinano file da posizioni esterne, SnapManager utilizza `recovery automatic from location` comando.
+
+SnapManager utilizza anche Oracle Recovery Manager (RMAN) per ripristinare i file. I file da ripristinare devono essere riconoscibili da Oracle. I nomi dei file devono essere nel formato predefinito. Durante il ripristino dall'area di ripristino flash, SnapManager fornisce il percorso tradotto a Oracle. Oracle, tuttavia, non esegue il ripristino dall'area di ripristino flash perché non è in grado di generare il nome file corretto. Idealmente, l'area di ripristino flash è una destinazione destinata a funzionare con RMAN.

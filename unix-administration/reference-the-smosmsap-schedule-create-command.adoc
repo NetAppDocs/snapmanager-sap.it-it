@@ -1,0 +1,201 @@
+---
+permalink: unix-administration/reference-the-smosmsap-schedule-create-command.html 
+sidebar: sidebar 
+keywords: schedule, create, command, schedule, backup, smsap 
+summary: 'È possibile utilizzare il comando Schedule create per pianificare la creazione di un backup in un"ora specifica.' 
+---
+= Il comando ssrap schedule create
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare il comando Schedule create per pianificare la creazione di un backup in un'ora specifica.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap schedule create -profile _profile_name_
+[-full{-auto | -online | -offline}
+[-retain _-hourly_| _-daily_ | _-weekly_ | _-monthly_ | _-unlimited_] [-verify]] |
+pass:quotes[-data [[-files _files_ [_files_]] |
+pass:quotes[-tablespaces _tablespaces_ [_tablespaces_]] {-auto | -online | -offline}
+pass:quotes[[-retain _-hourly_ | -daily | _-weekly_ | _-monthly_ | _-unlimited_]] [-verify]] |
+[-archivelogs]}
+pass:quotes[[-label _label_]]
+pass:quotes[[-comment _comment_]]
+[-protect | -noprotect | -protectnow] pass:quotes[[-backup-dest _path1_ [ , _path2_]]
+pass:quotes[[-exclude-dest _path1_ [ , _path2_]]] pass:quotes[[-prunelogs {-all | -until-scn _until-scn_ | -until -date  _yyyy-MM-dd:HH:mm:ss_\] | -before {-months | -days | -weeks | -hours}}
+-prune-dest _prune_dest1_, [_prune_dest2_\]\]-schedule-name _schedule_name_
+[-schedule-comment _schedule_comment_\] -interval {_-hourly_ | _-daily_ | _-weekly_ | _-monthly_ | _-onetimeonly_}
+-cronstring _cron_string_-start-time {_start_time < yyyy-MM-dd HH:mm_>}
+-runasuser _runasuser_
+[-taskspec _taskspec_]]-force
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* `*-profile _profile_name_*`
++
+Specifica il nome del profilo correlato al database per il quale si desidera pianificare il backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* `*-auto`* *opzione*
++
+Se il database si trova nello stato montato o non in linea, SnapManager esegue un backup non in linea. Se il database si trova nello stato aperto o in linea, SnapManager esegue un backup in linea. Se si utilizza `-force` con `-offline` SnapManager impone un backup offline anche se il database è attualmente in linea.
+
+* `*-online*` *opzione*
++
+Specifica un backup del database online.
+
++
+È possibile creare un backup online di un database RAC (Real Application Clusters), purché il database primario sia aperto o montato e un'istanza sia aperta. È possibile utilizzare `-force` opzione per i backup online se l'istanza locale si trova nello stato di arresto o se non è aperta alcuna istanza.
+
++
+** Se l'istanza locale si trova nello stato di shutdown e almeno un'istanza è aperta, è possibile utilizzare l'opzione -force per modificare l'istanza locale in montato.
+** Se nessuna istanza è in stato aperto, è possibile utilizzare `-force` opzione per modificare l'istanza locale da aprire.
+
+
+* `*-offline`* *opzione*
++
+Specifica un backup offline mentre il database si trova in stato di arresto. Se il database si trova nello stato aperto o montato, il backup non viene eseguito correttamente. Se il `-force` Viene utilizzata l'opzione, SnapManager tenta di modificare lo stato del database per arrestare il database per un backup offline.
+
+* `*-full*` *opzione*
++
+Esegue il backup dell'intero database. Sono inclusi tutti i dati, il log archiviato e i file di controllo. Il backup dei log di ripristino e dei file di controllo archiviati viene eseguito indipendentemente dal tipo di backup eseguito. Se si desidera eseguire il backup solo di una parte del database, utilizzare `-files` opzione o. `-tablespaces` opzione.
+
+* `*-files _list_*`
++
+Esegue il backup solo dei file di dati specificati e dei file di log e di controllo archiviati. Separare l'elenco dei nomi dei file con spazi. Se il database è in stato aperto, SnapManager verifica che gli spazi delle tabelle appropriati siano in modalità di backup online.
+
+* `*-tablespaces _tablespaces_*`
++
+Esegue il backup solo degli spazi delle tabelle del database specificati e dei file di log e di controllo archiviati. Separare i nomi di tablespace con gli spazi. Se il database è in stato aperto, SnapManager verifica che gli spazi delle tabelle appropriati siano in modalità di backup online.
+
+* `*-label _name_*`
++
+Specifica un nome opzionale per questo backup. Questo nome deve essere univoco all'interno del profilo. Il nome può contenere lettere, numeri, caratteri di sottolineatura (_) e trattini (-). Non può iniziare con un trattino.
+
++
+Se non si specifica un'etichetta, SnapManager crea un'etichetta predefinita nel formato scope_type_date:
+
++
+** L'ambito è F per indicare un backup completo o P per indicare un backup parziale.
+** Digitare C per indicare un backup offline (cold), H per indicare un backup online (hot) o A per indicare un backup automatico, ad esempio P_A_20081010060037IST.
+** Data indica l'anno, il mese, il giorno e l'ora del backup.
++
+SnapManager utilizza un orologio a 24 ore.
+
+
+
++
+Ad esempio, se è stato eseguito un backup completo con il database offline il 16 gennaio 2007, alle 17:45:16 Ora standard orientale, SnapManager crea l'etichetta F_C_20070116174516EST.
+
+* `*-comment _string_*`
++
+Specifica un commento facoltativo per descrivere questo backup. Racchiudere la stringa tra virgolette singole (').
+
++
+
+NOTE: Alcuni shell disegna le virgolette. Se questo è vero per la shell, è necessario includere la virgoletta con una barra rovesciata (). Ad esempio, potrebbe essere necessario immettere: `\' this is a comment\'`.
+
+* `*-verify*` *opzione*
++
+Verifica che i file nel backup non siano corrotti eseguendo l'utility Oracle dbv.
+
++
+
+NOTE: Se si specifica `-verify` l'operazione di backup non viene completata fino al completamento dell'operazione di verifica.
+
+* `*-force`* *opzione*
++
+Forza una modifica dello stato se il database non si trova nello stato corretto. Ad esempio, SnapManager potrebbe modificare lo stato del database da online a offline, in base al tipo di backup specificato e allo stato in cui si trova il database.
+
++
+Con un backup online del database RAC, utilizzare `-force` opzione se l'istanza locale è in stato di arresto o se non è aperta alcuna istanza.
+
++
+
+NOTE: La versione di Oracle deve essere 10.2.0.5; in caso contrario, il database si blocca se viene montata una qualsiasi istanza del RAC.
+
++
+** Se l'istanza locale è in stato di arresto e almeno un'istanza è aperta, è possibile modificare l'istanza locale in montato utilizzando `-force` opzione.
+** Se non è aperta alcuna istanza, è possibile modificare l'istanza locale in modo che venga aperta utilizzando `-force` opzione.
+
+
+* `*-protect | -noprotect | -protectnow*`
++
+Indica se il backup deve essere protetto sullo storage secondario. Il `-noprotect` opzione specifica che il backup non deve essere protetto nello storage secondario. Sono protetti solo i backup completi. Se non viene specificata alcuna opzione, SnapManager protegge il backup come predefinito se si tratta di un backup completo e il profilo specifica un criterio di protezione. Il `-protectnow` L'opzione è disponibile solo per Data ONTAP in modalità 7. L'opzione specifica che il backup deve essere protetto immediatamente sullo storage secondario.
+
+* `*-retain { -hourly | -daily | -weekly | -monthly | -unlimited}*`
++
+Specifica se il backup deve essere conservato su base oraria, giornaliera, settimanale, mensile o illimitata. Se `-retain` opzione non specificata, per impostazione predefinita la classe di conservazione è `-hourly`. Per conservare i backup per sempre, utilizzare `-unlimited` opzione. Il `-unlimited` l'opzione rende il backup non idoneo per l'eliminazione in base al criterio di conservazione.
+
+* `*-archivelogs*`
++
+Specifica la creazione di un backup del log di archiviazione.
+
+* `*-backup-dest _path1_, [, _[path2]_]*`
++
+Specifica le destinazioni del registro di archiviazione per il backup del registro di archiviazione.
+
+* `*-exclude-dest _path1_, [, _[path2]_]*`
++
+Specifica le destinazioni del registro di archiviazione da escludere dal backup.
+
+* `*-prunelogs {-all | -until-scnuntil-scn | -until-dateyyyy-MM-dd:HH:mm:ss | -before {-months | -days | -weeks | -hours}*`
++
+Specifica se eliminare i file di log dell'archivio dalle destinazioni del log dell'archivio in base alle opzioni fornite durante la creazione di un backup. Il `-all option` elimina tutti i file di log dell'archivio dalle destinazioni del log dell'archivio. Il `-until-scn` Consente di eliminare i file di log dell'archivio fino a quando non viene specificato un numero SCN (System Change Number). Il `-until-date` consente di eliminare i file di log dell'archivio fino al periodo di tempo specificato. Il `-before` consente di eliminare i file di log dell'archivio prima del periodo di tempo specificato (giorni, mesi, settimane, ore).
+
+* `*-schedule-name _schedule_name_*`
++
+Specifica il nome fornito per la pianificazione.
+
+* `*-schedule-comment _schedule_comment_*`
++
+Specifica un commento facoltativo da descrivere sulla pianificazione del backup.
+
+* `*-interval { -hourly | -daily | -weekly | -monthly | -onetimeonly}*`
++
+Specifica l'intervallo di tempo in base al quale vengono creati i backup. È possibile pianificare il backup su base oraria, giornaliera, settimanale, mensile o una sola volta.
+
+* `*-cronstring _cron_string_*`
++
+Specifica la pianificazione del backup mediante cronstring. Le espressioni cron vengono utilizzate per configurare le istanze di CronTrigger. Le espressioni cron sono stringhe composte dalle seguenti sottoespressioni:
+
++
+** 1 si riferisce ai secondi.
+** 2 indica i minuti.
+** 3 si riferisce alle ore.
+** 4 si riferisce a un giorno in un mese.
+** 5 si riferisce al mese.
+** 6 si riferisce a un giorno in una settimana.
+** 7 si riferisce all'anno (facoltativo).
+
+
+* `*-start-time _yyyy-MM-dd HH:mm_*`
++
+Specifica l'ora di inizio dell'operazione pianificata. L'ora di inizio della pianificazione deve essere inclusa nel formato yyyy-MM-dd HH:mm.
+
+* `*-runasuser _runasuser_*`
++
+Specifica la modifica dell'utente (utente root o utente Oracle) dell'operazione di backup pianificata durante la pianificazione del backup.
+
+* `*-taskspec _taskspec_*`
++
+Specifica il file XML della specifica dell'attività che può essere utilizzato per l'attività di pre-elaborazione o di post-elaborazione dell'operazione di backup. Il percorso completo del file XML deve essere fornito con `-taskspec` opzione.
+
+* `*-quiet*`
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* `*-verbose*`
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+

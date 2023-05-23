@@ -1,0 +1,16 @@
+---
+permalink: unix-administration/concept-snapmanager-for-oraclesnapmanager-for-sap-uses-protection-manager-to-protect-a-database-backup.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, protection, manager, install, unix, host, server, respectively, database, administrator, dba, primary, storage, backup 
+summary: 'SnapManager per SAP e Protection Manager, se installato rispettivamente su un host UNIX e sul server, consente all"amministratore del database SnapManager di configurare ed eseguire backup del database Oracle basati su policy su storage secondario, e ripristinare, se necessario, i dati di cui è stato eseguito il backup dallo storage secondario a quello primario.' 
+---
+= SnapManager per SAP utilizza Gestione protezione per proteggere un backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP e Protection Manager, se installato rispettivamente su un host UNIX e sul server, consente all'amministratore del database SnapManager di configurare ed eseguire backup del database Oracle basati su policy su storage secondario, e ripristinare, se necessario, i dati di cui è stato eseguito il backup dallo storage secondario a quello primario.
+
+Nell'esempio seguente, un amministratore di database, che utilizza SnapManager, crea un profilo per un backup locale sullo storage primario e un altro profilo per un backup protetto sullo storage secondario. Quindi, questo DBA collabora con l'amministratore dello storage di rete, che utilizza la console di Protection Manager, per configurare un backup basato su policy del database dallo storage primario a quello secondario.

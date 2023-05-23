@@ -1,0 +1,25 @@
+---
+permalink: windows/concept-restore-backups-from-an-alternate-location-overview.html 
+sidebar: sidebar 
+keywords: restore, database, backup, alternate, location, section, overview 
+summary: Per ripristinare un backup del database da una posizione alternativa, attenersi alla seguente procedura, ciascuna delle quali è descritta più avanti in questa sezione. 
+---
+= Ripristinare i backup da una panoramica di posizione alternativa
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per ripristinare un backup del database da una posizione alternativa, attenersi alla seguente procedura, ciascuna delle quali è descritta più avanti in questa sezione.
+
+* Eseguire una delle seguenti operazioni, a seconda del layout del database e dei fattori da ripristinare:
++
+** Ripristinare i file di dati richiesti da nastro, SnapVault, SnapMirror o qualsiasi altro supporto su qualsiasi file system montato sull'host del database.
+** Ripristinare il file system richiesto e montarlo sull'host del database.
+** Connettersi ai dispositivi raw richiesti presenti nell'host locale.
+
+
+* Creare un file XML (Extensible Markup Language) con specifica di ripristino che includa le mappature richieste da SnapManager per il ripristino dalla posizione alternativa alla posizione originale. Salvare il file in una posizione a cui SnapManager può accedere.
+* Utilizzare SnapManager per ripristinare e ripristinare i dati utilizzando il file XML delle specifiche di ripristino.
+

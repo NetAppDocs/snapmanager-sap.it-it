@@ -1,0 +1,35 @@
+---
+permalink: unix-administration/concept-full-online-backups.html 
+sidebar: sidebar 
+keywords: full, online, backup, snapmanager, database, create, snapshot, copies, copy, volume, level, tablespace 
+summary: 'Durante un backup online completo, SnapManager esegue il backup dell"intero database e crea copie Snapshot a livello di volume (non a livello di tablespace).' 
+---
+= Backup online completi
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durante un backup online completo, SnapManager esegue il backup dell'intero database e crea copie Snapshot a livello di volume (non a livello di tablespace).
+
+SnapManager crea due copie Snapshot per ogni backup. Se tutti i file necessari al database si trovano in un singolo volume, entrambe le copie Snapshot vengono visualizzate in tale volume.
+
+Quando si specifica un backup completo, SnapManager esegue le seguenti operazioni:
+
+. Consente di attivare la modalità di backup online per l'intero database
+. Crea copie Snapshot di tutti i volumi contenenti file di database
+. Consente di estrarre il database dalla modalità di backup online
+. Forza uno switch di log e quindi archivia i file di log
++
+In questo modo, le informazioni di ripristino vengono anche svuotate sul disco.
+
+. Genera file di controllo del backup
+. Crea una copia Snapshot dei file di log e dei file di controllo del backup
+
+
+Quando si esegue un backup completo, SnapManager attiva l'intero database in modalità di backup online. Un singolo tablespace (ad esempio, `/oracle/CER/sapdata1/system_1/system.data1`) è in modalità di backup online più lungo di alcuni spazi delle tabelle o dei file di dati specificati.
+
+Quando un database entra in modalità di backup, Oracle scrive interi blocchi nei registri e non scrive semplicemente il delta tra i backup. Poiché i database funzionano di più in modalità di backup online, la scelta di un backup completo comporta un carico maggiore sull'host.
+
+Anche se l'esecuzione di backup completi comporta un carico maggiore sull'host, i backup completi richiedono meno copie Snapshot, con conseguente riduzione dei requisiti di storage.

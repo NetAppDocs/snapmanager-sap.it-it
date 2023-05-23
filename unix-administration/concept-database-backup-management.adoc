@@ -1,0 +1,70 @@
+---
+permalink: unix-administration/concept-database-backup-management.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, data, local, storage, resource, post-processing, script, protect, secondary, tertiary, additional, layer, disaster, back, up, database 
+summary: NapManager consente il backup dei dati sulle risorse di storage locali utilizzando script di post-elaborazione o proteggendo i backup su risorse di storage secondarie o terziarie. La scelta di eseguire il backup sullo storage secondario offre un layer aggiuntivo che preserva i dati in caso di disastro. 
+---
+= Backup dei database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di eseguire il backup dei dati sulle risorse di storage locali utilizzando script di post-elaborazione proteggendo i backup su risorse di storage secondarie o terziarie. La scelta di eseguire il backup sullo storage secondario offre un layer aggiuntivo che preserva i dati in caso di disastro.
+
+SnapManager consente inoltre agli amministratori dello storage di configurare i propri backup in base ai piani di policy. Utilizzando SnapManager, gli amministratori possono identificare i backup non conformi ai requisiti delle policy e correggerli immediatamente.
+
+SnapManager offre le seguenti opzioni per eseguire il backup, il ripristino e il ripristino dei dati nel database:
+
+* Eseguire il backup dell'intero database o di una parte di esso.
++
+Se si esegue il backup di una parte di esso, specificare un gruppo di tablespace o un gruppo di file di dati.
+
+* Eseguire il backup dei file di dati e archiviare i file di log separatamente.
+* Eseguire il backup dei database nello storage primario (detto anche storage locale) e proteggerli eseguendo il backup su storage secondario o terzo (detto anche storage remoto).
+* Pianificare backup di routine.
+
+
+*In che modo SnapManager (3.2 o versioni successive) differisce dalle versioni precedenti di SnapManager*
+
+SnapManager (3.1 o versioni precedenti) consente di creare backup completi del database che contengono file di dati, file di controllo e file di log dell'archivio.
+
+SnapManager (3.1 o versioni precedenti) gestisce solo i file di dati. I file di log dell'archivio vengono gestiti utilizzando soluzioni esterne a SnapManager.
+
+SnapManager (3.1 o versioni precedenti) impone i seguenti limiti nella gestione dei backup del database:
+
+* Impatto delle performance
++
+Quando si esegue un backup completo del database online (quando il database è in modalità di backup), le prestazioni del database si riducono per il periodo di tempo fino alla creazione del backup. In SnapManager (3.2 o versioni successive), è possibile eseguire backup del database limitati e frequenti backup del registro di archiviazione. L'esecuzione di frequenti backup dei log di archiviazione consente di impedire che il database venga inserito in modalità di backup.
+
+* Ripristino e ripristino manuali
++
+Quando i file di log dell'archivio richiesti non esistono nel file system attivo, gli amministratori del database devono identificare il backup che contiene i file di log dell'archivio, montare i backup del database e ripristinare il database ripristinato. Questo processo richiede molto tempo.
+
+* Limiti di spazio
++
+Quando viene creato un backup del database, le destinazioni del registro di archiviazione diventano piene, causando la mancata risposta del database fino a quando non viene creato spazio sufficiente sullo storage. In SnapManager (3.2 o versioni successive), i file di log dell'archivio possono essere eliminati periodicamente dal file system attivo per liberare spazio.
+
+
+
+*Perché i backup dei log di archiviazione sono importanti*
+
+I file di log dell'archivio sono necessari per far avanzare il database dopo l'esecuzione di un'operazione di ripristino. Ogni transazione su un database Oracle viene acquisita nei file di log dell'archivio (se il database si trova in modalità di log dell'archivio). Gli amministratori del database possono ripristinare i backup del database utilizzando i file di log dell'archivio.
+
+*Vantaggi dei backup solo per l'archiviazione*
+
+* Fornisce una durata di conservazione separata per i backup di solo archiviazione
++
+È possibile ridurre la durata della conservazione per i backup di solo archivionecessari per il ripristino.
+
+* Protegge i backup solo archiviando in base alle policy di protezione dei log di archiviazione
++
+È possibile selezionare criteri di protezione diversi per i backup solo di archiviazione in base ai requisiti.
+
+* Migliora le performance del database
+* Consolida i backup dei log di archiviazione
++
+SnapManager consolida i backup dei log di archiviazione ogni volta che si esegue un backup liberando i backup dei log di archiviazione duplicati.
+
+

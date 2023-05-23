@@ -1,0 +1,25 @@
+---
+permalink: unix-administration/task-delete-profile.html 
+sidebar: sidebar 
+keywords: delete, profile, successful, backup, current, operation, free, backup, deleting 
+summary: È possibile eliminare un profilo purché non contenga backup riusciti attualmente utilizzati in altre operazioni. È possibile eliminare i profili che contengono backup liberati o cancellati. 
+---
+= Eliminare un profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eliminare un profilo purché non contenga backup riusciti attualmente utilizzati in altre operazioni. È possibile eliminare i profili che contengono backup liberati o cancellati.
+
+. Immettere il seguente comando: `smsap profile delete -profileprofile [-quiet | -verbose]`
++
+È possibile eliminare un nuovo profilo creato per la divisione clone. Durante l'eliminazione, nell'interfaccia della riga di comando di SnapManager viene visualizzato il messaggio di avviso Impossibile distruggere il profilo in un secondo momento.
+
+
+
+[listing]
+----
+smsap profile delete -profile AUTO-REVEN
+----

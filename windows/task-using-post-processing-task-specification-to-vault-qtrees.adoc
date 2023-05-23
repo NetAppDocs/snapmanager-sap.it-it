@@ -1,0 +1,55 @@
+---
+permalink: windows/task-using-post-processing-task-specification-to-vault-qtrees.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, enable, script, vault, qtrees, backup, operation, windows, environment, post-process, task, specification 
+summary: 'SnapManager per SAP consente di utilizzare lo script per eseguire il vault dei qtree dopo l"esecuzione dell"operazione di backup in un ambiente Windows.' 
+---
+= Utilizzo della specifica dell'attività di post-elaborazione per il vault dei qtree
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP consente di utilizzare lo script per eseguire il vault dei qtree dopo l'esecuzione dell'operazione di backup in un ambiente Windows.
+
+. Creare un file XML per la specifica dell'attività.
+. Nel file XML, inserire il nome dello script come parametro di input.
+. Salvare il file XML delle specifiche dell'attività.
+. Creare un backup protetto del database sullo storage secondario utilizzando il seguente comando.
++
+Durante la creazione del backup protetto, è necessario fornire il percorso completo del file XML delle specifiche dell'attività salvato dopo l'opzione -taskspec.
+
++
+Esempio: Smsapbackup create -profile test_profile -full -online -taskspec "C: snapvault.xml"
+
+
+
+L'esempio seguente mostra la struttura delle specifiche delle attività di post-elaborazione se si utilizza Data ONTAP in 7-Mode:
+
+[listing]
+----
+# <post-tasks>
+#                <task>
+#                  <name>Vault the backup</name>
+#                   <description>Vault the backup</description>
+#              </task>
+#         <post-tasks>
+----
+Nell'esempio seguente viene illustrata la struttura delle specifiche delle attività di post-elaborazione se si utilizza Clustered Data ONTAP:
+
+[listing]
+----
+# <task-specification>
+#                <post-tasks>
+#                  <task>
+#                   <name>"Vault the backup for cDOT"</name>
+#                 <parameter>
+#                    <name>SNAPSHOT_LABEL</name>
+#                    <value>TST</value>
+#                    </parameter>
+#                  </task>
+#                </post-tasks>
+#              </task-specification>
+#            </preposttask-specification>
+----

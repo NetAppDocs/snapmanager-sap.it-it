@@ -1,0 +1,63 @@
+---
+permalink: windows/reference-the-smosmsap-operation-show-command.html 
+sidebar: sidebar 
+keywords: run, operation, show, command, list, summary, information, profile, client, user, pc, smsap 
+summary: 'È possibile eseguire il comando show dell"operazione per elencare le informazioni di riepilogo di tutte le operazioni eseguite rispetto al profilo specificato. L"output elenca l"utente client (l"utente per il PC client) e l"utente effettivo (l"utente in SnapManager valido sull"host selezionato).' 
+---
+= Il comando show dell'operazione sspap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `operation show` per elencare le informazioni di riepilogo di tutte le operazioni eseguite in base al profilo specificato. L'output elenca l'utente client (l'utente per il PC client) e l'utente effettivo (l'utente in SnapManager valido sull'host selezionato).
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap operation show
+-profile profile_name
+[-label label | -id id]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* *`-label _label_`*
++
+Specifica l'etichetta per l'operazione.
+
+* *`-id _id_`*
++
+Specifica l'identificativo dell'operazione.
+
+* *`-quiet`*
++
+Facoltativo: Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Facoltativo: Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio
+
+La seguente riga di comando mostra informazioni dettagliate su un'operazione:
+
+[listing]
+----
+smsap operation show -id 8ac861781d0ac992011d0ac999680001  -profile CER
+----

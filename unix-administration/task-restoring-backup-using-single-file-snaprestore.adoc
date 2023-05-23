@@ -1,0 +1,50 @@
+---
+permalink: unix-administration/task-restore-backup-using-single-file-snaprestore.html 
+sidebar: sidebar 
+keywords: restore, backup, single, file, snaprestore, sfsr, method, restoring 
+summary: 'È possibile ripristinare i backup utilizzando il metodo SFSR (Single file SnapRestore).' 
+---
+= Ripristinare i backup utilizzando Single file SnapRestore
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile ripristinare i backup utilizzando il metodo SFSR (Single file SnapRestore).
+
+.Fasi
+. Creare un profilo dall'interfaccia grafica utente (GUI) di SnapManager.
+. Eseguire il backup del database utilizzando la GUI.
+. Scollegare i gruppi di servizi Oracle e NFS (Network file System) dai gruppi di servizi cluster e bloccarli.
+. Assicurarsi che la shell sicura (SSH) sia configurata tra gli host e SnapDrive per UNIX tramite l'impostazione `_#secure-communication-among-cluster-nodes_` a. `*on*` in `snapdrive.conf` file.
+. Dalla GUI di SnapManager, eseguire il ripristino e il ripristino completi del backup utilizzando `--alllogs`.
+. Sbloccare i gruppi di servizi e collegarli nuovamente al gruppo di servizi del cluster.
++
+
+NOTE: Questa configurazione è applicabile solo quando si utilizza SnapDrive 4.1.1 D2 per UNIX e SnapDrive 4.2 per UNIX.
+
++
+Se un'operazione di ripristino è seguita da un'altra operazione di ripristino, è possibile che la creazione della copia Snapshot di backup non riesca. Se si eseguono operazioni di ripristino successive entro il tempo specificato per il completamento di SFSR, SnapManager per SAP riscontrerà errori di creazione della copia Snapshot.
+
++
+Per evitare errori di creazione delle copie Snapshot, assicurarsi che le operazioni di ripristino vengano eseguite dopo il periodo di tempo durante il quale SFSR è in corso.
+
++
+A tale scopo, controllare lo stato del processo di split del clone del LUN immettendo il seguente comando dall'interfaccia della riga di comando (CLI) del sistema di storage:
+
++
+`*rsh _filernname_ lun clone split status _lun-name_*`
+
++
+[listing]
+----
+
+Sample Output:
+/vol/delaware_760gb/lun700gb (64% complete)..
+----
++
+
+NOTE: VBSR (Volume-Based SnapRestore) non è supportato sugli host Solaris che eseguono lo stack Veritas con ambienti SFRAC e VCS.
+
+

@@ -1,0 +1,135 @@
+---
+permalink: unix-administration/concept-what-database-restore-is.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, volume-based, file-based, backup, restore, operation, database, restore 
+summary: SnapManager consente di eseguire operazioni di backup e ripristino basate su volume o file. 
+---
+= Che cos'è il ripristino del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di eseguire operazioni di backup e ripristino basate su volume o su file.
+
+La seguente tabella descrive i metodi di ripristino:
+
+[cols="1a,3a"]
+|===
+| Processo di ripristino | Dettagli 
+
+
+ a| 
+Ripristini rapidi basati su volume (dallo storage primario)
+ a| 
+SnapManager ripristina i file di dati di un database ripristinando un volume completo. Questo processo predefinito è il metodo più rapido per il ripristino del database.
+
+
+
+ a| 
+Ripristini basati su file
+ a| 
+Ripristino completo del file system lato storage (da primario o secondario): SnapManager esegue un ripristino completo del numero di unità logica (LUN).
+
+
+
+ a| 
+Ripristino file lato storage: SnapManager esegue un singolo ripristino snap-file (SFSR) in un ambiente NAS. In un SFSR, vengono ripristinati tutti i file o LUN che rappresentano gli oggetti protetti.
+
+
+
+ a| 
+Ripristino della copia del file lato host (da primario o secondario): SnapManager clona il backup locale utilizzando un LUN o un FlexClone. Il clone viene montato e SnapManager copia i file host dal clone nel file system attivo.
+
+|===
+
+NOTE: Non è possibile ripristinare un backup dallo storage secondario, se il backup esiste anche nello storage primario.
+
+Una volta completata l'operazione di ripristino rapido, SnapManager esegue le seguenti operazioni:
+
+* Libera i backup più recenti (eseguiti dopo il ripristino del backup) nello stesso profilo, perché le copie Snapshot non esistono più sullo storage primario.
+* Elimina tutte le copie Snapshot per i backup nello stesso profilo in cui le copie Snapshot venivano eliminate automaticamente dal processo di ripristino rapido.
++
+In questo modo si evita che i backup vengano parzialmente liberati. Ad esempio, è stato creato prima Backup_A e poi Backup_B. Ciascuno di essi dispone di una copia Snapshot per i file di dati e di una per i registri di archiviazione. Dopo che SnapManager ha ripristinato Backup_A utilizzando il processo di ripristino rapido, SnapManager elimina automaticamente la copia Snapshot del file di dati da Backup_B. Poiché il log di archiviazione non viene ripristinato durante il processo di ripristino rapido, SnapManager deve eliminare la copia Snapshot dei log di archiviazione di Backup_B al termine del processo di ripristino rapido.
+
+
+
+
+
+== Ripristino rapido
+
+Il ripristino rapido o basato su volume è così chiamato perché è il metodo di ripristino più veloce possibile. L'intero volume del sistema di storage viene reimpostato su una copia Snapshot. A livello di storage, questo ripristino è quasi istantaneo. Tuttavia, l'esecuzione di un ripristino di un volume può avere le seguenti conseguenze negative e pertanto deve essere utilizzata con cautela:
+
+* L'intero volume lato storage viene invertito, tra cui:
++
+** File non considerati come parte del backup
+** Altri file, file system o LUN sul volume
+
+
+* Tutte le copie Snapshot create dopo la copia Snapshot in cui viene eseguito il ripristino del volume vengono eliminate.
++
+Ad esempio, non è più possibile ripristinare il backup di martedì se il volume è stato ripristinato il backup di lunedì.
+
+* Le relazioni con i sistemi storage secondari vengono interrotte se la copia Snapshot ripristinata è precedente alla copia Snapshot di riferimento nella relazione.
+
+
+
+
+== Ripristino completo del file system lato storage
+
+Un ripristino completo del file system lato storage viene eseguito quando non è possibile eseguire un ripristino del volume, ma è possibile ripristinare l'intero file system sul sistema storage.
+
+Quando viene eseguito un ripristino del file system lato storage, si verifica quanto segue:
+
+* In un ambiente SAN, tutte le LUN utilizzate dal file system (e se presenti nel gruppo di volumi sottostante) vengono ripristinate nel sistema di storage.
+* In un ambiente NAS, ogni file nel file system viene ripristinato sul sistema di storage.
++
+Per gli ambienti NAS, questo meccanismo di ripristino non offre ulteriori vantaggi rispetto al ripristino dei file lato storage.
+
+
+
+Quando viene eseguito un ripristino del file system lato storage, a seconda della posizione di storage si verifica quanto segue:
+
+* Quando SnapManager viene ripristinato dai sistemi di storage primari, i LUN (SAN) o i file (NAS) vengono ripristinati in posizione tramite SFSR.
+* Quando SnapManager viene ripristinato dai sistemi di storage secondari, i LUN (SAN) o i file (NAS) vengono copiati dai sistemi di storage secondari di nuovo nel sistema di storage primario sulla rete.
+
+
+Poiché il file system è completamente ripristinato, vengono ripristinati anche i file che non fanno parte del backup. È necessario eseguire un override se nel file system che si sta ripristinando sono presenti file che non fanno parte del ripristino.
+
+
+
+== Ripristino dei file sul lato storage
+
+Talvolta, il ripristino del file dal lato dello storage viene eseguito quando non è possibile eseguire un ripristino del file system dal lato dello storage. In un ripristino dei file dal lato dello storage, i singoli file all'interno di un file system vengono ripristinati direttamente sui sistemi di storage.
+
+Questo tipo di ripristino può essere eseguito solo in ambienti NFS o in alcuni casi in ambienti ASM.
+
+Quando viene eseguito un ripristino del file dal lato dello storage, si verifica quanto segue:
+
+* Quando SnapManager ripristina i file NFS dai sistemi di storage primari, i singoli file vengono ripristinati utilizzando SFSR.
+* Quando SnapManager ripristina i file NFS dai sistemi di storage secondari, i singoli file vengono copiati di nuovo nel sistema di storage primario sulla rete di storage.
+
+
+
+
+== Ripristino del file sul lato host
+
+Un ripristino della copia del file lato host viene utilizzato come ultima risorsa negli ambienti SAN quando non è possibile eseguire il ripristino rapido, il ripristino del file system lato storage e il ripristino del file lato storage.
+
+Il ripristino di una copia del file lato host richiede le seguenti operazioni:
+
+* Clonazione dello storage
+* Connessione dello storage clonato all'host
+* Copia dei file dal file system clone nei file system attivi
+* Disconnessione dello storage clone dall'host
+* Eliminazione dello storage clone
+
+
+Durante il ripristino dallo storage secondario, SnapManager tenta innanzitutto di ripristinare i dati direttamente dal sistema di storage secondario al sistema di storage primario (senza coinvolgere l'host). Se SnapManager non è in grado di eseguire questo tipo di ripristino (ad esempio, se in un file system sono presenti file che non fanno parte del ripristino), SnapManager eseguirà il ripristino della copia del file sul lato host. SnapManager offre due metodi per eseguire un ripristino della copia del file sul lato host dallo storage secondario. Il metodo selezionato da SnapManager viene configurato in `smsap.config` file.
+
+* Diretto: SnapManager clona i dati sullo storage secondario, monta i dati clonati dal sistema di storage secondario sull'host e copia i dati dal clone nell'ambiente attivo. Questo è il criterio di accesso secondario predefinito.
+* Indiretto: SnapManager copia prima i dati in un volume temporaneo sullo storage primario, quindi monta i dati dal volume temporaneo all'host, quindi copia i dati dal volume temporaneo nell'ambiente attivo. Questo criterio di accesso secondario deve essere utilizzato solo se l'host non dispone di accesso diretto al sistema di storage secondario. I ripristini con questo metodo richiedono il doppio del tempo rispetto al criterio di accesso secondario diretto, poiché vengono eseguite due copie dei dati.
+
+
+La decisione di utilizzare il metodo diretto o indiretto è controllata dal valore di `restore.secondaryAccessPolicy` nel `smsap.config` file di configurazione. L'impostazione predefinita è Direct (diretto).

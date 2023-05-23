@@ -1,0 +1,57 @@
+---
+permalink: windows/task-previewing-backup-restore-information.html 
+sidebar: sidebar 
+keywords: preview, information, backup, restore, process, snapmanager, sap, analyze, determine, successful 
+summary: 'È possibile visualizzare in anteprima le informazioni relative a un processo di ripristino del backup prima che si verifichi, per visualizzare le informazioni sull"idoneità al ripristino rilevate da SnapManager per SAP nel backup. SnapManager analizza i dati del backup per determinare se il processo di ripristino può essere completato correttamente.' 
+---
+= Visualizzazione in anteprima delle informazioni di ripristino del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare in anteprima le informazioni relative a un processo di ripristino del backup prima che si verifichi, per visualizzare le informazioni sull'idoneità al ripristino rilevate da SnapManager per SAP nel backup. SnapManager analizza i dati del backup per determinare se il processo di ripristino può essere completato correttamente.
+
+L'anteprima di ripristino fornisce le seguenti informazioni:
+
+* Quale meccanismo di ripristino (ripristino del file system lato storage, ripristino del file lato storage o ripristino della copia del file lato host) può essere utilizzato per ripristinare ciascun file.
+* Perché non sono stati utilizzati meccanismi più efficienti per ripristinare ciascun file, quando si specifica l'opzione -verbose.
+
+
+Se si specifica l'opzione di anteprima nel comando di ripristino del backup, SnapManager non ripristina nulla, ma elenca i file da ripristinare e indica come verranno ripristinati.
+
+
+NOTE: È possibile visualizzare in anteprima tutti i tipi di meccanismi di ripristino. L'anteprima mostra informazioni su un massimo di 20 file.
+
+. Immettere il seguente comando:``smsap backup restore -profileprofile_name-labellabel-complete -preview -verbose``
++
+Ad esempio, immettere:
+
++
+[listing]
+----
+smsap backup restore -profile targetdb1_prof1
+      -label full_bkup_sales_nov_08  -complete -preview -verbose
+----
++
+L'esempio seguente mostra i file pronti per il ripristino ed elenca i diversi metodi utilizzati per ciascuno di essi:
+
++
+[listing]
+----
+The following files will be restored via storage side full file system
+restore:
+E:\disks\sysaux.dbf
+E:\disks\system.dbf
+
+The following files will be restored via host side file copy restore:
+E:\disks\undotbs1.dbf
+E:\disks\undotbs2.dbf
+----
+. Esaminare i motivi per cui non è possibile utilizzare altri processi di ripristino.
+. Avviare l'operazione di ripristino senza l'opzione -preview, se vengono visualizzati solo i motivi che possono essere sovrascrivibili.
++
+È comunque possibile eseguire l'override dei controlli non obbligatori.
+
+

@@ -1,0 +1,33 @@
+---
+permalink: windows/task-create-operation-level-dump-files.html 
+sidebar: sidebar 
+keywords: smsap, operation, dump, command, name, id, fail, log, information, level, profile, host, environment, create, operation-level 
+summary: 'È possibile utilizzare il comando dump dell"operazione ssap con il nome o l"ID dell"operazione non riuscita per ottenere informazioni di log su una determinata operazione. È possibile specificare diversi livelli di log per raccogliere informazioni su un"operazione, un profilo, un host o un ambiente specifico.' 
+---
+= Creare file dump a livello operativo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare `smsap operation dump` Comando con il nome o l'ID dell'operazione non riuscita per ottenere informazioni di registro su una determinata operazione. È possibile specificare diversi livelli di log per raccogliere informazioni su un'operazione, un profilo, un host o un ambiente specifico.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap operation dump -id _guid_*`
+
++
+
+NOTE: Il `smsap operation dump` il comando fornisce un set completo delle informazioni fornite da `smsap profile dump` comando, che a sua volta fornisce un insieme eccellente delle informazioni fornite da `smsap system dump` comando.
+
++
+Posizione del file di dump:
+
++
+[listing]
+----
+Path:\<user-home>\Application Data\NetApp\smsap\3.3.0\smsap_dump_8abc01c814649ebd0114649ec69d0001.jar
+----
+

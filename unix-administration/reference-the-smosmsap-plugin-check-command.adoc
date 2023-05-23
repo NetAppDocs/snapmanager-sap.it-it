@@ -1,0 +1,69 @@
+---
+permalink: unix-administration/reference-the-smosmsap-plugin-check-command.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, install, custom, script, operation, backup, restore, clone, plug-in, automate, custom, restore, smsap, plugin, check 
+summary: 'SnapManager consente di installare e utilizzare script personalizzati per varie operazioni. SnapManager offre plug-in di backup, ripristino e clonazione per automatizzare gli script personalizzati prima e dopo le operazioni di backup, ripristino e clonazione. Prima di utilizzare il plug-in di backup, ripristino e clonazione, è possibile eseguire il comando di controllo del plug-in per verificare l"installazione degli script dei plug-in. Gli script personalizzati sono memorizzati in tre directory: Policy (per gli script che devono sempre essere eseguiti prima dell"esecuzione delle operazioni di backup, ripristino o clonazione), pre (per gli script di pre-elaborazione) e post (per gli script di post-elaborazione).' 
+---
+= Il comando di controllo del plug-in smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di installare e utilizzare script personalizzati per varie operazioni. SnapManager offre plug-in di backup, ripristino e clonazione per automatizzare gli script personalizzati prima e dopo le operazioni di backup, ripristino e clonazione. Prima di utilizzare il plug-in di backup, ripristino e clonazione, è possibile eseguire il comando di controllo del plug-in per verificare l'installazione degli script dei plug-in. Gli script personalizzati sono memorizzati in tre directory: Policy (per gli script che devono sempre essere eseguiti prima dell'esecuzione delle operazioni di backup, ripristino o clonazione), pre (per gli script di pre-elaborazione) e post (per gli script di post-elaborazione).
+
+
+
+== Sintassi
+
+[listing]
+----
+ smsap plugin check
+-osaccount os_db_user_name
+----
+
+
+== Parametro
+
+* `*-osaccount*`
++
+Specifica il nome utente del database del sistema operativo. Se non si immette l'opzione -osaccount, SnapManager controlla gli script del plug-in come utente root piuttosto che per un utente specifico.
+
+
+
+'''
+
+
+== Esempio
+
+Nell'esempio seguente viene mostrato che il comando di controllo del plug-in ha trovato lo script personalizzato policy1 memorizzato nella directory dei criteri come eseguibile. L'esempio mostra anche che gli altri due script personalizzati memorizzati nella pre-directory non restituiscono messaggi di errore (visualizzati con lo stato 0); tuttavia, il quarto script personalizzato (post-plug-in1), trovato nella directory post, contiene errori (visualizzati con lo stato 3).
+
+[listing]
+----
+smsap plugin check
+Checking plugin directory structure ...
+<installdir>/plugins/clone/policy
+OK: 'policy1' is executable
+<installdir>/plugins/clone/pre
+OK: 'pre-plugin1' is executable and returned status 0
+OK: 'pre-plugin2' is executable and returned status 0
+<installdir>/plugins/clone/post
+ERROR: 'post-plugin1' is executable and returned status 3
+<installdir>/plugins/backup/policy
+OK: 'policy1' is executable
+<installdir>/plugins/backup/pre
+OK: 'pre-plugin1' is executable and returned status 0
+OK: 'pre-plugin2' is executable and returned status 0
+<installdir>/plugins/backup/post
+ERROR: 'post-plugin1' is executable and returned status 3
+<installdir>/plugins/restore/policy
+OK: 'policy1' is executable
+<installdir>/plugins/restore/pre
+OK: 'pre-plugin1' is executable and returned status 0
+OK: 'pre-plugin2' is executable and returned status 0
+<installdir>/plugins/restore/post
+ERROR: 'post-plugin1' is executable and returned status 3
+Command complete.
+----
+'''

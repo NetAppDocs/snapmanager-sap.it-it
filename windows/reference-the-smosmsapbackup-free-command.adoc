@@ -1,0 +1,82 @@
+---
+permalink: windows/reference-the-smosmsapbackup-free-command.html 
+sidebar: sidebar 
+keywords: run, backup, free, command, snapshot, copies, copy, remove, metadata, repository, smsap 
+summary: È possibile eseguire il comando backup free per liberare le copie Snapshot dei backup senza rimuovere i metadati di backup dal repository. 
+---
+= Il comando sspap backup free
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup free` Per liberare le copie Snapshot dei backup senza rimuovere i metadati di backup dal repository.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap backup free
+-profile profile_name
+[-label label [-data | -archivelogs] | [-id guid | -all]
+-force
+[-dump]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il profilo associato al backup che si desidera liberare. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-id _guid_`*
++
+Specifica le risorse del backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare `smsap backup list` Per visualizzare il GUID per ciascun backup. Includere il `-verbose` Per visualizzare gli ID di backup.
+
+* *`-label _label_`*
++
+Specifica il backup con l'etichetta specificata.
+
+* *`-data`*
++
+Specifica i file di dati.
+
+* *`-archivelogs`*
++
+Specifica i file di log dell'archivio.
+
+* *`-all`*
++
+Specifica tutti i backup. Per eliminare i backup specificati, utilizzare `-id` oppure `-label` opzione.
+
+* *`-force`*
++
+Forza la rimozione delle copie Snapshot.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio
+
+Il seguente esempio libera il backup:
+
+[listing]
+----
+smsap backup free -profile SALES1 -label full_backup_sales_May
+Operation Id [8abc01ec0e79004b010e79006da60001] succeeded.
+----

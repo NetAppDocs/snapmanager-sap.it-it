@@ -1,0 +1,313 @@
+---
+permalink: windows/task-create-database-backups.html 
+sidebar: sidebar 
+keywords: create, backup, database, portion, tablespace, data, file, control 
+summary: È possibile creare backup di interi database o porzioni di database, inclusi tablespace, file di dati o file di controllo. 
+---
+= Creare backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile creare backup di interi database o porzioni di database, inclusi tablespace, file di dati o file di controllo.
+
+
+
+== A proposito di questa attività
+
+SnapManager offre funzionalità di copia Snapshot per i database in molti stack di storage lato host, tra cui NFS, Veritas e altri.
+
+Gli amministratori possono facoltativamente registrare i backup con Oracle RMAN, che facilita l'utilizzo di RMAN per ripristinare e ripristinare il database con granularità più fini come i blocchi.
+
+Durante la definizione del profilo, è possibile personalizzare i nomi delle copie Snapshot create dai backup di tale profilo. Ad esempio, è possibile inserire una stringa di prefisso di `*HOPS*` Per indicare i backup High Operations.
+
+Oltre a definire nomi univoci per le copie Snapshot create dai backup, è possibile creare etichette univoche per i backup stessi. Quando si crea un backup, è consigliabile fornire un nome per il backup in modo da poter identificare facilmente il backup utilizzando `-label` parametro. Questo nome deve essere univoco per tutti i backup creati all'interno di un profilo specifico. Il nome può contenere lettere, numeri, caratteri di sottolineatura (_) e trattini (-). Non può iniziare con un trattino. Le etichette sono sensibili al maiuscolo/minuscolo. È possibile aggiungere informazioni quali variabili di ambiente del sistema operativo, data del sistema e tipo di backup.
+
+Se non si fornisce un'etichetta, SnapManager crea un nome predefinito nel modulo `scope_mode_datestring`, dove l'ambito è completo o parziale e la modalità è offline, online o automatica (la lettera `c` a freddo, `h` per le temperature elevate, o. `a` per la modalità automatica).
+
+Da SnapManager 3.4, è possibile fornire una propria etichetta di backup sovrascrivendo l'etichetta di backup predefinita creata da SnapManager. È necessario impostare il valore di `override.default.backup.pattern` parametro su *true* e specificare la nuova etichetta di backup in `new.default.backup.pattern` parametro. Il modello di etichetta di backup può contenere parole chiave come nome del database, nome del profilo, ambito, modalità e nome host, che devono essere separate da un carattere di sottolineatura. Ad esempio, `new.default.backup.pattern=dbname_profile_hostname_scope_mode`.
+
+
+NOTE: Il timestamp verrà incluso automaticamente alla fine dell'etichetta generata.
+
+Quando si inserisce un commento, è possibile includere spazi e caratteri speciali. Al contrario, quando si inserisce un'etichetta, non includere spazi o caratteri speciali.
+
+Per ogni backup, SnapManager genera automaticamente un GUID, che è una stringa ESADECIMALE di 32 caratteri. Per determinare il GUID, è necessario eseguire `backup list` con il `-verbose` opzione.
+
+È possibile creare un backup completo di un database mentre è online o offline. Per consentire a SnapManager di gestire il backup di un database indipendentemente dal fatto che sia online o offline, è necessario utilizzare `-auto` opzione.
+
+Durante la creazione di un backup, se è stata attivata la funzione di eliminazione e la notifica di riepilogo è stata attivata nel profilo, vengono attivate due e-mail separate. Un'e-mail è per l'operazione di backup e l'altra per la potatura. È possibile correlare questi messaggi di posta elettronica confrontando il nome del backup e l'ID di backup contenuti in questi messaggi di posta elettronica.
+
+È possibile creare un backup a freddo quando il database si trova nello stato di arresto. Se il database si trova in uno stato montato, impostarlo su shutdown ed eseguire il backup offline (cold backup).
+
+SnapManager (3.2 o versione successiva) consente di eseguire il backup dei file di log dell'archivio separatamente dai file di dati, consentendo di gestire i file di log dell'archivio in modo efficiente.
+
+Per creare separatamente i backup del registro di archiviazione, è necessario creare un nuovo profilo o aggiornare il profilo esistente per separare i backup del registro di archiviazione utilizzando `-separate-archivelog-backups` opzione. Utilizzando il profilo, è possibile eseguire le seguenti operazioni SnapManager:
+
+* Creare un backup del registro di archiviazione.
+* Eliminare un backup del registro di archiviazione.
+* Montare un backup del registro di archiviazione.
+* Liberare un backup del registro di archiviazione.
+
+
+Le opzioni di backup variano a seconda delle impostazioni del profilo:
+
+* L'utilizzo di un profilo non separato per eseguire separatamente i backup del registro di archiviazione consente di eseguire le seguenti operazioni:
++
+** Creare un backup completo.
+** Creare un backup parziale.
+** Specificare le destinazioni del registro di archiviazione di cui eseguire il backup per i file di registro di archiviazione.
+** Specificare le destinazioni del registro di archiviazione da escludere dal backup.
+** Specificare le opzioni di eliminazione per eliminare i file di log dell'archivio dalle destinazioni del log dell'archivio.
+
+
+* L'utilizzo di un profilo separato per eseguire i backup del registro di archiviazione consente di effettuare le seguenti operazioni:
++
+** Creare un backup dei soli file di dati.
+** Creare un backup solo per l'archiviazione.
+** Durante la creazione di un backup dei soli file di dati, includere il backup del registro di archiviazione insieme al backup dei soli file di dati online per la clonazione.
++
+Se sono stati inclusi i backup del registro di archiviazione insieme ai file di dati nella pagina *Impostazioni profilo* della procedura guidata *creazione profilo* dall'interfaccia grafica di SnapManager, Inoltre, se non è stata selezionata l'opzione *Archivelog* nella procedura guidata *creazione backup*, SnapManager crea sempre il backup del registro di archiviazione insieme ai file di dati per tutti i backup online.
+
++
+In tale situazione, dalla CLI di SnapManager, è possibile prendere in considerazione tutte le destinazioni del registro di archiviazione per il backup, ad eccezione delle destinazioni di esclusione specificate nel file di configurazione di SnapManager. Tuttavia, non è possibile eseguire l'eliminazione di questi file di log dell'archivio. Tuttavia, è comunque possibile utilizzare `-archivelogs` Opzione per specificare la destinazione del file di log dell'archivio e per potare i file di log dell'archivio dalla CLI di SnapManager.
+
++
+Se si sta creando il backup utilizzando `-auto` e specificare `-archivelogs` SnapManager crea un backup online o offline in base allo stato corrente del backup.
+
++
+*** SnapManager crea un backup offline quando il database non è in linea e non include i file di log dell'archivio nel backup.
+*** SnapManager crea un backup online che include i file di log dell'archivio quando il database è online.
+
+
+** Durante la creazione del backup solo per l'archiviazione:
++
+*** Specificare la destinazione del log di archiviazione di cui eseguire il backup insieme al backup solo archiviando
+*** Specificare le destinazioni del registro di archiviazione da escludere dal backup solo dei registri di archiviazione
+*** Specificare le opzioni di eliminazione per eliminare i file di log dell'archivio dalle destinazioni del log dell'archivio
+
+
+
+
+* *Scenari non supportati*
++
+** Non è possibile creare il backup solo archivioinsieme a un backup solo file di dati offline.
+** Non è possibile eseguire l'eliminazione dei file di log dell'archivio quando non viene eseguito il backup dei file di log dell'archivio.
+** Non è possibile eseguire l'eliminazione dei file di log dell'archivio quando Flash Recovery Area (fra) è abilitata per i file di log dell'archivio.
++
+Se si specifica la posizione del registro di archiviazione nell'area di ripristino flash, è necessario specificare anche la posizione del registro di archiviazione in `archive_log_dest` parametro.
+
+
+
+
+
+
+NOTE: Durante la creazione dei backup del registro di archiviazione, è necessario immettere i percorsi completi delle destinazioni del registro di archiviazione tra virgolette doppie e i percorsi di destinazione separati da virgole. Il separatore di percorso deve essere indicato come due barre rovesciate (") invece di una.
+
+Quando si specifica l'etichetta per il backup dei file di dati online con il backup del registro di archiviazione incluso, l'etichetta viene applicata per il backup dei file di dati e il backup del registro di archiviazione viene contrassegnato con il suffisso (`_logs`). Questo suffisso può essere configurato modificando il parametro `suffix.backup.label.with.logs` Nel file di configurazione SnapManager.
+
+Ad esempio, è possibile specificare il valore come `suffix.backup.label.with.logs=arc` in modo che il valore predefinito di _logs venga modificato in `_arc`.
+
+Se non sono state specificate destinazioni del registro di archiviazione da includere nel backup, SnapManager include tutte le destinazioni del registro di archiviazione configurate nel database.
+
+Se in una delle destinazioni mancano file di log di archiviazione, SnapManager ignora tutti i file di log di archiviazione creati prima dei file di log di archiviazione mancanti, anche se questi file sono disponibili in un'altra destinazione di log di archiviazione.
+
+Durante la creazione dei backup del registro di archiviazione, è necessario specificare le destinazioni del file di registro di archiviazione da includere nel backup e impostare il parametro di configurazione in modo che i file di registro di archiviazione vengano inclusi sempre oltre i file mancanti nel backup.
+
+
+NOTE: Per impostazione predefinita, questo parametro di configurazione è impostato su *true* per includere tutti i file di log dell'archivio, oltre ai file mancanti. Se si utilizzano script di eliminazione dei log di archiviazione o si eliminano manualmente i file di log di archiviazione dalle destinazioni dei log di archiviazione, è possibile disattivare questo parametro, in modo che SnapManager possa ignorare i file di log di archiviazione e procedere ulteriormente con il backup.
+
+SnapManager non supporta le seguenti operazioni SnapManager per i backup dei log di archiviazione:
+
+* Clonare il backup del log di archiviazione
+* Ripristinare il backup del registro di archiviazione
+* Verificare il backup del registro di archiviazione
+
+
+SnapManager supporta anche il backup dei file di log dell'archivio dalle destinazioni dell'area di ripristino flash.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap backup create -profile _profile_name_ {[-full {-online | -offline | -auto} [-retain {-hourly | -daily | -weekly | -monthly | -unlimited}] [-verify] | [-data [[-files _files_ [_files_]] | [-tablespaces _-tablespaces_ [_-tablespaces_]] [-datalabel _label_] {-online | -offline | -auto} [-retain {-hourly | [-daily | -weekly | -monthly | -unlimited]} [-verify] | [-archivelogs [-label _label_] [-comment _comment_] [-backup-dest _path1_ [,[_path2_]]] [-exclude-dest _path1_ [,_path2_]]] [-prunelogs {-all | -untilSCN _untilSCN_ | -until-date _yyyy-MM-dd:HH:mm:ss_ | -before {-months | -days | -weeks | -hours}} -prune-dest _prune_dest1_,[_prune_dest2_]] [-taskspec _taskspec_]} [-dump] [-force] [-quiet | -verbose]*`
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*Specificare se si desidera eseguire un backup di un database online o offline, invece di consentire a SnapManager di gestire se è online o offline*
+ a| 
+Specificare `-offline` per eseguire un backup del database offline. Specificare `-online` per eseguire un backup del database online.
+
+Se si utilizzano queste opzioni, non è possibile utilizzare `-auto` opzione.
+
+
+
+ a| 
+*Specificare se si desidera consentire a SnapManager di eseguire il backup di un database indipendentemente dal fatto che sia online o offline*
+ a| 
+Specificare `-auto` opzione. Se si utilizza questa opzione, non è possibile utilizzare `--offline` oppure `-online` opzione.
+
+
+
+ a| 
+*Specificare se si desidera eseguire un backup parziale di file specifici*
+ a| 
+ Specify the -data-files option and then list the files, separated by commas. For example, list the file names f1, f2, and f3 after the option.
+Esempio di creazione di un backup parziale dei file di dati in Windows
+
+[listing]
+----
+
+smsap backup create -profile nosep -data -files "J:\\mnt\\user\\user.dbf" -online
+-label partial_datafile_backup -verbose
+----
+
+
+ a| 
+*Specificare se si desidera eseguire un backup parziale di spazi tabella specifici*
+ a| 
+Specificare `-data -tablespaces` e quindi elencare gli spazi delle tabelle, separati da virgole. Ad esempio, utilizzare ts1, ts2 e ts3 dopo l'opzione.
+
+SnapManager supporta il backup degli spazi delle tabelle di sola lettura. Durante la creazione del backup, SnapManager modifica gli spazi delle tabelle di sola lettura in lettura/scrittura. Dopo aver creato il backup, gli spazi delle tabelle vengono modificati in sola lettura.
+
+Esempio per la creazione di un backup tablespace parziale
+
+[listing]
+----
+
+smsap backup create -profile nosep -data -tablespaces tb2 -online -label partial_tablespace_bkup -verbose
+----
+
+
+ a| 
+*Specificare se si desidera creare un'etichetta univoca per ciascun backup nel seguente formato: Full_hot_mybackup_label*
+ a| 
+Per Windows, è possibile immettere questo esempio:
+
+[listing]
+----
+
+smsap backup create -online -full -profile targetdb1_prof1
+-label full_hot_my_backup_label   -verbose
+----
+
+
+ a| 
+*Specificare se si desidera creare il backup dei file di log dell'archivio separatamente dai file di dati*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-archivelogs` crea un backup dei file di log dell'archivio.
+** `-backup-dest` specifica le destinazioni dei file di log di archiviazione di cui eseguire il backup.
+** `-exclude-dest` specifica le destinazioni del registro di archiviazione da escludere.
+** `-label` specifica l'etichetta per il backup del file di log dell'archivio.
+
+
+[NOTE]
+====
+È necessario fornire il `-backup-dest` o il `-exclude-dest` opzione.
+
+====
+Fornendo entrambe queste opzioni insieme al backup viene visualizzato un messaggio di errore `You have specified an invalid backup option. Specify any one of the options: -backup-dest, or exclude-dest`.
+
+Esempio per la creazione di backup del file di log dell'archivio separatamente su Windows
+
+[listing]
+----
+
+smsap backup create -profile nosep -archivelogs -backup-dest "J:\\mnt\\archive_dest_2\\" -label archivelog_backup -verbose
+----
+
+
+ a| 
+*Specificare se si desidera creare insieme il backup dei file di dati e dei file di log di archiviazione*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-data` opzione per specificare i file di dati.
+** `-archivelogs` opzione per specificare i file di log dell'archivio. Esempio di backup dei file di dati e di archiviazione dei file di log insieme su Windows
++
+[listing]
+----
+
+smsap backup create -profile nosep -data -online -archivelogs -backup-dest "J:\\mnt\\archive_dest_2\\" -label data_arch_backup
+-verbose
+----
+
+
+
+
+ a| 
+*Specificare se si desidera eseguire la sregolazione dei file di log dell'archivio durante la creazione di un backup*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-prunelogs` specifica di eliminare i file di log dell'archivio dalle destinazioni del log dell'archivio.
++
+*** `-all` specifica di eliminare tutti i file di log dell'archivio dalle destinazioni del log dell'archivio.
+*** `-until-scnuntil-scn` Specifica di eliminare i file di log dell'archivio fino a quando non viene specificato un SCN.
+*** `-until-dateyyyy-MM-dd:HH:mm:ss` specifica di eliminare i file di log dell'archivio fino al periodo di tempo specificato.
+*** `-before` l'opzione consente di eliminare i file di log dell'archivio prima del periodo di tempo specificato (giorni, mesi, settimane, ore).
+*** `-prune-destprune_dest1,[prune_dest2` specifica di eliminare i file di log dell'archivio dalle destinazioni del log dell'archivio durante la creazione del backup.
+
+
+
+
+[NOTE]
+====
+Non è possibile eseguire l'eliminazione dei file di log dell'archivio quando Flash Recovery Area (fra) è abilitata per i file di log dell'archivio.
+
+====
+Esempio di eliminazione di tutti i file di log dell'archivio durante la creazione di un backup su Windows
+
+[listing]
+----
+
+smsap backup create -profile nosep
+ -archivelogs -label archive_prunebackup1 -backup-dest "E:\\oracle\\MDV\\oraarch\\MDVarch,J:\\
+" -prunelogs -all -prune-dest "E:\\oracle\\MDV\\oraarch\\MDVarch,J:\\" -verbose
+----
+
+
+ a| 
+*Specificare se si desidera aggiungere un commento sul backup*
+ a| 
+Specificare `-comment` seguito dalla stringa di descrizione.
+
+
+
+ a| 
+*Specificare se si desidera forzare il database nello stato specificato per il backup, indipendentemente dallo stato in cui si trova attualmente*
+ a| 
+Specificare `-force` opzione.
+
+
+
+ a| 
+*Specificare se si desidera verificare il backup contemporaneamente alla creazione*
+ a| 
+Specificare `-verify` opzione.
+
+
+
+ a| 
+*Specificare se si desidera raccogliere i file dump dopo l'operazione di backup del database*
+ a| 
+Specificare `-dump` alla fine del comando di creazione del backup.
+
+|===
+
+
+
+
+== Esempio
+
+[listing]
+----
+smsap backup create -profile targetdb1_prof1 -full -online -force  -verify
+----

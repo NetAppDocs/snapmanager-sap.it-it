@@ -1,0 +1,20 @@
+---
+permalink: unix-administration/concept-volume-management-restrictions.html 
+sidebar: sidebar 
+keywords: snapmanager, volume, management, restriction, environment 
+summary: 'SnapManager ha alcune restrizioni di gestione dei volumi che potrebbero influire sull"ambiente.' 
+---
+= Restrizioni per la gestione dei volumi
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager ha alcune restrizioni di gestione dei volumi che potrebbero influire sull'ambiente.
+
+È possibile disporre di più gruppi di dischi per un database; tuttavia, le seguenti limitazioni si applicano a tutti i gruppi di dischi per un determinato database:
+
+* I gruppi di dischi per il database possono essere gestiti da un solo gestore di volumi.
+* Un ambiente Linux senza gestione logica dei volumi richiede una partizione.
+

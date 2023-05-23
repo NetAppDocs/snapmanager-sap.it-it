@@ -1,0 +1,27 @@
+---
+permalink: windows/task-unmount-backups.html 
+sidebar: sidebar 
+keywords: snapmanager, automatic, unmount, backup, available, external, tool, oracle, recovery, manager, rman, file, remove, access 
+summary: 'SnapManager disinstalla automaticamente il backup per renderlo non disponibile sul server host. SnapManager consente inoltre di disinstallare se si utilizza uno strumento esterno, ad esempio Gestione ripristino Oracle (RMAN), per accedere ai file nel backup e modificare lo stato del backup per rimuovere l"accesso.' 
+---
+= Smontare i backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager disinstalla automaticamente il backup per renderlo non disponibile sul server host. SnapManager consente inoltre di disinstallare se si utilizza uno strumento esterno, ad esempio Gestione ripristino Oracle (RMAN), per accedere ai file nel backup e modificare lo stato del backup per rimuovere l'accesso.
+
+
+
+== A proposito di questa attività
+
+È possibile raccogliere i file dump dopo un'operazione di disinstallazione di backup riuscita o non riuscita.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap backup unmount -profile _profile_name_ {label _label_ [data | -archivelogs] | -id _id_} [-quiet | -verbose]*`
+
+

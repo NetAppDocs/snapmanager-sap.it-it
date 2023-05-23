@@ -1,0 +1,29 @@
+---
+permalink: unix-administration/task-create-system-level-dump-files.html 
+sidebar: sidebar 
+keywords: smsap, system, dump, command, log, information, snapmanager, environment, log, level, collect, operation, profile, creating, create, system-level, file 
+summary: 'È possibile utilizzare il comando ssap system dump per ottenere informazioni di log sull"host e sull"ambiente SnapManager. È possibile specificare diversi livelli di log per raccogliere informazioni su un"operazione, un profilo o un host e un ambiente specifici.' 
+---
+= Creare file dump a livello di sistema
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare `smsap system dump` Per ottenere informazioni di log sull'host e sull'ambiente SnapManager. È possibile specificare diversi livelli di log per raccogliere informazioni su un'operazione, un profilo o un host e un ambiente specifici.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap system dump*`
+
++
+Dump risultante
+
++
+[listing]
+----
+Path:/<user-home>/.netapp/smsap/3.3.0/smsap_dump_server_host.jar
+----
+

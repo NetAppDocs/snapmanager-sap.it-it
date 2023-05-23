@@ -1,0 +1,24 @@
+---
+permalink: unix-administration/concept-what-protection-policies-are.html 
+sidebar: sidebar 
+keywords: protection, policy, policies, govern, database, backup, profile 
+summary: I criteri di protezione sono regole che regolano la modalità di protezione dei backup del database. È possibile selezionare i criteri di protezione durante la creazione del profilo. 
+---
+= Quali sono le policy di protezione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I criteri di protezione sono regole che regolano la modalità di protezione dei backup del database. È possibile selezionare i criteri di protezione durante la creazione del profilo.
+
+Un criterio di protezione definisce i seguenti parametri:
+
+* Quando trasferire le copie sullo storage secondario
+* La quantità massima di dati che devono essere trasferiti in orari pianificati
+* Per quanto tempo conservare le copie per ciascuna posizione di backup
+* Soglie di avviso e di errore per i tempi di ritardo
+
+
+Quando la protezione è attivata, SnapManager crea un dataset per il database. Un set di dati è costituito da un insieme di set di storage insieme alle informazioni di configurazione associate ai dati. I set di storage associati a un set di dati includono un set di storage primario utilizzato per esportare i dati nei client e l'insieme di repliche e archivi presenti in altri set di storage. I set di dati rappresentano dati esportabili dell'utente. Se l'amministratore disattiva la protezione per un database, SnapManager elimina il dataset.

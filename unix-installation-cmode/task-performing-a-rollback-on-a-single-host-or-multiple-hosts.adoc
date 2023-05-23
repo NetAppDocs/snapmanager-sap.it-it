@@ -1,0 +1,79 @@
+---
+permalink: unix-installation-cmode/task-perform-a-rollback-on-a-single-host-or-multiple-hosts.html 
+sidebar: sidebar 
+keywords: perform, rollback, single, multiple, snapmanager, server, host, command-line, interface, cli 
+summary: 'È possibile eseguire un rollback su uno o più host server SnapManager utilizzando l"interfaccia della riga di comando (CLI).' 
+---
+= Eseguire un rollback su uno o più host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire un rollback su uno o più host server SnapManager utilizzando l'interfaccia della riga di comando (CLI).
+
+
+
+== Di cosa hai bisogno
+
+Assicurarsi che tutti i prerequisiti per l'esecuzione di un rollback siano completi.
+
+.Fasi
+. Per eseguire un rollback su un singolo host, immettere il seguente comando:
++
+`*smsap repository rollback -repository -dbname _repo_service_name_ -host _repo_host_ -login -username _repo_username_ -port _repo_port_ -rollbackhost _host_with_target_database_*`
+
++
+*Esempio*
+
++
+L'esempio seguente mostra il comando per eseguire il rollback di tutti i database di destinazione montati su Hosta e di un database del repository denominato repoA situato sull'host del repository, repo_host:
+
++
+[listing]
+----
+
+smsap repository rollback
+    -repository
+      -dbname repoA
+      -host repo_host
+      -login
+       -username repouser
+       -port 1521
+     -rollbackhost hostA
+----
+. Per eseguire un rollback su più host, immettere il seguente comando:
++
+`*smsap repository rollback -repository-dbname _repo_service_name_ -host _repo_host_ -login -username _repo_username_ -port _repo_port_ -rollbackhost _host_with_target_database1_,_host_with_target_database2_*`
+
++
+
+NOTE: Per più host, immettere i nomi host separati da una virgola e assicurarsi che non vi sia spazio tra la virgola e il nome host successivo.
+
++
+Se si utilizza la configurazione RAC (Real Application Clusters), è necessario eseguire il rollback manuale di tutti gli host associati al RAC. È possibile utilizzare `-allhosts` per eseguire un rollback di tutti gli host.
+
++
+*Esempio*
+
++
+Nell'esempio seguente viene illustrato il comando per eseguire il rollback di tutti i database di destinazione montati sugli host, Hosta, hostB e un database di repository denominato repoA situato sull'host di repository, repo_host:
+
++
+[listing]
+----
+
+smsap repository rollback
+    -repository
+      -dbname repoA
+      -host repo_host
+      -login
+       -username repouser
+       -port 1521
+     -rollbackhost hostA,hostB
+----
++
+Gli host, i profili, le pianificazioni, i backup e i cloni associati ai profili dei database di destinazione per l'host vengono ripristinati nel repository precedente.
+
+

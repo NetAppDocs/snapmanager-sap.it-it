@@ -1,0 +1,30 @@
+---
+permalink: windows/task-mount-backups.html 
+sidebar: sidebar 
+keywords: snapmanager, automatic, handle, mount, backup, host, available, scenario, tools, oracle, recovery, manager, rman, file 
+summary: 'SnapManager gestisce automaticamente il montaggio di un backup per renderlo disponibile all"host. È inoltre possibile montare i backup in scenari in cui si utilizza uno strumento esterno, ad esempio Oracle Recovery Manager (RMAN), per accedere ai file nel backup.' 
+---
+= Montare i backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager gestisce automaticamente il montaggio di un backup per renderlo disponibile all'host. È inoltre possibile montare i backup in scenari in cui si utilizza uno strumento esterno, ad esempio Oracle Recovery Manager (RMAN), per accedere ai file nel backup.
+
+
+
+== A proposito di questa attività
+
+Il `smsap backup mount` Il comando visualizza un elenco di percorsi in cui sono state montate le copie Snapshot costituite dal backup.
+
+
+NOTE: È possibile raccogliere i file dump dopo un'operazione di montaggio di backup riuscita o non riuscita.
+
+.Fase
+. Per attivare un backup, immettere il seguente comando:
++
+`*smsap backup mount -profile _profile_name_ _label_ [data | -archivelogs] | -id _id_} [-host _-host_] [-dump] [-quiet | -verbose]*`
+
+

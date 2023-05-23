@@ -1,0 +1,93 @@
+---
+permalink: windows/reference-the-smosmsap-repository-rollingupgrade.html 
+sidebar: sidebar 
+keywords: command, perform, roll, upgrade, host, multiple, target, database, associate, version, smsap, roll upgrade 
+summary: 'Questo comando esegue l"aggiornamento in sequenza su uno o più host e sui database di destinazione associati da una versione inferiore di SnapManager a una versione superiore. L"host aggiornato viene gestito solo con la versione superiore di SnapManager.' 
+---
+= Il comando di rollingupgrade del repository smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando esegue l'aggiornamento in sequenza su uno o più host e sui database di destinazione associati da una versione inferiore di SnapManager a una versione superiore. L'host aggiornato viene gestito solo con la versione superiore di SnapManager.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap repository rollingupgrade
+-repository
+-dbname repo_service_name
+-host repo_host
+-login -username repo_username
+-port repo_port
+-upgradehost host_with_target_database
+[-force] [-noprompt]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-repository`*
++
+Le opzioni seguenti `-repository` specificare i dettagli del database per il repository.
+
+* *`-dbname _repo_service_name_`*
++
+Specifica il nome del database in cui è memorizzato il repository. Utilizzare il nome globale o il SID.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP del computer host su cui viene eseguito il database del repository.
+
+* *`-login`*
++
+Avvia i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente necessario per accedere al database in cui è memorizzato il repository.
+
+* *`-upgradehost _host_with_target_database_`*
++
+Specifica il nome dell'host che verrà aggiornato da una versione inferiore di SnapManager a una versione superiore.
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP utilizzato per accedere al database in cui è memorizzato il repository.
+
+* *`-force`*
++
+Tenta di forzare l'aggiornamento del repository. SnapManager richiede di eseguire un backup del repository corrente prima dell'aggiornamento.
+
+* *`-noprompt`*
++
+Non visualizza la richiesta prima di aggiornare il database del repository. Utilizzando il `-noprompt` l'opzione garantisce che il prompt non venga visualizzato, semplificando l'aggiornamento dei repository mediante uno script.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente viene aggiornato il repository nel database SALESDB.
+
+[listing]
+----
+smsap repository rollingupgrade -repository -dbname SALESDB
+-host server1 -login -username admin -port 1521 -upgradehost hostA
+----

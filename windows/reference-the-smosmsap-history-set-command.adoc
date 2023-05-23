@@ -1,0 +1,96 @@
+---
+permalink: windows/reference-the-smosmsap-history-set-command.html 
+sidebar: sidebar 
+keywords: run, history, set, command, configure, operation, smsap 
+summary: È possibile eseguire il comando history set per configurare le operazioni per le quali si desidera visualizzare la cronologia. 
+---
+= Il comando sspap history set
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `history set` per configurare le operazioni per cui si desidera visualizzare la cronologia.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap history set
+-profile {-name profile_name [profile_name1, profile_name2] | -all
+-repository
+-login [password repo_password]
+-username repo_username
+-host repo_host
+-dbname repo_dbname
+-port repo_port}
+-operation {-operations operation_name [operation_name1, operation_name2] | -all}
+-retain
+{-count retain_count | -daily daily_count | -monthly monthly_count | -weekly weekly_count}
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_`*
++
+Specifica il nome del profilo. Il nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* *`-repository`*
++
+Specifica i dettagli del database in cui è memorizzato il profilo.
+
+* *`-dbname _repo_dbname_`*
++
+Specifica il nome del database in cui è memorizzato il profilo. È possibile utilizzare il nome globale o l'identificatore di sistema.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP dell'host in cui risiede il database del repository.
+
+* *`-login`*
++
+Specifica i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente richiesto per accedere al database del repository.
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP (Transmission Control Protocol) utilizzato per accedere al database del repository.
+
+* *`-operation {-operations _operation_name_ [operation_name1, operation_name2] | -all`*
++
+Specifica le operazioni SnapManager per cui si desidera configurare la cronologia.
+
+* *`-retain {-countretain_count | -dailydaily_count | -monthly-monthly_count | -weeklyweekly_count}`*
++
+Specifica la classe di conservazione delle operazioni di creazione del backup, verifica del backup, ripristino e ripristino e creazione di cloni. La classe di conservazione viene impostata in base al numero di operazioni, al numero di giorni, settimane o mesi.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente vengono visualizzate informazioni sull'operazione di backup:
+
+[listing]
+----
+smsap history set -profile -name PROFILE1 -operation -operations backup -retain -daily 6
+-verbose
+----

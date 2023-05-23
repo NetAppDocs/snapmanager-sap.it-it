@@ -1,0 +1,21 @@
+---
+permalink: windows/task-update-a-backup-schedule.html 
+sidebar: sidebar 
+keywords: list, schedule, operation, update, frequency, expression, user, backup 
+summary: 'È possibile visualizzare un elenco delle operazioni pianificate e aggiornarle, se necessario. È possibile aggiornare la frequenza di pianificazione, l"ora di inizio della pianificazione, l"espressione crontstring e l"utente che ha pianificato il backup.' 
+---
+= Aggiornare una pianificazione di backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare un elenco delle operazioni pianificate e aggiornarle, se necessario. È possibile aggiornare la frequenza di pianificazione, l'ora di inizio della pianificazione, l'espressione crontstring e l'utente che ha pianificato il backup.
+
+.Fase
+. Per aggiornare la pianificazione di un backup, immettere il seguente comando:
++
+`*smsap schedule update -profile _profile_name_ -schedule-name _schedulename_ [-schedule-comment _schedule comment_] -interval {_-hourly_ | _-daily_ | _-weekly_ | _-monthly_ | _-onetimeonly_} -start-time _starttime_ -cronstring _cronstring_ -runasuser _runasuser_ [-quiet | -verbose]*`
+
+

@@ -1,0 +1,18 @@
+---
+permalink: unix-installation-7mode/concept-restore-process-identification.html 
+sidebar: sidebar 
+keywords: restore, process, support, snapmanager, sap, version, upgrading, upgrade, aware, restoring, backup 
+summary: Tutti i processi di ripristino non sono supportati in tutte le versioni di SnapManager per SAP. Dopo aver aggiornato SnapManager, è necessario conoscere il processo di ripristino che è possibile utilizzare per ripristinare un backup. 
+---
+= Ripristinare i tipi di processo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Tutti i processi di ripristino non sono supportati in tutte le versioni di SnapManager per SAP. Dopo aver aggiornato SnapManager, è necessario conoscere il processo di ripristino che è possibile utilizzare per ripristinare un backup.
+
+I backup creati utilizzando SnapManager 3.0 o versioni successive possono essere ripristinati utilizzando processi di ripristino rapido e basato su file. Tuttavia, i backup creati utilizzando una versione precedente a SnapManager 3.0 possono essere ripristinati utilizzando solo il processo di ripristino basato su file.
+
+È possibile determinare la versione di SnapManager utilizzata per creare il backup eseguendo il comando -backup show.

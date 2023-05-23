@@ -1,0 +1,30 @@
+---
+permalink: unix-administration/concept-scheduling-database-backups.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, enable, schedule, database, backup, off-peak, hour, scheduling, retention, policy 
+summary: 'SnapManager (3.2 o versioni successive) per SAP consente di pianificare backup del database regolari durante le ore di lavoro fuori dalle ore di punta per mantenere performance elevate. Per pianificare un backup, è possibile creare un profilo che includa le informazioni del database e i criteri di conservazione, quindi impostare le pianificazioni per il backup.' 
+---
+= Pianificazione dei backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager (3.2 o versioni successive) per SAP consente di pianificare backup del database regolari durante le ore di lavoro fuori dalle ore di punta per mantenere performance elevate. Per pianificare un backup, è possibile creare un profilo che includa le informazioni del database e i criteri di conservazione, quindi impostare le pianificazioni per il backup.
+
+
+NOTE: È necessario pianificare i backup come utente root o come utente Oracle. Se si tenta di pianificare i backup come utente non esistente, SnapManager visualizza un messaggio di errore: Utente non valido: Nome utente: Impossibile creare il backup di pianificazione per un determinato utente
+
+Di seguito sono riportate alcune delle attività correlate alla pianificazione:
+
+* Pianificare un backup del database in modo che venga eseguito su base oraria, giornaliera, settimanale, mensile o una sola volta.
+* Visualizzare un elenco di backup pianificati associati a un profilo.
+* Aggiornare un backup pianificato.
+* Sospendere temporaneamente un programma.
+* Riprendere il programma sospeso.
+* Eliminare un programma.
+
+
+
+NOTE: La casella di controllo *Esegui ora operazione menu* è disattivata quando viene eseguito un backup pianificato per tale pianificazione.

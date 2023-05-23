@@ -1,0 +1,47 @@
+---
+permalink: unix-administration/reference-the-smosmsap-clone-detach-command.html 
+sidebar: sidebar 
+keywords: split, clone, volume, parent, data, ontap, detach, snapmanager, smsap, command 
+summary: Dopo aver spartito un volume clonato dal volume padre in Data ONTAP, è possibile eseguire il comando clone Detach da SnapManager per far sapere a SnapManager che il volume non è più un clone. 
+---
+= Il comando ssmsap clone disstach
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver spartito un volume clonato dal volume padre in Data ONTAP, è possibile eseguire il comando clone Detach da SnapManager per far sapere a SnapManager che il volume non è più un clone.
+
+
+
+== Sintassi
+
+`smsap clone detach -profile _profile_name_ -label _clone_label_`
+
+
+
+== Parametri
+
+* `*-profile _profile_name_*`
++
+Specifica il nome del profilo da cui viene creato il clone.
+
+* `*-label _clone_label_*`
++
+Specifica il nome generato dall'operazione di clonazione.
+
+
+
+'''
+
+
+== Esempio
+
+Il seguente comando disconnette il clone:
+
+[listing]
+----
+smsap clone detach -profile SALES1 -label sales1_clone
+----
+'''

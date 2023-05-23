@@ -1,0 +1,70 @@
+---
+permalink: unix-administration/concept-general-layout-and-configuration.html 
+sidebar: sidebar 
+keywords: recommend, general, database, layout, storage, configuration, help, avoid, issue, relate, disk, group, file, type, tablespace 
+summary: Conoscere i layout generali dei database e le configurazioni di storage consigliati può aiutare a evitare problemi relativi a gruppi di dischi, tipi di file e spazi delle tabelle. 
+---
+= Layout generali del database e configurazioni di storage consigliati
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Conoscere i layout generali dei database e le configurazioni di storage consigliati può aiutare a evitare problemi relativi a gruppi di dischi, tipi di file e spazi delle tabelle.
+
+* Non includere nel database file di più tipi DI file system SAN o di gestore di volumi.
++
+Tutti i file che costituiscono un database devono risiedere nello stesso tipo di file system.
+
+* SnapManager richiede un multiplo di blocchi di dimensioni 4K.
+* Includere l'identificatore del sistema di database in `oratab` file.
++
+Includere una voce in `oratab` file per ogni database da gestire. SnapManager si affida a. `oratab` Per determinare quale sede Oracle utilizzare.
+
+
+
+Se si desidera sfruttare il nuovo ripristino basato su volume o il ripristino completo del gruppo di dischi, prendere in considerazione le seguenti linee guida relative ai file system e ai gruppi di dischi:
+
+* Un gruppo di dischi contenente file di dati non può contenere altri tipi di file.
+* Il numero di unità logica (LUN) per il gruppo di dischi del file di dati deve essere l'unico oggetto nel volume di storage.
+
+
+Di seguito sono riportate alcune linee guida per la separazione dei volumi:
+
+* I file di dati di un solo database devono essere presenti nel volume.
+* È necessario utilizzare volumi separati per ciascuna delle seguenti classificazioni di file: File binari di database, file di dati, file di log di ripristino online, file di log di ripristino archiviati e file di controllo.
+* Non è necessario creare un volume separato per i file di database temporanei perché SnapManager non esegue il backup dei file di database temporanei.
+
+
+SAP utilizza un layout standard per le installazioni di database Oracle. In questo layout, SAP inserisce le copie del file di controllo Oracle in `E:\oracle\SID\origlogA, E:\oracle\SID\origlogB`, e. `E:\oracle\SID\sapdata1 file systems`.
+
+Il file di controllo nel file system sapdata1 è in conflitto con i requisiti SnapManager per la separazione dei file di controllo e dei file di dati in volumi separati e deve essere regolato per consentire una funzionalità di ripristino rapido.
+
+
+NOTE: Poiché i backup di BR*Tools includono i profili Oracle e SAP che si trovano nella sottodirectory dbs dell'installazione Oracle, l'installazione di Oracle deve trovarsi nello storage.
+
+In caso di una nuova installazione, è possibile modificare la posizione dei file di controllo utilizzando SAPINST e spostare il file di controllo normalmente posizionato nel file system sapdata1 in un file system che non si trova nello stesso volume dei file di dati. (SAPINST è lo strumento fornito da SAP per l'installazione dei sistemi SAP).
+
+Tuttavia, nel caso di un sistema già installato, è necessario spostare il file di controllo dal file system per consentire il ripristino rapido utilizzando SnapManager. Per eseguire questa operazione, creare un nuovo file system in un volume che non contiene file di dati, spostare il file di controllo in tale file system e quindi creare un collegamento simbolico dal file system precedente alla directory del nuovo file system. È necessario arrestare SAP e il database Oracle durante lo spostamento del file di controllo per evitare errori del database.
+
+Prima di apportare modifiche, l'elenco dei file nella directory sapdata1 contenente il file di controllo potrebbe essere simile al seguente:
+
+[listing]
+----
+hostname:/
+#  ls -l /oracle/SID/sapdata1/cntrl
+-rw-r----- 1 orasid  dba  9388032 Jun 19 01:51 cntrlSID.dbf
+----
+Dopo la modifica, l'elenco potrebbe essere simile al seguente:
+
+[listing]
+----
+hostname:/
+# ls -sl /oracle/SID/sapdata1
+0 lrwxrwxrwx 1 root root 19 2008-08-06 14:55 cntrl -> /oracle/SID/control
+0 -rw-r--r-- 1 root root 0 2008-08-06 14:57 data01.dbf
+
+# ls -sl /oracle/SID/control
+0 -rw-r--r-- 1 root root 0 2008-08-06 14:56 cntrlSID.dbf
+----

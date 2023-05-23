@@ -1,0 +1,21 @@
+---
+permalink: windows/task-remove-history-configuration-associated-with-a-single-profile-or-multiple-profiles.html 
+sidebar: sidebar 
+keywords: snapmanager, remove, history, set, operation, purge, information, profile, single, multiple, associate 
+summary: 'SnapManager consente di rimuovere le impostazioni della cronologia di un"operazione SnapManager. Questa operazione rimuove tutte le informazioni della cronologia associate a un singolo profilo o a più profili.' 
+---
+= Rimuovere le impostazioni della cronologia associate a uno o più profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di rimuovere le impostazioni della cronologia di un'operazione SnapManager. Questa operazione rimuove tutte le informazioni della cronologia associate a un singolo profilo o a più profili.
+
+.Fase
+. Per rimuovere la cronologia delle operazioni SnapManager associate a uno o più profili, immettere il seguente comando:
++
+`*smsap history remove -profile {_-name_, _profile_name_ [_profile_name1_, _profile_name2_] | all -repository -login [-password _repo_password_] -username _repo_username_ -dbname _repo_dbname_ -host _repo_host_ -port _repo_port_} -operation {-operations _operation_name_ [_operation_name1_, _operation_name2_] | -all} [-quiet | -verbose]*`
+
+

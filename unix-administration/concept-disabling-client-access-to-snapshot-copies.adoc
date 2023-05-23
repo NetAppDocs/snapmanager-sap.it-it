@@ -1,0 +1,28 @@
+---
+permalink: unix-administration/concept-disabling-client-access-to-snapshot-copies.html 
+sidebar: sidebar 
+keywords: storage, system, volume, nfs, protocol, sap, tools, snapshot, copies, copy, snapshot, directory, directories, backup, diable, disabling, client, access 
+summary: 'Per qualsiasi volume di sistema storage che utilizza il protocollo NFS e contiene dati SAP di cui è stato eseguito il backup utilizzando BR*Tools, è necessario disattivare l"accesso client alle copie Snapshot di quel volume. Se l"accesso client è attivato, BR*Tools tenterà di creare backup delle directory .snapshot nascoste che contengono backup precedenti.' 
+---
+= Disattivazione dell'accesso client alle copie Snapshot
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per qualsiasi volume di sistema storage che utilizza il protocollo NFS e contiene dati SAP di cui è stato eseguito il backup utilizzando BR*Tools, è necessario disattivare l'accesso client alle copie Snapshot di quel volume. Se l'accesso client è attivato, BR*Tools tenterà di creare backup delle directory .snapshot nascoste che contengono backup precedenti.
+
+Per disattivare l'accesso client, utilizzare uno dei seguenti metodi.
+
+* Utilizzando Data ONTAP: Utilizzando l'interfaccia della riga di comando di Data ONTAP, immettere il seguente comando: Vol options nome_volume nosnapdir su cui nome_volume è il nome del volume contenente i dati SAP, ad esempio `/vol/falls_sap_cer9i_data1`
+* Utilizzo di FilerView: Per disattivare l'accesso mediante l'interfaccia grafica utente di FilerView, è necessario disporre già di una copia Snapshot del volume.
++
+.. Nel riquadro sinistro di FilerView, selezionare *volumi* > *istantanee* > *Gestisci*.
+.. Nella pagina Manage Snapshots (Gestisci snapshot), fare clic sul nome del volume nella colonna Volume (Volume).
+.. Nella pagina Configura snapshot, deselezionare la casella di controllo Snapshot Directory visibile e fare clic su *Applica.*
+
+
+
+
+Per ulteriori informazioni sulla disattivazione dell'accesso client alle copie Snapshot, consultare il capitolo sulla gestione delle istantanee della _Guida online di backup e ripristino della protezione dei dati di Data ONTAP_ per la versione di Data ONTAP in uso.

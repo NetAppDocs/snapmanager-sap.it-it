@@ -1,0 +1,94 @@
+---
+permalink: unix-installation-7mode/task-perform-rolling-upgrade-on-a-single-host-or-multiple-hosts.html 
+sidebar: sidebar 
+keywords: perform, roll, upgrade, single, multiple, snapmanager, server, host, command-line, interface, cli, version 
+summary: 'È possibile eseguire l"aggiornamento in sequenza su uno o più host server SnapManager utilizzando l"interfaccia a riga di comando (CLI). L"host del server SnapManager aggiornato viene quindi gestito solo con la versione successiva di SnapManager.' 
+---
+= Eseguire un aggiornamento in sequenza su uno o più host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire l'aggiornamento in sequenza su uno o più host server SnapManager utilizzando l'interfaccia a riga di comando (CLI). L'host del server SnapManager aggiornato viene quindi gestito solo con la versione successiva di SnapManager.
+
+*Cosa ti serve*
+
+Assicurarsi che tutti i prerequisiti per l'esecuzione dell'aggiornamento in sequenza siano stati completati.
+
+.Fasi
+. Per eseguire un aggiornamento in sequenza su un singolo host, immettere il seguente comando:
++
+`*smsap repository rollingupgrade-repository-dbname _repo_service_name_ -host _repo_host_ -login-username _repo_username_ -port _repo_port_ -upgradehost _host_with_target_database_ -force [-quiet | -verbose]*`
+
++
+Il seguente comando esegue l'aggiornamento in sequenza di tutti i database di destinazione montati su Hosta e di un database di repository denominato repoA situato su repo_host:
+
++
+[listing]
+----
+
+smsap repository rollingupgrade
+    -repository
+      -dbname repoA
+      -host repo_host
+      -login
+       -username repouser
+       -port 1521
+     -upgradehost hostA
+----
+. Per eseguire un aggiornamento in sequenza su più host, immettere il seguente comando: `smsaprepository rollingupgrade-repository-dbnamerepo_service_name-hostrepo_host-login-usernamerepo_username-portrepo_port-upgradehosthost_with_target_database1,host_with_target_database2-force [-quiet | -verbose]`
++
+
+NOTE: Per più host, immettere i nomi host separati da una virgola e assicurarsi di non includere spazio tra la virgola e il nome host successivo.se si utilizza una configurazione Real Application Clusters (RAC), è necessario aggiornare manualmente tutti gli host associati al RAC. È possibile utilizzare -allhosts per eseguire l'aggiornamento in sequenza di tutti gli host.
+
++
+Il seguente comando esegue l'aggiornamento in sequenza di tutti i database di destinazione montati sugli host, Hosta e hostB e un database di repository denominato repoA situato su repo_host:
+
++
+[listing]
+----
+
+smsap repository rollingupgrade
+    -repository
+      -dbname repoA
+      -host repo_host
+      -login
+       -username repouser
+       -port 1521
+     -upgradehost hostA,hostB
+----
+. Per eseguire un aggiornamento in sequenza su tutti gli host di un database di repository, immettere il seguente comando: `smsaprepository rollingupgrade-repository-dbnamerepo_service_name-hostrepo_host-login-usernamerepo_username-portrepo_port-allhosts-force [-quiet | -verbose]`
++
+Dopo aver aggiornato correttamente il database del repository, è possibile eseguire tutte le operazioni SnapManager sul database di destinazione.
+
++
+Il seguente comando esegue l'aggiornamento in sequenza di tutti i database di destinazione disponibili in un database repository denominato repoA situato su repo_host:
+
++
+[listing]
+----
+
+smsap repository rollingupgrade
+    -repository
+      -dbname repoA
+      -host repo_host
+      -login
+       -username repouser
+       -port 1521
+      -allhosts
+----
++
+** Se il server SnapManager si avvia automaticamente, è necessario riavviare il server per assicurarsi di poter visualizzare le pianificazioni.
+** Se si aggiorna uno dei due host correlati, è necessario aggiornare il secondo host dopo l'aggiornamento del primo.
++
+Ad esempio, se è stato creato un clone dall'host A all'host B o è stato montato un backup dall'host A all'host B, gli host A e B sono correlati tra loro. Quando si aggiorna l'host A, viene visualizzato un messaggio di avviso che richiede di aggiornare l'host B subito dopo l'aggiornamento dell'host A.
+
++
+
+NOTE: I messaggi di avviso vengono visualizzati anche se il clone viene cancellato o il backup viene dismontato dall'host B durante l'aggiornamento in sequenza dell'host A. Questo perché nel repository sono presenti metadati per le operazioni eseguite sull'host remoto.
+
+
+
+

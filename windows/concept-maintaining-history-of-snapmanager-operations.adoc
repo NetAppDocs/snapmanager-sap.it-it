@@ -1,0 +1,37 @@
+---
+permalink: windows/concept-maintaining-history-of-snapmanager-operations.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, enable, maintain, history, operation, associate, single, multiple, profile, command-line, interface, cli, graphical, user, interface, gui, report, audit, compliance, purpose 
+summary: 'SnapManager per SAP consente di mantenere la cronologia delle operazioni SnapManager associate a uno o più profili. È possibile mantenere la cronologia dall"interfaccia della riga di comando (CLI) di SnapManager o dall"interfaccia grafica utente (GUI). È possibile visualizzare la cronologia delle operazioni sotto forma di report e utilizzare il report per scopi di verifica della conformità.' 
+---
+= Mantenere la cronologia delle operazioni SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP consente di mantenere la cronologia delle operazioni SnapManager associate a uno o più profili. È possibile mantenere la cronologia dall'interfaccia della riga di comando (CLI) di SnapManager o dall'interfaccia grafica utente (GUI). È possibile visualizzare la cronologia delle operazioni sotto forma di report e utilizzare il report per scopi di verifica della conformità.
+
+È possibile mantenere la cronologia per le seguenti operazioni SnapManager:
+
+* Creazione del backup
+* Verifica del backup
+* Ripristino del backup
+* Creazione di cloni
+
+
+Le informazioni sulla cronologia delle operazioni SnapManager vengono mantenute in base alla conservazione. È possibile configurare diverse classi di conservazione per ciascuna delle operazioni SnapManager supportate.
+
+Di seguito sono riportate alcune classi di conservazione che è possibile assegnare:
+
+* Numero di giorni
+* Numero di settimane
+* Numero di mesi
+* Numero di operazioni
+
+
+In base alla conservazione, SnapManager rimuove automaticamente la cronologia. È inoltre possibile eliminare manualmente la cronologia delle operazioni SnapManager. Se si elimina o si distrugge il profilo, tutte le informazioni della cronologia associate al profilo vengono eliminate.
+
+
+NOTE: Dopo il rollback dell'host, non è possibile visualizzare i dettagli della cronologia o eseguire operazioni relative alla cronologia associate al profilo configurato per la manutenzione della cronologia.

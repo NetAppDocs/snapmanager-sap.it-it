@@ -1,0 +1,72 @@
+---
+permalink: windows/concept-dump-files.html 
+sidebar: sidebar 
+keywords: dump, file, compress, log, contain, information, snapmanager, environment, operation, profile, system 
+summary: I file dump sono file di log compressi contenenti informazioni su SnapManager e sul suo ambiente. I diversi tipi di file di log creati sono operazione, profilo e file di dump di sistema. 
+---
+= Eseguire il dump dei file
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+I file dump sono file di log compressi contenenti informazioni su SnapManager e sul suo ambiente. I diversi tipi di file di log creati sono operazione, profilo e file di dump di sistema.
+
+È possibile utilizzare il comando dump o la scheda *Create Diagnostics* nell'interfaccia grafica utente (GUI) per raccogliere informazioni su un'operazione, un profilo o l'ambiente. Un dump di sistema non richiede un profilo; tuttavia, i dump del profilo e delle operazioni richiedono profili.
+
+SnapManager include le seguenti informazioni diagnostiche nel file dump:
+
+* Le fasi eseguite
+* Il tempo necessario per completare ogni fase
+* Il risultato di ciascuna fase
+* Se presente, si è verificato un errore durante l'operazione
+
+
+
+NOTE: I file di log o i file dump di SnapManager consentono di ottenere permessi di lettura e scrittura solo per gli utenti root e per gli altri utenti appartenenti al gruppo root.
+
+SnapManager include anche le seguenti informazioni nel file:
+
+* Versione e architettura del sistema operativo
+* Variabili di ambiente
+* Versione Java
+* Versione e architettura di SnapManager
+* Preferenze SnapManager
+* Messaggi SnapManager
+* proprietà log4j
+* Versione e architettura di SnapDrive
+* File di log di SnapDrive
+* Versione di Oracle
+* Dettagli dell'inventario locale di Oracle OPatch
+* Versione Oracle del database repository
+* Tipo di database di destinazione (standalone)
+* Ruolo del database di destinazione (primario, standby fisico o standby logico)
+* Configurazione del database di destinazione Oracle Recovery Manager (RMAN) (nessuna integrazione RMAN, RMAN con file di controllo o RMAN con file di catalogo)
+* Versione Oracle del database di destinazione
+* Identificatore di sistema (SID) del database di destinazione
+* Nome del servizio del database di repository
+* Istanze di database installate sull'host
+* Descrittore del profilo
+* Memoria condivisa massima
+* Scambiare le informazioni sullo spazio
+* Informazioni sulla memoria
+* Ambiente multipath
+* Versione delle utility host
+* Microsoft Internet Small computer System Interface (iSCSI) software Initiator versione per Windows
+* Versioni dell'interfaccia BACKINT
+* Versione del tool BR
+* Livello di patch
+* Output di `system verify` comando
+
+
+Il file dump elenca anche le limitazioni di SnapManager su Windows.
+
+I file dump di SnapManager contengono anche il file di raccolta dati di SnapDrive e il file di log degli avvisi di Oracle. È possibile raccogliere il file di log degli avvisi Oracle utilizzando `smsap operation dump` e. `smsap profile dump` comandi.
+
+
+NOTE: Il dump del sistema non contiene i log degli avvisi Oracle; tuttavia, i dump del profilo e delle operazioni contengono i log degli avvisi.
+
+Anche se il server host SnapManager non è in esecuzione, è possibile accedere alle informazioni di dump utilizzando l'interfaccia della riga di comando (CLI) o la GUI.
+
+Se riscontri un problema che non puoi risolvere, puoi inviare questi file ai NetApp Global Services.

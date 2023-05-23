@@ -1,0 +1,60 @@
+---
+permalink: windows/task-modifying-the-backup-retention-class.html 
+sidebar: sidebar 
+keywords: upgrading, upgrade, snapmanager, default, backup, retention, class, exist, modify 
+summary: 'Dopo l"aggiornamento, SnapManager assegna la classe di conservazione del backup predefinita ai backup esistenti. È possibile modificare i valori predefiniti della classe di conservazione per soddisfare i requisiti di backup.' 
+---
+= Modifica della classe di conservazione del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo l'aggiornamento, SnapManager assegna la classe di conservazione del backup predefinita ai backup esistenti. È possibile modificare i valori predefiniti della classe di conservazione per soddisfare i requisiti di backup.
+
+La classe di conservazione del backup predefinita assegnata ai backup esistenti è la seguente:
+
+|===
+| Tipo di backup | Assegnazione della classe di conservazione dopo l'aggiornamento 
+
+
+ a| 
+I backup devono essere conservati per sempre
+ a| 
+Senza limiti
+
+
+
+ a| 
+Altri backup
+ a| 
+Ogni giorno
+
+|===
+*Nota:* è possibile eliminare i backup conservati per sempre senza modificare la classe di conservazione.
+
+Se si esegue l'aggiornamento a SnapManager 3.0 o versioni successive, ai profili esistenti viene assegnato il valore maggiore dei due seguenti valori:
+
+* Numero di conservazione precedente per il profilo
+* Valori predefiniti per il conteggio di conservazione e la durata dei backup giornalieri, come specificato nel file smsap.config
++
+.. Modificare i valori assegnati a Retain.hourly.count e Retain.hourly.duration nel file smsap.config.
++
+Il file smsap.config si trova nel percorso di installazione predefinito/properties/smsap.config.
+
++
+È possibile immettere i seguenti valori:
+
++
+*** retain.hourly.count = 12
+*** retain.hourly.duration = 2
+
+
+
+
+
+
+*Informazioni correlate*
+
+xref:reference-snapmanager-configuration-parameters.adoc[Parametri di configurazione di SnapManager]

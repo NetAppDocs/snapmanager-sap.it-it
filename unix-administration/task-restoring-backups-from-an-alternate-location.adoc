@@ -1,0 +1,29 @@
+---
+permalink: unix-administration/task-restore-backups-from-an-alternate-location.html 
+sidebar: sidebar 
+keywords: restore, backup, alternate, location, data, file, intermediate, system, block, raw, device, restoring 
+summary: È possibile ripristinare i backup da una posizione alternativa per ripristinare i file di dati da un file system intermedio a un file system attivo o per ripristinare i blocchi di dati da un dispositivo raw intermedio a un dispositivo raw attivo. 
+---
+= Ripristinare i backup da una posizione alternativa
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile ripristinare i backup da una posizione alternativa per ripristinare i file di dati da un file system intermedio a un file system attivo o per ripristinare i blocchi di dati da un dispositivo raw intermedio a un dispositivo raw attivo.
+
+*Cosa ti serve*
+
+* Creare un file XML con specifica di ripristino e specificare il tipo di metodo di ripristino che si desidera utilizzare.
+
+
+*A proposito di questa attività*
+
+È possibile utilizzare lo smsap `backup restore` E specificare il file XML delle specifiche di ripristino creato per ripristinare il backup da una posizione alternativa.
+
+. Immettere il seguente comando:
++
+`*smsap backup restore -profile _profile_ -label _label_ -complete -alllogs -restorespec _restorespec_*`
+
+

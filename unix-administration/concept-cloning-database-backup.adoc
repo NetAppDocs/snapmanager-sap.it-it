@@ -1,0 +1,29 @@
+---
+permalink: unix-administration/concept-cloning-database-backup.html 
+sidebar: sidebar 
+keywords: clone, database, perform, task, upgrade, production, installation, cloning, backup 
+summary: 'Se si clona un database, è possibile eseguire attività come il test di un aggiornamento a un database senza influire sul database in produzione, duplicare un"installazione master su diversi sistemi di formazione o duplicare un"installazione master come installazione di base su altri server con requisiti simili.' 
+---
+= Backup del database di cloning
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se si clona un database, è possibile eseguire attività come il test di un aggiornamento a un database senza influire sul database in produzione, duplicare un'installazione master su diversi sistemi di formazione o duplicare un'installazione master come installazione di base su altri server con requisiti simili.
+
+È possibile eseguire le seguenti attività relative alla clonazione:
+
+* Clonare un database da un backup esistente.
+* Clonare un database nello stato corrente, che consente di creare il backup e il clone in un'unica procedura.
+* Clonare un backup protetto sullo storage secondario o anche terzo.
+* Clonare un database e utilizzare script plug-in personalizzati, che vengono eseguiti prima o dopo l'operazione di clonazione.
+* Clonare un database sullo stesso host su cui risiede il database.
+* Clonare un database utilizzando i file di log dell'archivio dalla posizione del log dell'archivio esterno.
+* Clonare un database in un host alternativo.
+* Clonare un database RAC.
+* Visualizza un elenco di cloni.
+* Visualizza informazioni dettagliate sui cloni.
+* Eliminare i cloni.
+

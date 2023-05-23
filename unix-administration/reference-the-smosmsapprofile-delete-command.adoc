@@ -1,0 +1,56 @@
+---
+permalink: unix-administration/reference-the-smosmsapprofile-delete-command.html 
+sidebar: sidebar 
+keywords: run, profile, delete, command, smsap 
+summary: È possibile eseguire il comando di eliminazione del profilo per eliminare un profilo del database. 
+---
+= Il comando di eliminazione del profilo smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `profile delete` per eliminare un profilo del database.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap profile delete
+-profile _profile_
+[-quiet | -verbose]]
+----
+
+
+== Parametri
+
+* ``*-profile _profile_*``
++
+Specifica il profilo da eliminare.
+
+* ``*-quiet*``
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* ``*-verbose*``
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+'''
+
+
+== Esempio
+
+Il seguente esempio elimina il profilo:
+
+[listing]
+----
+smsap profile delete -profile SALES1
+Operation Id [Ncaf00af0242b3e8dba5c68a57a5ae932] succeeded.
+----
+'''

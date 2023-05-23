@@ -1,0 +1,83 @@
+---
+permalink: unix-installation-7mode/task-smsap-isg-configure-the-snapmanager-repository.html 
+sidebar: sidebar 
+keywords: configure, snapmanager, repository, database, instance, store, manage, configuring 
+summary: 'È necessario configurare il repository SnapManager nell"istanza del database del repository. Il database del repository memorizza i metadati per i database gestiti da SnapManager.' 
+---
+= Configurare il repository SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario configurare il repository SnapManager nell'istanza del database del repository. Il database del repository memorizza i metadati per i database gestiti da SnapManager.
+
+*Cosa ti serve*
+
+* È necessario aver creato l'istanza del database del repository.
+* È necessario aver creato l'utente Oracle per l'istanza del database del repository con i privilegi richiesti.
+* È necessario includere i dettagli dell'istanza del database del repository in `tnsnames.ora` file.
+
+
+*A proposito di questa attività*
+
+È possibile configurare il repository SnapManager dall'interfaccia utente (UI) di SnapManager o dall'interfaccia della riga di comando (CLI). Questi passaggi mostrano come creare un repository utilizzando l'interfaccia utente di SnapManager. Se lo si desidera, è anche possibile utilizzare l'interfaccia CLI.
+
+Per informazioni su come creare il repository utilizzando l'interfaccia CLI, consultare la _Guida all'amministrazione di SnapManager per SAP per UNIX_.
+
+. Nel riquadro sinistro dell'interfaccia utente di SnapManager, fare clic con il pulsante destro del mouse su *Repository*.
+. Selezionare *Create New Repository* (Crea nuovo repository) e fare clic su *Next* (Avanti).
+. Nella finestra *Repository Database Configuration Information* (informazioni configurazione database repository), immettere le seguenti informazioni:
++
+|===
+| In questo campo... | Eseguire questa operazione... 
+
+
+ a| 
+*Nome utente*
+ a| 
+Inserire il nome dell'utente creato per l'istanza del database del repository.
+
+
+
+ a| 
+*Password*
+ a| 
+Inserire la password.
+
+
+
+ a| 
+*Host*
+ a| 
+Inserire l'indirizzo IP dell'host in cui viene creata l'istanza del database del repository.
+
+
+
+ a| 
+*Porta*
+ a| 
+Inserire la porta utilizzata per connettersi all'istanza del database del repository. La porta predefinita è 1521.
+
+
+
+ a| 
+*Nome servizio*
+ a| 
+Immettere il nome utilizzato da SnapManager per connettersi all'istanza del database del repository. A seconda dei dettagli inclusi in `tnsnames.ora` file, potrebbe essere il nome del servizio breve o il nome del servizio completo.
+
+|===
+. Nella finestra *Perform Repository Add Operation* (Esegui operazione di aggiunta repository), esaminare il riepilogo della configurazione e fare clic su *Add* (Aggiungi).
++
+Se l'operazione non riesce, fare clic sulla scheda *Dettagli operazione* per visualizzare le cause dell'errore dell'operazione. I dettagli degli errori vengono inoltre acquisiti nel log delle operazioni che si trova in /var/log/ssap.
+
+. Fare clic su *fine*.
++
+Il repository è elencato nel riquadro di sinistra sotto l'albero *Repository*. Se il repository non viene visualizzato, fare clic con il pulsante destro del mouse su *Repository* e fare clic su *Refresh* (Aggiorna).
+
+
+
+*Informazioni correlate*
+
+https://library.netapp.com/ecm/ecm_download_file/ECMP12481453["Guida all'amministrazione di SnapManager 3.4.1 per SAP per UNIX"^]

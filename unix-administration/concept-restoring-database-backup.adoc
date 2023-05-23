@@ -1,0 +1,35 @@
+---
+permalink: unix-administration/concept-restoring-database-backup.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, enable, restore, database, state, snapshot, copy, addition, file-base, restoring, backup, mean-time-to-recoverr, mttr 
+summary: 'SnapManager per SAP consente di ripristinare un database nello stato in cui si trovava quando è stata eseguita una copia Snapshot. Oltre al processo di ripristino basato su file, SnapManager supporta la tecnologia di ripristino rapido basata su volume, che riduce significativamente il tempo di ripristino rispetto ad altri metodi di ripristino. Poiché i backup vengono creati con maggiore frequenza, il numero di log da applicare viene ridotto, riducendo così il tempo medio di ripristino (MTTR) per un database.' 
+---
+= Ripristino dei backup del database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP consente di ripristinare un database nello stato in cui si trovava quando è stata eseguita una copia Snapshot. Oltre al processo di ripristino basato su file, SnapManager supporta la tecnologia di ripristino rapido basata su volume, che riduce significativamente il tempo di ripristino rispetto ad altri metodi di ripristino. Poiché i backup vengono creati con maggiore frequenza, il numero di log da applicare viene ridotto, riducendo così il tempo medio di ripristino (MTTR) per un database.
+
+Di seguito sono riportate alcune delle attività che è possibile eseguire in relazione al ripristino e al ripristino dei dati nei database:
+
+* Eseguire un ripristino basato su file o un ripristino basato su volume, che è il metodo più rapido per ripristinare i backup del database ed è l'impostazione predefinita utilizzata da SnapManager.
+* Ripristinare l'intero backup o parte di esso.
++
+Se si ripristina una parte di esso, si specifica un gruppo di tablespace o un gruppo di file di dati. È inoltre possibile ripristinare i file di controllo insieme ai dati o solo i file di controllo stessi.
+
+* Ripristinare i dati in base a un punto temporale o a tutti i registri disponibili, che memorizzano l'ultima transazione impegnata nel database.
++
+Il punto temporale può essere un Oracle System Change Number (SCN) o una data e un'ora (yyyy-mm-dd:hh:mm:ss). SnapManager utilizza l'orologio a 24 ore.
+
+* Ripristino dai backup sullo storage primario (backup locali).
+* Ripristinare e ripristinare il backup utilizzando SnapManager oppure utilizzare SnapManager per ripristinare il backup e utilizzare un altro strumento, ad esempio Recovery Manager (RMAN), per ripristinare i dati.
+* Ripristinare i backup da posizioni alternative.
+* Ripristinare i backup protetti dallo storage secondario (backup remoti) e da una posizione alternativa utilizzando il file delle specifiche di ripristino.
+
+
+È possibile ripristinare un backup eseguito da una versione precedente di SnapManager utilizzando SnapManager 3.0 e versioni successive.
+
+Gli amministratori possono eseguire operazioni di ripristino o ripristino utilizzando l'interfaccia grafica utente (GUI) di SnapManager o l'interfaccia a riga di comando (CLI).

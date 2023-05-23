@@ -1,0 +1,60 @@
+---
+permalink: windows/task-performing-backup-restore-and-clone-operations-using-prescript-and-post-scripts.html 
+sidebar: sidebar 
+keywords: script, initiating, initiate, backup, restore, clone, operation, snapmanager, task-enabling, page, create, wizard, restore, recover, create, parameter, prescript, post-script 
+summary: 'È possibile utilizzare il proprio script durante l"avvio di un"operazione di backup, ripristino o clonazione. SnapManager visualizza una pagina di abilitazione attività nella procedura guidata di creazione backup, ripristino o ripristino o creazione clone, in cui è possibile selezionare lo script e fornire i valori per i parametri richiesti dallo script.' 
+---
+= Esecuzione di operazioni di backup, ripristino e clonazione utilizzando script prescrittivi e post-script
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare il proprio script durante l'avvio di un'operazione di backup, ripristino o clonazione. SnapManager visualizza una pagina di abilitazione attività nella procedura guidata di creazione backup, ripristino o ripristino o creazione clone, in cui è possibile selezionare lo script e fornire i valori per i parametri richiesti dallo script.
+
+* Installare gli script dei plug-in nel percorso di installazione corretto di SnapManager.
+* Verificare che i plug-in siano installati correttamente utilizzando il comando di controllo del plug-in smsap.
+* Assicurarsi di utilizzare LA shell BASH.
+
+
+Nell'interfaccia della riga di comando (CLI), elencare il nome dello script, selezionare i parametri e impostare i valori.
+
+. Per verificare che si stia utilizzando LA shell BASH, immettere il seguente comando al prompt dei comandi:``bash``
++
+In alternativa, è possibile immettere il comando quale-bash al prompt e utilizzare il comando output come parametro di avvio dello script.
+
++
+La shell BASH funziona correttamente se non viene visualizzato un errore.
+
+. Per l'operazione di backup, inserire l'opzione -taskspec e fornire il percorso assoluto del file XML delle specifiche dell'attività per eseguire un'attività di pre-elaborazione o post-elaborazione prima o dopo l'operazione di backup:
++
+`smsap backup create -profile profile_name {[-full {-online | -offline | -auto} [-retain {-hourly | [-daily | -weekly | -monthly | -unlimited}] [-verify] | [-data [[-filesfiles [files]] | [-tablespaces-tablespaces [-tablespaces]] [-datalabellabel] {-online | -offline | -auto} [-retain {-hourly | [-daily | -weekly | -monthly | -unlimited]} [-verify] | [-archivelogs [-labellabel] [-commentcomment] [-backup-destpath1 [,[path2]]] [-exclude-destpath1 [,path2]]] [-prunelogs {-all | -untilSCNuntilSCN | -before {-dateyyyy-MM-dd HH:mm:ss | -months | -days | -weeks | -hours}} -prune-destprune_dest1,[prune_dest2]] [-taskspectaskspec] [-include-with-online-backups | -no-include-with-online-backups]} -dump [-force] [-quiet | -verbose]`
+
++
+Se l'operazione del plug-in di backup non riesce, vengono visualizzati solo il nome del plug-in e il codice di ritorno. Lo script del plug-in deve includere i messaggi di log e reindirizzare i messaggi ai file di log definiti dall'utente.
+
+. Per l'operazione di ripristino del backup, immettere l'opzione -taskspec e specificare il percorso assoluto del file XML delle specifiche dell'attività per eseguire un'attività di pre-elaborazione o post-elaborazione prima o dopo l'operazione di ripristino:
++
+`smsap backup restore -profileprofile_name {-label<label> | -id<id>} {-files<files>|-tablespaces<tablespaces\> | -complete | -controlfiles} [-recover {-alllogs | -nologs | -until <until>}][-restorespec<restorespec>] [-taskspec<taskspec>] [-verify][-force] backup restore -fast [require | override | fallback | off] [-preview] -dump [-quiet | -verbose]`
+
++
+Se l'operazione di ripristino del plug-in non riesce, vengono visualizzati solo il nome del plug-in e il codice di ritorno. Lo script del plug-in deve includere i messaggi di log e reindirizzare i messaggi ai file di log definiti dall'utente.
+
+. Per l'operazione di creazione del clone, immettere l'opzione -taskspec e fornire il percorso assoluto del file XML della specifica del task per eseguire una pre-elaborazione o un'attività di post-elaborazione prima o dopo l'operazione di clonazione:
++
+`smsap clone create -profileprofile_name {-backup-labelbackup_name | -backup-id<backup-id>| -current} -newsidnew_sid-clonespecfull_path_to_clonespecfile [-reserve<yes, no, inherit>] [-host<host>] [-label<label>] [-comment<comment>] {-taskspec<taskspec>] -dump [-quiet | -verbose]`
+
++
+Se l'operazione del plug-in clone non riesce, vengono visualizzati solo il nome del plug-in e il codice di ritorno. Lo script del plug-in deve includere i messaggi di log e reindirizzare i messaggi ai file di log definiti dall'utente.
+
+
+
+
+
+== Esempio di creazione di un backup utilizzando il file XML delle specifiche dell'attività
+
+[listing]
+----
+smsap backup create -profile SALES1 -full -online -taskspec sales1_taskspec.xml -force -verify
+----

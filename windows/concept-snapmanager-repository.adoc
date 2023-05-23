@@ -1,0 +1,19 @@
+---
+permalink: windows/concept-snapmanager-repository.html 
+sidebar: sidebar 
+keywords: repository, store, information, snapmanager, operation, time, backup, tablespace, data, data, file, storage, system, clone, snapshot, copies, copy, create 
+summary: Il repository memorizza le informazioni relative alle diverse operazioni SnapManager, ad esempio il tempo di backup, tablespace e file di dati di cui è stato eseguito il backup, i sistemi di storage utilizzati, i cloni creati e le copie Snapshot create. 
+---
+= Repository SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il repository memorizza le informazioni relative alle diverse operazioni SnapManager, ad esempio il tempo di backup, tablespace e file di dati di cui è stato eseguito il backup, i sistemi di storage utilizzati, i cloni creati e le copie Snapshot create.
+
+Il database del repository non può esistere nello stesso database e non può far parte dello stesso database di cui SnapManager esegue il backup. Questo perché il repository memorizza i nomi delle copie Snapshot del database create durante le operazioni di backup. Il repository deve essere creato in un database diverso da quello di cui viene eseguito il backup. Ciò significa che è necessario disporre di almeno due database: Il database del repository SnapManager e il database di destinazione gestito da SnapManager. Quando si eseguono i servizi SnapManager, entrambi i database devono essere attivi e in esecuzione.
+
+
+NOTE: Non è necessario eseguire operazioni SnapManager utilizzando la GUI o l'interfaccia utente quando il database del repository non è attivo.

@@ -1,0 +1,28 @@
+---
+permalink: unix-administration/concept-what-repositories-are.html 
+sidebar: sidebar 
+keywords: snapmanager, organize, information, profile, repository, repositories, data 
+summary: SnapManager organizza le informazioni in profili, che vengono quindi associati ai repository. I profili contengono informazioni sul database gestito, mentre il repository contiene dati sulle operazioni eseguite sui profili. 
+---
+= Quali repository sono
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager organizza le informazioni in profili, che vengono quindi associati ai repository. I profili contengono informazioni sul database gestito, mentre il repository contiene dati sulle operazioni eseguite sui profili.
+
+Il repository registra quando è stato eseguito un backup, quali file sono stati sottoposti a backup e se è stato creato un clone dal backup. Quando gli amministratori del database ripristinano un database o ne ripristinano una parte, SnapManager esegue una query nel repository per determinare il backup.
+
+Poiché il repository memorizza i nomi delle copie Snapshot del database create durante le operazioni di backup, il database del repository non può esistere nello stesso database e non può far parte dello stesso database di cui SnapManager esegue il backup. Quando si eseguono le operazioni SnapManager, è necessario disporre di almeno due database (il database del repository SnapManager e il database di destinazione gestito da SnapManager) attivi e attivi.
+
+Se si tenta di aprire l'interfaccia grafica utente (GUI) quando il database del repository non è attivo, viene visualizzato il seguente messaggio di errore `sm_gui.log` File: [WARN]: `SMSAP-01106: Error occurred while querying the repository: No more data to read from socket`. Inoltre, le operazioni SnapManager non riescono quando il database del repository non è attivo. Per ulteriori informazioni sui diversi messaggi di errore, consulta la sezione _risoluzione dei problemi noti_.
+
+Per eseguire le operazioni, è possibile utilizzare un nome host, un nome di servizio o un nome utente valido. Affinché un repository supporti le operazioni SnapManager, il nome utente e il nome del servizio del repository devono essere composti solo dai seguenti caratteri: Caratteri alfabetici (A-Z), cifre (0-9), segno meno (-), carattere di sottolineatura (_) e punto (.).
+
+La porta del repository può essere qualsiasi numero di porta valido e il nome host del repository può essere qualsiasi nome host valido. Il nome host deve essere composto da caratteri alfabetici (A-Z), cifre (0-9), segno meno (-) e punto (.), ma non da un carattere di sottolineatura (_).
+
+Il repository deve essere creato in un database Oracle. Il database utilizzato da SnapManager deve essere configurato in conformità alle procedure Oracle per la configurazione del database.
+
+Un singolo repository può contenere informazioni su più profili; tuttavia, ogni database è normalmente associato a un solo profilo. Puoi avere più repository, con ogni repository contenente più profili.

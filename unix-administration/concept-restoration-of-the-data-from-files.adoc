@@ -1,0 +1,18 @@
+---
+permalink: unix-administration/concept-restoration-of-the-data-from-files.html 
+sidebar: sidebar 
+keywords: restore, alternate, location, file, snapvault, restoration, data 
+summary: 'Prima di eseguire il ripristino da una posizione alternativa, è necessario ripristinare i file necessari da qualsiasi supporto di storage e ripristinare i file da applicazioni come SnapVault o SnapMirror su un file system montato sull"host locale.' 
+---
+= Ripristino dei dati dai file
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di eseguire il ripristino da una posizione alternativa, è necessario ripristinare i file necessari da qualsiasi supporto di storage e ripristinare i file da applicazioni come SnapVault o SnapMirror su un file system montato sull'host locale.
+
+È possibile utilizzare l'operazione di ripristino da una posizione alternativa per copiare i file da un file system alternativo a un file system attivo.
+
+È necessario specificare le posizioni alternative da cui ripristinare i file originali creando una specifica di ripristino.

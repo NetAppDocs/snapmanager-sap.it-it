@@ -1,0 +1,29 @@
+---
+permalink: windows/task-restoring-backups-from-an-alternate-location.html 
+sidebar: sidebar 
+keywords: restore, alternate, location, data, file, intermediate, system, active, restoring, backup 
+summary: È possibile eseguire il ripristino da una posizione alternativa per ripristinare i file di dati da un file system intermedio a un file system attivo. 
+---
+= Ripristino dei backup da una posizione alternativa
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire il ripristino da una posizione alternativa per ripristinare i file di dati da un file system intermedio a un file system attivo.
+
+* Creare un file XML con specifica di ripristino e specificare il tipo di metodo di ripristino che si desidera utilizzare.
+
+
+È possibile utilizzare il comando ssap backup restore e specificare il file XML delle specifiche di ripristino creato per ripristinare il backup da una posizione alternativa.
+
+. Immettere il seguente comando:
++
+`smsap backup restore -profileprofile-labellabel-complete-alllogs-restorespecrestorespec`
+
+
+
+*Informazioni correlate*
+
+xref:reference-the-smosmsapbackup-restore-command.adoc[Il comando di ripristino del backup di smsap]

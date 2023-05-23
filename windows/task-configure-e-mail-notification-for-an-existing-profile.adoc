@@ -1,0 +1,39 @@
+---
+permalink: windows/task-configure-e-mail-notification-for-an-existing-profile.html 
+sidebar: sidebar 
+keywords: update, profile, configure, receive, email, notification, completion, database, operation, exist 
+summary: 'Quando si aggiorna un profilo, è possibile configurare per ricevere una notifica via email al completamento dell"operazione del database.' 
+---
+= Configurare la notifica e-mail per un profilo esistente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si aggiorna un profilo, è possibile configurare per ricevere una notifica via email al completamento dell'operazione del database.
+
+
+
+== Di cosa hai bisogno
+
+* È necessario configurare l'indirizzo e-mail da cui vengono inviati gli avvisi.
+* È necessario inserire un singolo indirizzo e-mail o più indirizzi e-mail a cui verranno inviati gli avvisi.
++
+È possibile utilizzare un elenco separato da virgole per più indirizzi. Assicurarsi che non vi sia spazio tra la virgola e l'indirizzo e-mail successivo. In alternativa, è possibile aggiungere un oggetto all'e-mail.
+
++
+
+NOTE: Assicurarsi di inserire il set di indirizzi e-mail multipli tra virgolette doppie.
+
+
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap profile update -profile _profile_ [-profile-password _profile_password_][-database -dbname _db_dbname_ -host _db_host_ [-sid _db_sid_] [-login -username _db_username_ -password _db_password_ -port _db_port_]] [{-rman{-controlfile | {-login  -username _rman_username_ -password  _rman_password_ -tnsname  _rman_tnsname_}}} | -remove-rman] [-retain [-hourly [-count _n_] [-duration _m_]] [-daily [-count _n_] [-duration _m_]] [-weekly [-count _n_] [-duration _m_]] [-monthly [-count _n_] [-duration _m_]]] [-comment _comment_][-snapname-pattern _pattern_][[ [ ]]| [[]] [-notification [-success -email _email_address1_,_email_address2_ -subject _subject_pattern_] [-failure -email _email_address1_,_email_address2_ -subject _subject_pattern_]]*`
+
++
+È possibile utilizzare `success` opzione di ricezione di una notifica solo per operazioni di database riuscite e l' `failure` opzione per ricevere una notifica solo per operazioni di database non riuscite.
+
+

@@ -1,0 +1,88 @@
+---
+permalink: unix-administration/task-preview-backup-restore-information.html 
+sidebar: sidebar 
+keywords: preview, information, backup, restore, process, snapmanager, sap, successful 
+summary: 'È possibile visualizzare in anteprima le informazioni relative a un processo di ripristino del backup prima che si verifichi, per visualizzare le informazioni sull"idoneità al ripristino rilevate da SnapManager per SAP nel backup. SnapManager analizza i dati del backup per determinare se il processo di ripristino può essere completato correttamente.' 
+---
+= Anteprima delle informazioni di ripristino del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare in anteprima le informazioni relative a un processo di ripristino del backup prima che si verifichi, per visualizzare le informazioni sull'idoneità al ripristino rilevate da SnapManager per SAP nel backup. SnapManager analizza i dati del backup per determinare se il processo di ripristino può essere completato correttamente.
+
+*A proposito di questa attività*
+
+L'anteprima di ripristino fornisce le seguenti informazioni:
+
+* Quale meccanismo di ripristino (ripristino rapido, ripristino del file system lato storage, ripristino del file lato storage o ripristino della copia del file lato host) può essere utilizzato per ripristinare ciascun file.
+* Perché non sono stati utilizzati meccanismi più efficienti per ripristinare ciascun file, quando si specifica `-verbose` opzione.
+
+
+Se si specifica `-preview` in `backup restore` SnapManager non ripristina nulla, ma elenca i file da ripristinare e indica come verranno ripristinati.
+
+
+NOTE: È possibile visualizzare in anteprima tutti i tipi di meccanismi di ripristino. L'anteprima mostra informazioni su un massimo di 20 file.
+
+.Fasi
+. Immettere il seguente comando:
++
+`*smsap backup restore -profile _profile_name_ -label _label_ -complete -preview -verbose*`
+
++
+*Esempio*
+
++
+Ad esempio, immettere:
+
++
+[listing]
+----
+smsap backup restore -profile targetdb1_prof1
+      -label full_bkup_sales_nov_08  -complete -preview -verbose
+----
++
+L'esempio seguente mostra alcuni file ripristinati mediante il processo di ripristino della copia del file sul lato host e spiega anche perché alcuni file non possono essere ripristinati utilizzando l'opzione di ripristino rapido. Se si specifica `-verbose` SnapManager visualizza una sezione di anteprima e una sezione di analisi che spiegano perché non è possibile ripristinare ciascun file attraverso il processo di ripristino rapido.
+
++
+[listing]
+----
+PREVIEW:
+The following files will be restored via host side file copy restore:
++DG2/sid/datafile10.dbf
++DG2/sid/datafile11.dbf
+
+ANALYSIS:
+The following reasons prevent certain files from being restored via fast restore:
+Reasons:
+ Newer snapshots of /vol/volume2 have volume clones: SNAP_1
+*Newer backups will be freed: nightly2, nightly3
+Files to Restore:
+/mnt/systemB/volume2/system.dbf
+/mnt/systemB/volume2/users.dbf
+/mnt/systemB/volume2/sysaux.dbf
+/mnt/systemB/volume2/datafile04.dbf
+/mnt/systemB/volume2/datafile05.dbf
+
+The following reasons prevent certain files from being restored via fast restore:
+Reasons:
+* Newer snapshots of /vol/adm_disks will be lost: ADM_SNAP_5
+* Luns present which were created after snapshot SNAP_0 was created: /vol/adm_disks/disk5.lun
+* Files not part of the restore scope will be reverted in file system: +DG2
+
+Files Not in Restore Scope: +DG2/someothersid/data01.dbf
++DG2/someothersid/data02.dbf
+Files to Restore:
++DG2/sid/datafile08.dbf +DG2/sid/datafile09.dbf
++DG2/sid/datafile10.dbf +DG2/sid/datafile11.dbf
+
+* Reasons denoted with an asterisk (*) are overridable.
+----
+. Esaminare i motivi per cui non è possibile utilizzare altri processi di ripristino.
+. Avviare l'operazione di ripristino senza `-preview` se vengono visualizzati solo i motivi che possono essere sovrascrivibili.
++
+È comunque possibile eseguire l'override dei controlli non obbligatori.
+
+

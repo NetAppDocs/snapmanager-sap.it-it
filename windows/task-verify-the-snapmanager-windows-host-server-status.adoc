@@ -1,0 +1,19 @@
+---
+permalink: windows/task-verify-the-snapmanager-windows-host-server-status.html 
+sidebar: sidebar 
+keywords: server, run, execute, command, initiate, snapmanager, operation, verify, status, host 
+summary: Il server deve essere in esecuzione per poter eseguire comandi o avviare operazioni SnapManager. Prima di eseguire qualsiasi operazione, verificare lo stato del server. 
+---
+= Verificare lo stato del server host SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il server deve essere in esecuzione per poter eseguire comandi o avviare operazioni SnapManager. Prima di eseguire qualsiasi operazione, verificare lo stato del server.
+
+.Fasi
+. Nella finestra servizi, selezionare SnapManager 3.3 per SAP.
+. Visualizzare lo stato nella colonna Status (Stato).
+

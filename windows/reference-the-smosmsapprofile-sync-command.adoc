@@ -1,0 +1,81 @@
+---
+permalink: windows/reference-the-smosmsapprofile-sync-command.html 
+sidebar: sidebar 
+keywords: command, profile-to-repository, map, repository, file, home, directory, local, host, smsap 
+summary: 'Questo comando carica le mappature da profilo a repository per quel repository in un file nella home directory dell"host locale.' 
+---
+= Il comando di sincronizzazione del profilo smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando carica le mappature da profilo a repository per quel repository in un file nella home directory dell'host locale.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap profile sync
+-repository
+-dbname repo_service_name
+-host repo_host
+-port repo_port
+-login
+-username repo_username
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-repository`*
++
+Le opzioni seguenti `-repository` specificare i dettagli del database per il repository.
+
+* *`-dbname _repo_service_name_`*
++
+Specifica il database repository per il profilo da sincronizzare.
+
+* *`-host`*
++
+Specifica l'host del database.
+
+* *`-port`*
++
+Specifica la porta per l'host.
+
+* *`-login`*
++
+Specifica il processo di accesso per l'utente host.
+
+* *`-username`*
++
+Specifica il nome utente dell'host.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente viene illustrato il risultato del comando per sincronizzare le mappature da profilo a repository per il database.
+
+[listing]
+----
+smsap profile sync -repository -dbname smrepo -host Host2 -port 1521 -login -username user2
+SMSAP-12345 [INFO ]: Loading profile mappings for repository "user2@Host2:smrepo" into cache for OS User "admin".
+Operation Id [Nff8080810da9018f010da901a0170001] succeeded.
+----

@@ -1,0 +1,30 @@
+---
+permalink: unix-administration/concept-create-backups-using-snapshot-copies.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, primary, local, storage, secondary, remote, protection, policies, policy, postprocessing, script, create, backup, snapshot, copies, copy 
+summary: 'SnapManager consente di creare backup sullo storage primario (locale) e sullo storage secondario (remoto) utilizzando policy di protezione o script di post-elaborazione.' 
+---
+= Creare backup utilizzando copie Snapshot
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di creare backup sullo storage primario (locale) e sullo storage secondario (remoto) utilizzando policy di protezione o script di post-elaborazione.
+
+I backup creati come copie Snapshot sono copie virtuali del database e vengono memorizzati nello stesso supporto fisico del database. Pertanto, l'operazione di backup richiede meno tempo e richiede molto meno spazio rispetto ai backup disk-to-disk completi. SnapManager consente di eseguire il backup di quanto segue:
+
+* Tutti i file di dati, i file di log di archiviazione e i file di controllo
+* File di dati o tablespace selezionati, tutti i file di log dell'archivio e i file di controllo
+
+
+SnapManager 3.2 o versione successiva consente di eseguire il backup opzionale dei seguenti elementi:
+
+* Tutti i file di dati e i file di controllo
+* File di dati o tablespace selezionati insieme ai file di controllo
+* Archiviare i file di log
+
+
+
+NOTE: I file di dati, i file di log dell'archivio e i file di controllo possono essere posizionati su diversi sistemi di storage, volumi del sistema di storage o LUN (Logical Unit Number). È inoltre possibile utilizzare SnapManager per eseguire il backup di un database quando sono presenti più database sullo stesso volume o LUN.

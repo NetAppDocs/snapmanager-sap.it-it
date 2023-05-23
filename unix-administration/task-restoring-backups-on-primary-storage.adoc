@@ -1,0 +1,198 @@
+---
+permalink: unix-administration/task-restore-backups-on-primary-storage.html 
+sidebar: sidebar 
+keywords: backup, restore, command, database, primary, storage, restoring 
+summary: È possibile utilizzare il comando di ripristino del backup per ripristinare un backup del database sullo storage primario. 
+---
+= Ripristinare i backup sullo storage primario
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare `backup restore` comando per ripristinare un backup del database sullo storage primario.
+
+*A proposito di questa attività*
+
+SnapManager tenta di eseguire un ripristino rapido basato su volume per impostazione predefinita e fornisce informazioni sul controllo di idoneità. Se necessario, puoi ignorare alcuni controlli di idoneità. Se si è certi che un backup non può essere eseguito utilizzando un ripristino rapido, è possibile disattivare il controllo di idoneità del ripristino rapido ed eseguire un ripristino basato su file.
+
+È possibile utilizzare `backup restore` Opzioni di comando per specificare se SnapManager deve ripristinare tutto o parte del backup. SnapManager consente inoltre di ripristinare i file di controllo insieme ai file di dati o agli spazi delle tabelle dai backup in un'operazione con un singolo utente. Puoi includere `-controlfiles` con `-complete` per ripristinare i file di controllo insieme a tablespace e file di dati.
+
+È possibile selezionare una delle seguenti opzioni per ripristinare il backup:
+
+[cols="1a,1a"]
+|===
+| Se si desidera ripristinare... | Utilizzare... 
+
+
+ a| 
+L'intero backup con tutti i tablespace e i file di dati
+ a| 
+`-complete`
+
+
+
+ a| 
+L'elenco di tablespace specifici
+ a| 
+`-tablespaces`
+
+
+
+ a| 
+File di dati specifici
+ a| 
+`-files`
+
+
+
+ a| 
+Solo i file di controllo
+ a| 
+`-controlfiles`
+
+
+
+ a| 
+Tablespace, file di dati e file di controllo
+ a| 
+`-complete -controlfiles`
+
+|===
+È anche possibile ripristinare il backup da una posizione alternativa specificando `-restorespec`.
+
+Se si include `-recover`, è possibile ripristinare il database per:
+
+* L'ultima transazione che si è verificata nel database (tutti i registri)
+* Data e ora specifiche
+* Un numero SCN (System Change Number) Oracle specifico
+* L'ora del backup (nessun registro)
+* Solo ripristino
+
+
+
+NOTE: Sia il ripristino di data e ora che il ripristino SCN sono ripristini point-in-time.
+
+SnapManager (3.2 o versione successiva) consente di ripristinare automaticamente i backup del database ripristinati utilizzando i file di registro dell'archivio. Anche se i file di log dell'archivio sono disponibili nella posizione esterna, se si specifica `-recover-from-location option`, SnapManager utilizza i file di log dell'archivio dalla posizione esterna per ripristinare i backup del database ripristinati.
+
+SnapManager fornisce la posizione esterna a Oracle. Tuttavia, Oracle non identifica i file dalla destinazione esterna. Questo comportamento si verifica nella destinazione dell'area di ripristino flash. Si tratta di problemi con Oracle e la soluzione è avere sempre il backup dei file di log dell'archivio in tali layout di database.
+
+Se viene fornita una data o un numero SCN incoerente, il ripristino si interrompe all'ultimo punto coerente recuperato con il messaggio di errore `Recovery succeeded, but insufficient`. È necessario eseguire manualmente il ripristino in uno stato coerente.
+
+Per il ripristino quando non vengono applicati registri, SnapManager esegue il ripristino fino all'ultimo numero di configurazione del file di registro dell'archivio creato durante il backup. Se il database è coerente fino a quando non viene visualizzato questo SCN, il database viene aperto correttamente. Se a questo punto il database non è coerente, SnapManager tenta comunque di aprire il database, che verrà aperto correttamente, se il database è già coerente.
+
+
+NOTE: SnapManager non supporta il ripristino dei backup solo log dell'archivio.
+
+Se la destinazione del log di archiviosu un punto di montaggio NFS non è uno storage con funzionalità Snapshot, SnapManager consente di ripristinare i backup del database ripristinati utilizzando il profilo. Prima di eseguire operazioni SnapManager su uno storage non compatibile con Snapshot, è necessario aggiungere le destinazioni per `archivedLogs.exclude` poll `smsap.config`.
+
+Prima di creare un profilo, è necessario impostare il parametro exclude. Solo dopo aver impostato il parametro exclude nel file di configurazione SnapManager, la creazione del profilo ha esito positivo.
+
+Se il backup è già stato montato, SnapManager non lo installa di nuovo e utilizza il backup già montato. Se il backup viene montato da un altro utente e l'utente corrente non ha accesso al backup precedentemente montato, gli altri utenti devono fornire le autorizzazioni. Tutti i file di log dell'archivio dispongono dei permessi di lettura per i proprietari dei gruppi; l'utente corrente potrebbe non ottenere i permessi, se il backup viene montato da un gruppo di utenti diverso. Gli utenti possono assegnare manualmente i permessi ai file di registro dell'archivio montati e riprovare il ripristino o il ripristino.
+
+Ripristino dei backup del database in un ambiente RAC (Real Application Clusters)
+
+Durante il ripristino dei backup del database in un ambiente RAC, quando il file di log dell'archivio richiesto non viene trovato, Oracle richiede i file di log dell'archivio e passa da un thread diverso al numero di cambiamento nel database RAC. SnapManager per SAP cerca di ripristinare il database come uno sforzo ottimale. Il ripristino corretto dei backup del database nell'ambiente RAC dipende dalla disponibilità dei file di log dell'archivio nei backup.
+
+Il meccanismo di ripristino consigliato per il database RAC è il seguente:
+
+* Assicurarsi che tutti i file di log dell'archivio siano disponibili nei backup o che tutti i file di log dell'archivio siano disponibili in una destinazione di log dell'archivio esterno.
+* Se vengono fornite più destinazioni di log di archiviazione esterne, è possibile sovrapporre i file di log di archiviazione specificando le destinazioni di log di archiviazione esterne per tutti i thread.
++
+Ad esempio, la posizione del log di archiviazione esterno - posso avere da 1 a 100 file di log di archiviazione, la posizione del log di archiviazione esterno - II può avere da 98 a 200 file di log di archiviazione e la posizione del log di archiviazione esterno - III può avere da 198 a 300 file di log di archiviazione.
+
+* Mentre si eliminano i file di log dell'archivio, invece di eliminare tutti i file di log dell'archivio, è possibile eliminare i file di log dell'archivio fino a SCN o data, in modo che i backup possano avere gli stessi file di log dell'archivio.
+
+
+È possibile specificare l'opzione -dump come parametro facoltativo per raccogliere i file dump dopo l'operazione di ripristino riuscita o non riuscita.
+
+.Fasi
+. Immettere il seguente comando:
++
+`*smsap backup restore -profile _profile_name_ -label _label_ -complete-recover -alllogs [-recover-from-location _path_ [_,path2_]]-dump-verbose*`
+
++
+*Esempio*
+
++
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 - complete -recover -alllogs -verbose*`
+
+. Per ripristinare i dati per diversi scenari, completare una delle seguenti operazioni:
++
+[cols="2a,4a"]
+|===
+| Se si desidera ripristinare... | Esempio di comando 
+
+
+ a| 
+*Database completo senza file di controllo e ripristino a un numero SCN specifico (3794392). In questo caso, i file di controllo correnti esistono, ma tutti i file di dati vengono danneggiati o persi. Ripristinare e ripristinare il database da un backup online completo esistente a un punto immediatamente precedente a quello SCN.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -recover -until 3794392 -verbose*`
+
+
+
+ a| 
+*Completa il database senza file di controllo e ripristina fino a data e ora.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -recover -until 2008-09-15:15:29:23 -verbose*`
+
+
+
+ a| 
+*Completa il database senza file di controllo e ripristina fino a data e tempo. In questo caso, i file di controllo correnti esistono, ma tutti i file di dati vengono danneggiati o persi oppure si è verificato un errore logico dopo un determinato periodo di tempo. Ripristinare e ripristinare il database da un backup online completo esistente a una data e un'ora immediatamente prima del punto di errore.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -recover -until "2008-09-15:15:29:23" -verbose*`
+
+
+
+ a| 
+*Database parziale (uno o più file di dati) senza file di controllo e ripristino utilizzando tutti i registri disponibili. In questo caso, esistono i file di controllo correnti, ma uno o più file di dati vengono danneggiati o persi. Ripristinare questi file di dati e ripristinare il database da un backup online completo esistente utilizzando tutti i registri disponibili.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -files /oracle/FLA/sapdata1/sr3_1/sr3.data1 /oracle/FLA/sapdata1/sr3_2/sr3.data2 /oracle/FLA/sapdata1/sr3_3/sr3.data3 -recover -alllogs -verbose (where "FLA" is the <SID>*`
+
+
+
+ a| 
+*Database parziale (uno o più tablespace) senza file di controllo e ripristino utilizzando tutti i log disponibili. In questo caso, esistono i file di controllo correnti, ma uno o più tablespace vengono eliminati o uno o più file di dati appartenenti allo spazio di tabella vengono danneggiati o persi. Ripristinare questi spazi delle tabelle e ripristinare il database da un backup online completo esistente utilizzando tutti i registri disponibili.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -tablespaces users -recover -alllogs -verbose*`
+
+
+
+ a| 
+*Controllare solo i file e ripristinare utilizzando tutti i log disponibili. In questo caso, i file di dati esistono, ma tutti i file di controllo vengono danneggiati o persi. Ripristinare solo i file di controllo e ripristinare il database da un backup online completo esistente utilizzando tutti i registri disponibili.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -controlfiles -recover -alllogs -verbose*`
+
+
+
+ a| 
+*Completa il database senza file di controllo e ripristina utilizzando i file di controllo di backup e tutti i log disponibili. In questo caso, tutti i file di dati vengono danneggiati o persi. Ripristinare solo i file di controllo e ripristinare il database da un backup online completo esistente utilizzando tutti i registri disponibili.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -using-backup-controlfile -recover -alllogs -verbose*`
+
+
+
+ a| 
+*Ripristinare il database ripristinato utilizzando i file di log dell'archivio dalla posizione del log dell'archivio esterno.*
+ a| 
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -using-backup-controlfile -recover -alllogs -recover-from-location /user1/archive -verbose*`
+
+|===
+. Esaminare i controlli di idoneità per il ripristino rapido.
++
+*Esempio*
+
++
+Immettere il seguente comando:
+
++
+`*smsap backup restore -profile targetdb1_prof1 -label full_bkup_sales_nov_08 -complete -recover -alllogs -recover-from-location /user1/archive -verbose*`
+
+. Se il controllo di idoneità indica che non è stato superato alcun controllo obbligatorio e se è possibile ignorare determinate condizioni, e se si desidera continuare con il processo di ripristino, immettere quanto segue:
++
+`*backup restore -fast override*`
+
+. Specificare le posizioni esterne del registro di archiviazione utilizzando `-recover-from-location` opzione.
+

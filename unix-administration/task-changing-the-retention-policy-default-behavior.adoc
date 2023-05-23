@@ -1,0 +1,49 @@
+---
+permalink: unix-administration/task-change-the-retention-policy-default-behavior.html 
+sidebar: sidebar 
+keywords: backup, expire, base, retention, policy, snapmanager, determine, delete, back, up, setting, behavior, unprotect, protect, changing, change 
+summary: 'Quando un backup scade in base al criterio di conservazione, SnapManager determina se eliminare il backup in base alle impostazioni di conservazione. L"eliminazione dei backup è il comportamento predefinito. È possibile modificare questo comportamento predefinito e scegliere di liberare i backup non protetti.' 
+---
+= Modificare il comportamento predefinito del criterio di conservazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando un backup scade in base al criterio di conservazione, SnapManager determina se eliminare il backup in base alle impostazioni di conservazione. L'eliminazione dei backup è il comportamento predefinito. È possibile modificare questo comportamento predefinito e scegliere di liberare i backup non protetti.
+
+*A proposito di questa attività*
+
+Per impostazione predefinita, SnapManager elimina o libera i backup a seconda che siano protetti o meno come segue:
+
+* Per i backup protetti, SnapManager libera i backup locali quando scadono.
+* Per i backup non protetti, SnapManager elimina i backup locali alla scadenza.
++
+È possibile modificare questo comportamento predefinito.
+
+
+
+Per i backup protetti, SnapManager non prende in considerazione quanto segue per determinare se eliminare la copia locale:
+
+* Il backup sullo storage secondario non è riuscito o è in corso la protezione.
++
+Ciò consente il trasferimento dei backup sullo storage secondario prima dell'applicazione del criterio di conservazione.
+
+* La copia è stata successivamente eliminata dallo storage secondario.
+
+
+.Fasi
+. Accedere alla seguente posizione predefinita:
++
+`_default smsap installation location_/properties/smsap.config`
+
+. Modificare il `smsap.config` file.
+. Impostare `retain.alwaysFreeExpiredBackups` proprietà in `smsap.config` file su true.
++
+Ad esempio,
+
++
+`*retain.alwaysFreeExpiredBackups = true*`
+
+

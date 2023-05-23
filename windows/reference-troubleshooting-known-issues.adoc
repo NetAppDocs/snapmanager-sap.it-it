@@ -1,0 +1,191 @@
+---
+permalink: windows/reference-troubleshooting-known-issues.html 
+sidebar: sidebar 
+keywords: aware, issue, snapmanager, troubleshoot 
+summary: È necessario essere a conoscenza di alcuni problemi noti che potrebbero verificarsi quando si utilizza SnapManager e di come risolverli. 
+---
+= Risoluzione dei problemi noti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario essere a conoscenza di alcuni problemi noti che potrebbero verificarsi quando si utilizza SnapManager e di come risolverli.
+
+
+
+== SnapManager per SAP non riesce a identificare il profilo come profilo in modalità cluster
+
+Se il nome del profilo Cluster-Mode non è presente in `cmode_profiles.config` Nella directory di installazione di SnapManager per SAP, potrebbe essere visualizzato il seguente messaggio di errore:
+
+`Please configure DFM server using snapdrive config set -dfm user_name appliance_name`.
+
+Inoltre, durante l'aggiornamento di SnapManager per SAP, se si elimina `/opt/NetApp/smsap/`*, quindi `cmode_profiles.config` Viene eliminato anche il file con i nomi dei profili Cluster-Mode. Questo problema genera anche lo stesso messaggio di errore.
+
+*Soluzione*
+
+Aggiornare il profilo: `smsap profile update-profile <profile_name\>`
+
+
+NOTE: Se SnapManager per SAP è installato in `/opt/NetApp/smsap/` percorso, quindi la posizione del file sarà `/opt/NetApp/smsap/cmode_profile/cmode_profiles.config`.
+
+
+
+== Il server non si avvia
+
+All'avvio del server, potrebbe essere visualizzato un messaggio di errore simile al seguente:
+
+`SMSAP-01104: Error invoking command: SMSAP-17107: SnapManager Server failed to start on port 8074 because of the following errors: java.net.BindException: Address already in use`
+
+Ciò potrebbe essere dovuto al fatto che le porte di ascolto SnapManager (27314 e 27315, per impostazione predefinita) sono attualmente in uso da un'altra applicazione.
+
+Questo errore può verificarsi anche se `smsap_server` Il comando è già in esecuzione, ma SnapManager non rileva il processo esistente.
+
+*Soluzione*
+
+È possibile riconfigurare SnapManager o l'altra applicazione per utilizzare porte diverse.
+
+Per riconfigurare SnapManager, modificare il seguente file: `C:\Program Files\NetApp\SnapManager for SAP\properties\smsap.config`
+
+Vengono assegnati i seguenti valori:
+
+* SMSAP Server.port=27314
+* SMSAP Server.rmiRegistry.port=27315
+* remote.registry.ocijdbc.port= 27315
++
+Remote.registry.ocijdbc.port deve essere uguale a Server.rmiRegistry.port.
+
+
+
+Per avviare il server SnapManager, attenersi alla seguente procedura:
+
+.Fasi
+. Fare clic su *Start* > *pannello di controllo* > *Strumenti di amministrazione* > *servizi*.
+. Nella finestra servizi, selezionare NetApp SnapManager 3.3 per SAP.
+. È possibile avviare il server in tre modi:
++
+** Nel pannello di sinistra, fare clic su *Start*.
+** Fare clic con il pulsante destro del mouse su NetApp SnapManager 3.3 per SAP e selezionare *Avvia* dal menu a discesa.
+** Fare doppio clic su NetApp SnapManager 3.3 per SAP e nella finestra Proprietà visualizzata, fare clic su *Avvia*.
+
+
+
+
+
+
+== Impossibile gestire i nomi di destinazione del file di log dell'archivio se i nomi di destinazione fanno parte di altri nomi di destinazione
+
+Durante la creazione di un backup del registro di archiviazione, se l'utente esclude una destinazione che fa parte di altri nomi di destinazione, vengono esclusi anche gli altri nomi di destinazione.
+
+Ad esempio, si supponga che siano disponibili tre destinazioni da escludere: `E:\\arch`, `G:\\arch`, e. `H:\\arch`. Durante la creazione del backup del file di log dell'archivio, se si esclude `E:\\arch` utilizzando il comando
+
+[listing]
+----
+smsap backup create -profile almsamp1 -data -online -archivelogs  -exclude-dest E:\\arch
+----
+, SnapManager per SAP esclude tutte le destinazioni che iniziano con `E:\\arch`.
+
+*Soluzione*
+
+* Aggiungere un separatore di percorso dopo aver configurato le destinazioni in `v$archive_dest`. Ad esempio, modificare `E:\\arch` a. `E:\\arch\`.
+* Durante la creazione di un backup, includere le destinazioni invece di escludere qualsiasi destinazione.
+
+
+
+
+== Le dimensioni del database del repository aumentano con il tempo e non con il numero di backup
+
+Le dimensioni del database del repository aumentano con il tempo perché le operazioni SnapManager inseriscono o eliminano i dati all'interno dello schema nelle tabelle del database del repository, il che comporta un elevato utilizzo dello spazio dell'indice.
+
+*Soluzione*
+
+È necessario monitorare e ricostruire gli indici in base alle linee guida Oracle per controllare lo spazio occupato dallo schema del repository.
+
+
+
+== Non è possibile accedere all'interfaccia grafica di SnapManager e le operazioni SnapManager non vengono eseguite quando il database del repository non è attivo
+
+Le operazioni SnapManager non riescono e non è possibile accedere alla GUI quando il database del repository non è attivo.
+
+La tabella seguente elenca le diverse azioni che si desidera eseguire e le relative eccezioni:
+
+|===
+| Operazioni | Eccezioni 
+
+
+ a| 
+Apertura di un repository chiuso
+ a| 
+Viene visualizzato il seguente messaggio di errore `sm_gui.log: [WARN ]: SMSAP-01106: Error occurred while querying the repository: Closed Connection java.sql.SQLException: Closed Connection`.
+
+
+
+ a| 
+Aggiornare un repository aperto premendo F5
+ a| 
+Nella GUI viene visualizzata un'eccezione di repository e viene inoltre registrato un NullPointerException in `sm_gui.log` file.
+
+
+
+ a| 
+Aggiornamento del server host
+ a| 
+Un NullPointerException viene collegato in `sumo_gui.log` file.
+
+
+
+ a| 
+Creazione di un nuovo profilo
+ a| 
+Nella finestra Configurazione profilo viene visualizzata un'eccezione NullPointerException.
+
+
+
+ a| 
+Aggiornamento di un profilo
+ a| 
+Viene eseguita l'accesso alla seguente eccezione SQL `sm_gui.log: [WARN ]: SMSAP-01106: Error occurred while querying the repository: Closed Connection`.
+
+
+
+ a| 
+Accesso a un backup
+ a| 
+Viene visualizzato il seguente messaggio di errore `sm_gui.log: Failed to lazily initialize a collection`.
+
+
+
+ a| 
+Visualizzazione delle proprietà dei cloni
+ a| 
+Viene visualizzato il seguente messaggio di errore `sm_gui.log` e. `sumo_gui.log: Failed to lazily initialize a collection`.
+
+|===
+*Soluzione*
+
+È necessario assicurarsi che il database del repository sia in esecuzione quando si desidera accedere alla GUI o eseguire operazioni SnapManager.
+
+
+
+== Impossibile creare file temporanei per il database clonato
+
+Quando i file tablespace temporanei del database di destinazione vengono posizionati in punti di montaggio diversi dal punto di montaggio dei file di dati, l'operazione di creazione del clone ha esito positivo, ma SnapManager non riesce a creare file temporanei per il database clonato.
+
+*Soluzione*
+
+Eseguire una delle seguenti operazioni:
+
+* Assicurarsi che il database di destinazione sia disposto in modo che i file temporanei siano posizionati nello stesso punto di montaggio dei file di dati.
+* Creare o aggiungere manualmente file temporanei nel database clonato.
+
+
+
+
+== Il backup del database Standby Data Guard non riesce
+
+Se una posizione del registro di archiviazione è configurata con il nome del servizio del database primario, il backup del database di standby Data Guard non riesce.
+
+*Soluzione*
+
+Nella GUI, è necessario deselezionare *specificare la posizione del registro archivio esterno* corrispondente al nome del servizio del database primario.

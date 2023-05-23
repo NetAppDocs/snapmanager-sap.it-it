@@ -1,0 +1,54 @@
+---
+permalink: unix-administration/task-use-snapmanager-for-oraclesnapmanager-for-sapto-restore-a-local-backup-on-primary-storage.html 
+sidebar: sidebar 
+keywords: restore, local, backup, exist, primary, storage, entire, process, perform, snapmanager, sap 
+summary: 'È possibile ripristinare i backup locali presenti sullo storage primario. L"intero processo viene eseguito utilizzando SnapManager per SAP.' 
+---
+= Utilizzare SnapManager per SAP per ripristinare un backup locale sullo storage primario
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile ripristinare i backup locali presenti sullo storage primario. L'intero processo viene eseguito utilizzando SnapManager per SAP.
+
+*A proposito di questa attività*
+
+È inoltre possibile visualizzare in anteprima le informazioni relative a un processo di ripristino del backup. Questa operazione consente di visualizzare informazioni sull'idoneità di ripristino di un backup. SnapManager analizza i dati di un backup per determinare se il processo di ripristino può essere completato utilizzando il ripristino basato su volume o il metodo di ripristino basato su file.
+
+L'anteprima di ripristino mostra le seguenti informazioni:
+
+* Quale meccanismo di ripristino (ripristino rapido, ripristino del file system lato storage, ripristino del file lato storage o ripristino della copia del file lato host) verrà utilizzato per ripristinare ciascun file.
+* Perché non sono stati utilizzati meccanismi più efficienti per ripristinare ciascun file.
+
+
+In anteprima del piano di ripristino, SnapManager non ripristina nulla. L'anteprima mostra informazioni fino a 20 file.
+
+Se si desidera visualizzare in anteprima un ripristino dei file di dati ma il database non è montato, SnapManager monta il database. Se il database non può essere montato, l'operazione non riesce e SnapManager riporta il database al suo stato originale.
+
+.Fasi
+. Nella struttura *Repository*, fare clic con il pulsante destro del mouse sul backup che si desidera ripristinare e selezionare *Restore* (Ripristina).
+. Nella pagina iniziale della procedura guidata di ripristino e ripristino, fare clic su *Avanti*.
+. Nella pagina *Restore Configuration Information* (Ripristina informazioni configurazione), selezionare *complete Datafile/tablespace Restore with Control Files* (Ripristino completo di file di dati/tablespace con file di controllo).
+. Fare clic su *Allow shutdown of database if necessary*.
++
+SnapManager modifica lo stato del database, se necessario. Ad esempio, se il database è offline e deve essere online, SnapManager lo impone online.
+
+. Nella pagina *Recovery Configuration Information*, fare clic su *All Logs* (tutti i registri).
++
+SnapManager ripristina e ripristina il database all'ultima transazione e applica tutti i log richiesti.
+
+. Nella pagina *Restore Source Location Configuration* (Configurazione percorso di origine ripristino), visualizzare le informazioni relative al backup su primario e fare clic su *Next* (Avanti).
++
+Se il backup esiste solo sullo storage primario, SnapManager ripristina il backup dallo storage primario.
+
+. Nella pagina *Volume Restore Configuration Information* (informazioni di configurazione del ripristino del volume), selezionare *tentativo di ripristino del volume* per tentare il metodo di ripristino del volume.
+. Fare clic su *Fallback to file-based restore*.
++
+Questo consente a SnapManager di utilizzare il metodo di ripristino basato su file se non è possibile utilizzare il metodo di ripristino del volume.
+
+. Fare clic su *Preview* per visualizzare i controlli di idoneità per il ripristino rapido e le informazioni sui controlli obbligatori e sovrascrivibili.
+. Nella pagina *Perform operation* (Esegui operazione), verificare le informazioni immesse e fare clic su *Restore* (Ripristina).
+. Per visualizzare i dettagli del processo, fare clic su *Dettagli operazione*.
+

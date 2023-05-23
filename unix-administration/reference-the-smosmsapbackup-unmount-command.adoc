@@ -1,0 +1,95 @@
+---
+permalink: unix-administration/reference-the-smosmsapbackup-unmount-command.html 
+sidebar: sidebar 
+keywords: run, backup, unmount, command, smsap 
+summary: È possibile eseguire il comando di disinstallazione del backup per smontare un backup. 
+---
+= Il comando sspap backup unmount
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup unmount` comando per smontare un backup.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap backup unmount
+-profile _profile_name_
+[-label _label_ [-data | -archivelogs\] | [-id _id_\]
+[-force\]
+[-dump\][-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* ``*-profile _profile_name_*``
++
+Specifica il profilo per il quale si desidera smontare un backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* ``*-id _id_*``
++
+Disinstalla il backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare il comando ssap backup list per visualizzare il GUID per ciascun backup.
+
+* ``*-label _label_*``
++
+Disinstalla il backup con l'etichetta specificata.
+
+* ``*-data*``
++
+Specifica i file di dati.
+
+* ``*-archivelogs*``
++
+Specifica i file di log dell'archivio.
+
+* ``*-dump*``
++
+Raccoglie i file dump dopo un'operazione di disinstallazione riuscita o non riuscita.
+
+* ``*-force*``
++
+Consente di rimuovere il backup anche in caso di problemi di liberare le risorse associate al backup. SnapManager tenta di smontare il backup e di ripulire le risorse associate. Il log mostra che l'operazione di disinstallazione ha avuto esito positivo, ma potrebbe essere necessario ripulire manualmente le risorse in caso di errori nel log.
+
+* ``*-quiet*``
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* ``*-verbose*``
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+'''
+
+
+== Esempio
+
+Di seguito viene riportato un esempio di operazione di disinstallazione:
+
+[listing]
+----
+# smsap backup unmount -label test -profile SALES1 -verbose
+----
+[listing]
+----
+SMSAP-13046 [INFO ]: Operation GUID 8abc013111b909eb0111b90a02f50001 starting on Profile SALES1
+SMSAP-08028 [INFO ]: Beginning to disconnect connected mount(s)
+[/u/user1/mnt/_mnt_ssys1_logs_SMSAP_SALES1_hsdb1_F_C_1_8abc013111a450480111a45066210001,
+ /u/user1/mnt/_mnt_ssys1_data_SMSAP_SALES1_hsdb1_F_C_1_8abc013111a450480111a45066210001].
+SMSAP-08030 [INFO ]: Done disconnecting connected mount(s)
+[/u/user1/mnt/_mnt_ssys1_logs_SMSAP_SALES1_hsdb1_F_C_1_8abc013111a450480111a45066210001,
+ /u/user1//mnt/_mnt_ssys1_data_SMSAP_SALES1_hsdb1_F_C_1_8abc013111a450480111a45066210001].
+SMSAP-13037 [INFO ]: Successfully completed operation: Backup Unmount
+SMSAP-13048 [INFO ]: Operation Status: SUCCESS
+SMSAP-13049 [INFO ]: Elapsed Time: 0:00:33.715
+Operation Id [8abc013111b909eb0111b90a02f50001] succeeded.
+----
+'''

@@ -1,0 +1,22 @@
+---
+permalink: windows/task-issuing-commands-from-an-alternate-host.html 
+sidebar: sidebar 
+keywords: issue, cli, command, host, database, snapmanager, route, issuing, alternate 
+summary: 'È possibile eseguire comandi CLI da un host diverso dall"host del database e SnapManager instraderà i comandi immessi all"host appropriato.' 
+---
+= Invio di comandi da un host alternativo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire comandi CLI da un host diverso dall'host del database e SnapManager instraderà i comandi immessi all'host appropriato.
+
+Affinché il sistema invii un'operazione all'host corretto, deve prima sapere dove trovare il profilo per l'operazione. In questa procedura, il sistema mantiene il profilo per il repository delle informazioni di mappatura di un file nella home directory dell'utente sull'host locale.
+
+. Per far sì che la home directory dell'utente locale sia consapevole delle mappature da profilo a repository in modo da poter instradare la richiesta di operazione, immettere il seguente comando:
++
+`smsap profile sync -repository -dbnamerepo_dbname -hostrepo_host -portrepo_port -login-usernamerepo_username [-quiet | -verbose]`
+
+

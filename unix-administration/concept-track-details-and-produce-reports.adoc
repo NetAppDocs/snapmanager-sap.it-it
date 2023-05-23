@@ -1,0 +1,16 @@
+---
+permalink: unix-administration/concept-track-details-and-produce-reports.html 
+sidebar: sidebar 
+keywords: snapmanager, reduce, level, database, administrator, interface 
+summary: SnapManager riduce il livello di dettaglio necessario agli amministratori dei database per tenere traccia dello stato delle diverse operazioni offrendo metodi per monitorare le operazioni da una singola interfaccia. 
+---
+= Tieni traccia dei dettagli e genera report
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager riduce il livello di dettaglio necessario agli amministratori dei database per tenere traccia dello stato delle diverse operazioni offrendo metodi per monitorare le operazioni da una singola interfaccia.
+
+Dopo che gli amministratori hanno specificato quali database devono essere sottoposti a backup, SnapManager identifica automaticamente i file di database per il backup. SnapManager visualizza informazioni su repository, host, profili, backup e cloni. È possibile monitorare le operazioni su host o database specifici. È inoltre possibile identificare i backup protetti e determinare se i backup sono in corso o pianificati per essere eseguiti.

@@ -1,0 +1,151 @@
+---
+permalink: unix-installation-cmode/concept-smsap-isg-defining-a-backup-strategy.html 
+sidebar: sidebar 
+keywords: define, backup, strategy, create, successful, restore, database, snapmanager, service, level, agreement, sla 
+summary: 'La definizione di una strategia di backup prima della creazione dei backup garantisce la disponibilità di backup per ripristinare correttamente i database. SnapManager offre una pianificazione di backup granulare flessibile per soddisfare il contratto di servizio (SLA).' 
+---
+= Definizione di una strategia di backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La definizione di una strategia di backup prima della creazione dei backup garantisce la disponibilità di backup per ripristinare correttamente i database. SnapManager offre una pianificazione di backup granulare flessibile per soddisfare il contratto di servizio (SLA).
+
+
+NOTE: Per le Best practice di SnapManager, consulta _TR 3761_.
+
+
+
+== Quale modalità di backup SnapManager ti serve?
+
+SnapManager supporta due modalità di backup:
+
+|===
+| Modalità di backup | Descrizione 
+
+
+ a| 
+Backup online
+ a| 
+Crea un backup del database quando il database è in stato online. Questa modalità di backup è anche chiamata backup a caldo.
+
+
+
+ a| 
+Backup offline
+ a| 
+Crea un backup del database quando il database si trova in uno stato di montaggio o di arresto. Questa modalità di backup è anche chiamata backup a freddo.
+
+|===
+
+
+== Di che tipo di backup SnapManager hai bisogno?
+
+SnapManager supporta tre tipi di backup:
+
+|===
+| Tipo di backup | Descrizione 
+
+
+ a| 
+Backup completo
+ a| 
+Crea un backup dell'intero database, che include tutti i file di dati, i file di controllo e i file di log dell'archivio.
+
+
+
+ a| 
+Backup parziale
+ a| 
+Crea un backup di file di dati selezionati, file di controllo, tablespace e file di log dell'archivio
+
+
+
+ a| 
+Backup di solo log di archiviazione
+ a| 
+Crea un backup solo dei file di log dell'archivio.selezionare *Backup Archives separatamente* durante la creazione del profilo.
+
+|===
+
+
+== Di quale tipo di profilo di database hai bisogno?
+
+SnapManager crea i backup in base alla separazione del profilo del database dai backup dei file di dati dai backup dei log di archiviazione.
+
+|===
+| Tipo di profilo | Descrizione 
+
+
+ a| 
+Un singolo profilo di database per il backup combinato di file di dati e log di archiviazione
+ a| 
+Consente di creare:
+
+* Backup completo contenente tutti i file di dati, i file di log dell'archivio e i file di controllo
+* Backup parziale contenente file di dati, tablespace, file di log di archiviazione e file di controllo selezionati
+
+
+
+
+ a| 
+Profili di database separati per i backup dei log di archiviazione e dei file di dati
+ a| 
+Consente di creare:
+
+* Backup combinato con diverse etichette per il backup dei file di dati e del log di archiviazione
+* Backup dei soli file di dati di tutti i file di dati insieme ai file di controllo
+* Backup parziale dei soli file di dati o tablespace selezionati insieme ai file di controllo
+* Backup solo log di archivio
+
+
+|===
+
+
+== Quali convenzioni di denominazione devono essere utilizzate per le copie Snapshot?
+
+Le copie Snapshot create dai backup possono seguire una convenzione di denominazione personalizzata. Per creare la convenzione di naming è possibile utilizzare il testo personalizzato o le variabili incorporate, come il nome del profilo, il nome del database e il SID del database fornito da SnapManager. È possibile creare la convenzione di naming durante la creazione del criterio.
+
+
+NOTE: È necessario includere la variabile smid nel formato di denominazione. La variabile smid crea un identificatore Snapshot univoco.
+
+La convenzione di naming della copia Snapshot può essere modificata durante o dopo la creazione di un profilo. Il modello aggiornato si applica solo alle copie Snapshot non ancora create; le copie Snapshot esistenti mantengono il modello precedente.
+
+
+
+== Per quanto tempo si desidera conservare le copie di backup sul sistema di storage primario e sul sistema di storage secondario?
+
+Un criterio di conservazione del backup specifica il numero di backup da conservare correttamente. È possibile specificare il criterio di conservazione durante la creazione del criterio.
+
+È possibile selezionare ogni ora, ogni giorno, ogni settimana, ogni mese o senza limiti come classe di conservazione. Per ogni classe di conservazione, è possibile specificare il numero di conservazione e la durata di conservazione, insieme o singolarmente.
+
+* Il conteggio delle conservazioni determina il numero minimo di backup di una particolare classe di conservazione da conservare.
++
+Ad esempio, se la pianificazione del backup è _daily_ e il numero di conservazione è _10_, vengono conservati 10 backup giornalieri.
+
++
+
+NOTE: Il numero massimo di copie Snapshot che Data ONTAP consente di conservare è 255. Una volta raggiunto il limite massimo, per impostazione predefinita la creazione di nuove copie Snapshot non riesce. Tuttavia, è possibile configurare il criterio di rotazione in Data ONTAP per eliminare le copie Snapshot meno recenti.
+
+* La durata della conservazione determina il numero minimo di giorni per i quali il backup deve essere conservato.
++
+Ad esempio, se la pianificazione del backup è _daily_ e la durata della conservazione è _10_, vengono conservati 10 giorni di backup giornalieri.
+
+
+
+Se si imposta la replica di SnapMirror, il criterio di conservazione viene mirrorato sul volume di destinazione.
+
+
+NOTE: Per la conservazione a lungo termine delle copie di backup, è necessario utilizzare SnapVault.
+
+
+
+== Verificare le copie di backup utilizzando il volume di origine o un volume di destinazione?
+
+Se si utilizza SnapMirror o SnapVault, è possibile verificare le copie di backup utilizzando la copia Snapshot sul volume di destinazione SnapMirror o SnapVault invece della copia Snapshot sul sistema di storage primario. L'utilizzo di un volume di destinazione per la verifica riduce il carico sul sistema di storage primario.
+
+*Informazioni correlate*
+
+http://www.netapp.com/us/media/tr-3761.pdf["Report tecnico di NetApp 3761: SnapManager per Oracle: Best practice"^]

@@ -1,0 +1,45 @@
+---
+permalink: windows/concept-about-control-file-and-archive-log-file-handling.html 
+sidebar: sidebar 
+keywords: snapmanager, control, file, archive, log, backup, recovery, handle 
+summary: 'SnapManager include i file di controllo e, facoltativamente, include i file di registro dell"archivio con ogni backup. I file di log dell"archivio vengono utilizzati per le operazioni di recovery.' 
+---
+= Informazioni sulla gestione del file di controllo e del file di log dell'archivio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager include i file di controllo e, facoltativamente, include i file di registro dell'archivio con ogni backup. I file di log dell'archivio vengono utilizzati per le operazioni di recovery.
+
+Il database utilizza i file di controllo per identificare nomi, posizioni e dimensioni dei file di database. SnapManager include i file di controllo in ogni backup perché i file di controllo vengono utilizzati nel processo di ripristino.
+
+Le modifiche apportate a un database vengono registrate utilizzando i log di ripristino online, che vengono poi archiviati e denominati log di ripristino archiviati (o log di archiviazione). SnapManager (3.2 o versioni successive) consente di eseguire il backup dei file di dati e di archiviare i file di registro separatamente con diverse frequenze e ritentimenti. SnapManager può eseguire backup solo dei registri di archiviazione o backup combinati di file di dati e registri di archiviazione. SnapManager offre una gestione automatica completa dei registri di archiviazione e non richiede alcun intervento manuale per il ripristino del database e consente inoltre di rimuovere i registri di archiviazione da una o più destinazioni dei registri di archiviazione dopo l'esecuzione del backup.
+
+
+NOTE: Per visualizzare gli spazi delle tabelle e i file di dati inclusi in un backup, utilizzare `backup show command` O la finestra Backup Properties (Proprietà backup).
+
+La seguente tabella illustra come SnapManager gestisce i file di log di archiviazione e controllo durante ciascuna operazione:
+
+|===
+| Tipo di operazione | File di controllo | Archiviare i file di log 
+
+
+ a| 
+Backup
+ a| 
+Incluso con ogni backup
+ a| 
+Può essere incluso con ogni backup
+
+
+
+ a| 
+Ripristinare
+ a| 
+Può essere ripristinato da solo o insieme ai tablespace o ai file di dati
+ a| 
+Può essere utilizzato per il processo di ripristino
+
+|===

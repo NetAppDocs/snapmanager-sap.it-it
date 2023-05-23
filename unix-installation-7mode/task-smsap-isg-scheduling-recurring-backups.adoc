@@ -1,0 +1,81 @@
+---
+permalink: unix-installation-7mode/task-smsap-isg-schedule-recurring-backups.html 
+sidebar: sidebar 
+keywords: schedule, backup, operation, initiate, automatic, regular, interval, hourly, daily, weekly, monthly, one-time, basis, scheduling, recur 
+summary: È possibile pianificare le operazioni di backup in modo che i backup vengano avviati automaticamente a intervalli regolari. SnapManager consente di pianificare i backup su base oraria, giornaliera, settimanale, mensile o una sola volta. 
+---
+= Pianifica backup ricorrenti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile pianificare le operazioni di backup in modo che i backup vengano avviati automaticamente a intervalli regolari. SnapManager consente di pianificare i backup su base oraria, giornaliera, settimanale, mensile o una sola volta.
+
+*A proposito di questa attività*
+
+È possibile assegnare più pianificazioni di backup per un singolo database. Tuttavia, quando si pianificano più backup per lo stesso database, è necessario assicurarsi che i backup non vengano pianificati contemporaneamente.
+
+Questi passaggi mostrano come creare una pianificazione di backup per il database utilizzando l'interfaccia utente (UI) di SnapManager. Se preferisci, puoi anche utilizzare l'interfaccia della riga di comando (CLI). Per informazioni su come pianificare i backup utilizzando l'interfaccia CLI, consultare la _Guida all'amministrazione di SnapManager per SAP per UNIX_.
+
+. Nella struttura dei repository, fare clic con il pulsante destro del mouse sul profilo contenente il database per il quale si desidera creare una pianificazione di backup e selezionare *Schedule Backup* (Pianifica backup).
+. In *Label*, immettere un nome personalizzato per il backup.
++
+Non includere spazi o caratteri speciali nel nome. Se non si specifica un nome, SnapManager crea automaticamente un'etichetta di backup.
+
++
+Da SnapManager 3.4, è possibile modificare l'etichetta di backup creata automaticamente da SnapManager. È possibile modificare `override.default.backup.pattern` e. `new.default.backup.pattern` variabili di configurazione per creare il proprio modello di etichetta di backup predefinito.
+
+. Selezionare *Allow startup or shutdown of database, if necessary* (Consenti avvio o arresto del database, se necessario) per modificare lo stato del database, se necessario.
++
+Questa opzione garantisce che, se il database non si trova nello stato richiesto per creare un backup, SnapManager porta automaticamente il database nello stato desiderato per completare l'operazione.
+
+. Nella pagina *Database, tablespace o file di dati per il backup*, eseguire le seguenti operazioni:
++
+.. Selezionare *Backup datafile* per eseguire il backup dell'intero database, dei file di dati selezionati o degli spazi delle tabelle selezionati.
+.. Selezionare *Backup Archivelog* per eseguire il backup dei file di log dell'archivio separatamente.
+.. Selezionare *Prune Archivelogs* se si desidera eliminare i file di log dell'archivio dal file system attivo di cui è già stato eseguito il backup.
++
+
+NOTE: Se l'area di ripristino flash (fra) è abilitata per i file di registro dell'archivio, SnapManager non riesce a eseguire la potatura dei file di registro dell'archivio.
+
+.. Selezionare *Protect the backup* (protezione backup) se si desidera attivare la protezione del backup.
++
+Questa opzione è attivata solo se è stato selezionato il criterio di protezione durante la creazione del profilo.
+
+.. Selezionare *Protect Now* (protezione immediata) per proteggere immediatamente il backup sullo storage secondario che sovrascriverà il programma di protezione di Protection Manager.
+.. Dall'elenco a discesa *tipo*, selezionare il tipo di backup (offline o online) che si desidera creare.
++
+Se si seleziona _auto_, SnapManager crea un backup in base allo stato corrente del database.
+
+.. Dall'elenco a discesa *classe di conservazione*, selezionare la classe di conservazione.
+.. Selezionare la casella di controllo *verify backup using the Oracle DBVERIFY utility* (verifica backup con l'utility Oracle DBVERIFY*) se si desidera verificare che i file di backup non siano corrotti.
+
+
+. Nel campo *Nome pianificazione*, immettere un nome personalizzato per la pianificazione.
++
+Non includere spazi nel nome.
+
+. Nella pagina *Configure Backup Schedule* (Configura pianificazione backup), eseguire le seguenti operazioni:
++
+.. Dall'elenco a discesa *Perform this operation* (Esegui questa operazione), selezionare la frequenza della pianificazione del backup.
+.. Nel campo *Data di inizio*, specificare la data in cui si desidera avviare la pianificazione del backup.
+.. Nel campo *ora di inizio*, specificare l'ora in cui si desidera avviare la pianificazione del backup.
+.. Specificare l'intervallo di creazione dei backup.
++
+Ad esempio, se si seleziona la frequenza come orario e si specifica l'intervallo come 2, i backup verranno pianificati ogni 2 ore.
+
+
+
+. Nella pagina *abilitazione attività*, specificare se si desidera eseguire le attività prima e dopo il completamento delle operazioni di backup.
+. Nella pagina *Perform Backup Schedule Operation* (Esegui operazione di pianificazione backup), verificare le informazioni e fare clic su *Schedule* (Pianificazione).
+. Fare clic su *fine* per chiudere la procedura guidata.
++
+Se l'operazione non riesce, fare clic su *Dettagli operazione* per visualizzare le cause dell'errore dell'operazione.
+
+
+
+*Informazioni correlate*
+
+https://library.netapp.com/ecm/ecm_download_file/ECMP12481453["Guida all'amministrazione di SnapManager 3.4.1 per SAP per UNIX"^]

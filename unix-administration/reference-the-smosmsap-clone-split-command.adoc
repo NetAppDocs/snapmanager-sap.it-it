@@ -1,0 +1,240 @@
+---
+permalink: unix-administration/reference-the-smosmsap-clone-split-command.html 
+sidebar: sidebar 
+keywords: run, clone, split, command, independent, original, snapmanager, smsap, operation, profile 
+summary: 'È possibile eseguire il comando clone split per dividere un clone. Il clone split diventa indipendente dal clone originale. SnapManager genera un nuovo profilo dopo l"operazione di suddivisione del clone ed è possibile utilizzarlo per gestire il clone di divisione.' 
+---
+= Il comando smsap clone split
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `clone split` comando per dividere un clone. Il clone split diventa indipendente dal clone originale. SnapManager genera un nuovo profilo dopo l'operazione di suddivisione del clone ed è possibile utilizzarlo per gestire il clone di divisione.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap clone split
+-profile _clone-profile_
+[-host hostname\]
+{-label _clone-label_ | -id _clone-id_} [-split-label _split-operation_label_\]
+[-comment _comment_\]
+-new-profile _new-profile-name_ [-profile-password _new-profile_password_\]
+-repository -dbname _repo_service_name_
+-host _repo_host_
+-port _repo_port_
+-login -username _repo_username_
+-database -dbname _db_dbname_
+-host _db_host_ [-sid _db_sid_\] [-login -username _db_username_ -password _db_password_
+-port _db_port_\]
+[-rman {{-controlfile | {-login -username _rman_username_
+-password _rman_password_} -tnsname _rman_tnsname_}}\]
+-osaccount _osaccount_
+-osgroup _osgroup_
+[-retain
+[-hourly [-count _n_\] [-duration  _m_\]\]
+[-daily [-count _n_\] [-duration _m_\]\]
+[-weekly  [-count _n_\] [-duration _m_\]\]
+[-monthly [-count _n_\] [-duration _m_\]\] \]
+[-profile-comment _profile-comment_\]
+[-snapname-pattern _pattern_\]
+[-protect [-protection-policy _policy_name_\]\] | [-noprotect\]\]
+[-summary-notification
+[-notification
+[-success -email _email_address1,email_address2_
+-subject subject-pattern\]
+[failure -email _email_address1,email_address2_
+-subject _subject-pattern_\] \]
+[-separate-archivelog-backups
+-retain-archivelog-backups -hours  _hours_ |
+-days _days_ |
+-weeks _weeks_ |
+-months _months_
+[-protect [-protection-policy _policy_name_ | -noprotect\]
+[-include-with-online-backups | -no-include-with-online-backups\]\]
+[-dump\]
+[-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* `*-profile _clone-profile_*`
++
+Specifica il nome del profilo da cui viene creato il clone.
+
+* `*-host _hostname_*`
++
+Specifica il nome host in cui esiste il clone.
+
+* `*label _clone-label_*`
++
+Specifica il nome dell'etichetta generato dall'operazione di clonazione.
+
+* `*-id _clone-id_*`
++
+Specifica l'ID univoco generato dall'operazione di clone.
+
+* `*-split-label split-_operation_label_*`
++
+Specifica il nome dell'etichetta generato dall'operazione di clonazione.
+
+* `*-new-profile _new-profile_name_*`
++
+Specifica il nuovo nome del profilo che verrà generato da SnapManager dopo un'operazione di suddivisione.
+
+* `*-profile-password _new-profile_password_*`
++
+Specifica la password per il profilo.
+
+* `*-repository*`
++
+Specifica i dettagli del database per il repository.
+
+* `*-dbname _repo_service_name_*`
++
+Specifica il nome del database in cui è memorizzato il repository. È possibile utilizzare il nome globale o l'identificatore di sistema.
+
+* `*-host _repo_host_*`
++
+Specifica il nome o l'indirizzo IP del computer host su cui risiede il database del repository.
+
+* `*-port _repo_port_*`
++
+Specifica il numero di porta TCP (Transmission Control Protocol) utilizzato per accedere all'host su cui risiede il database del repository.
+
+* `*-login*`
++
+Specifica i dettagli di accesso al repository. Questa opzione è facoltativa. Se non viene specificato, SnapManager passa automaticamente alla modalità di connessione autenticazione del sistema operativo.
+
+* `*-username _repo_username_*`
++
+Specifica il nome utente richiesto per accedere all'host su cui risiede il database del repository.
+
+* `*-database*`
++
+Specifica i dettagli del database di cui verrà eseguito il backup, il ripristino o la clonazione.
+
+* `*-dbname _db_dbname_*`
++
+Specifica il nome del database descritto dal profilo. È possibile utilizzare il nome globale o l'identificatore di sistema.
+
+* `*-host _db_host_*`
++
+Specifica il nome o l'indirizzo IP del computer host su cui risiede il database.
+
+* `*-sid _db_sid_*`
++
+Specifica l'identificativo di sistema del database descritto dal profilo. Per impostazione predefinita, SnapManager utilizza il nome del database come identificatore di sistema. Se l'identificatore di sistema è diverso dal nome del database, è necessario specificarlo utilizzando `-sid` opzione.
+
+* `*-login*`
++
+Specifica i dettagli di accesso al database.
+
+* `*-username _db_username_*`
++
+Specifica il nome utente necessario per accedere al database descritto dal profilo.
+
+* `*-password _db_password_*`
++
+Specifica la password necessaria per accedere al database descritto dal profilo.
+
+* `*-osaccount _osaccount_*`
++
+Specifica il nome dell'account utente del database Oracle. SnapManager utilizza questo account per eseguire le operazioni Oracle, ad esempio l'avvio e lo spegnimento. In genere è l'utente che possiede il software Oracle sull'host, ad esempio orasid.
+
+* `*-osgroup _osgroup_*`
++
+Specifica il nome del nome del gruppo di database Oracle associato all'account orasid.
+
++
+
+NOTE: Il `-osaccount` e. `-osgroup` Le variabili sono necessarie per UNIX ma non sono consentite per i database in esecuzione su Windows.
+
+* `*-retain [-hourly [-count n] [-duration m]] [-daily [-count n] [-duration m]] [-weekly [-count n] [-duration m]] [-monthly [-count n] [-duration m]]*`
++
+Specifica il criterio di conservazione per un backup.
+
++
+Per ciascuna classe di conservazione, è possibile specificare sia il numero di conservazione che la durata della conservazione. La durata è espressa in unità della classe (ad esempio, ore per ora, giorni per giorno). Ad esempio, se si specifica solo una durata di conservazione di 7 per i backup giornalieri, SnapManager non limiterà il numero di backup giornalieri per il profilo (poiché il numero di conservazione è 0), ma SnapManager eliminerà automaticamente i backup giornalieri creati oltre 7 giorni fa.
+
+* `*-profile-comment _profile-comment_*`
++
+Specifica il commento per un profilo che descrive il dominio del profilo.
+
+* `*-snapname-pattern _pattern_*`
++
+Specifica il modello di denominazione per le copie Snapshot. È inoltre possibile includere testo personalizzato, ad esempio HAOPS per operazioni altamente disponibili, in tutti i nomi delle copie Snapshot. È possibile modificare il modello di denominazione della copia Snapshot quando si crea un profilo o dopo averlo creato. Il modello aggiornato si applica solo alle copie Snapshot non ancora create. Le copie Snapshot esistenti conservano il modello Snapname precedente. È possibile utilizzare diverse variabili nel testo del modello.
+
+* `*-protect -protection-policy _policy_name_*`
++
+Specifica se il backup deve essere protetto sullo storage secondario.
+
++
+
+NOTE: Se `-protect` è specificato senza `-protection-policy`, quindi, il dataset non avrà una policy di protezione. Se `-protect` è specificato e. `-protection-policy` non viene impostato al momento della creazione del profilo, quindi può essere impostato in seguito da `smsap profile update` Comando o impostazione da parte dell'amministratore dello storage mediante la console di Protection Manager.
+
+* `*-summary-notification*`
++
+Specifica i dettagli per la configurazione della notifica e-mail di riepilogo per più profili in un database di repository. SnapManager genera questo messaggio e-mail.
+
+* `*-notification*`
++
+Specifica i dettagli per la configurazione della notifica e-mail per il nuovo profilo. SnapManager genera questo messaggio e-mail. La notifica e-mail consente all'amministratore del database di ricevere e-mail sullo stato riuscito o non riuscito dell'operazione del database eseguita utilizzando questo profilo.
+
+* `*-success*`
++
+Specifica che la notifica e-mail viene attivata per un profilo per il momento in cui l'operazione SnapManager ha esito positivo.
+
+* `*-email _email address 1 email address 2_*`
++
+Specifica l'indirizzo e-mail del destinatario.
+
+* `*-subject _subject-pattern_*`
++
+Specifica l'oggetto del messaggio di posta elettronica.
+
+* `*-failure*`
++
+Specifica che la notifica e-mail è attivata per un profilo per quando l'operazione SnapManager non riesce.
+
+* `*-separate-archivelog-backups*`
++
+Specifica che il backup del registro di archiviazione è separato dal backup del file di dati. Si tratta di un parametro facoltativo che è possibile fornire durante la creazione del profilo. Dopo aver separato i backup utilizzando questa opzione, è possibile creare un backup solo per i file di dati o un backup solo per i registri di archiviazione.
+
+* `*-retain-archivelog-backups -hours _hours_ | -days _days_ | -weeks _weeks_| -months _months_*`
++
+Specifica che i backup del registro di archiviazione vengono conservati in base alla durata di conservazione del registro di archiviazione (oraria, giornaliera, settimanale o mensile).
+
+* `*protect [-protection-policy _policy_name_] | -noprotect*`
++
+Specifica che i file di log dell'archivio sono protetti in base al criterio di protezione del log dell'archivio.
+
++
+Specifica che i file di log dell'archivio non sono protetti mediante `-noprotect` opzione.
+
+* `*-include-with-online-backups | -no-include-with-online-backups*`
++
+Specifica che il backup del registro di archiviazione è incluso insieme al backup del database online.
+
++
+Specifica che i backup del registro di archiviazione non sono inclusi insieme al backup del database online.
+
+* `*-dump*`
++
+Specifica che i file dump non vengono raccolti dopo l'operazione di creazione del profilo.
+
+* `*-quiet*`
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita visualizza i messaggi di errore e di avviso.
+
+* `*-verbose*`
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+

@@ -1,0 +1,64 @@
+---
+permalink: windows/reference-the-smosmsap-storage-rename-command.html 
+sidebar: sidebar 
+keywords: command, update, name, ip, address, storage, system, smsap, rename 
+summary: 'Questo comando aggiorna il nome o l"indirizzo IP del sistema di storage.' 
+---
+= Il comando di ridenominazione dello storage sspap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando aggiorna il nome o l'indirizzo IP del sistema di storage.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap storage rename
+-profile profile
+-oldname old_storage_name
+-newname new_storage_name
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_`*
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* *`-oldname _old_storage_name_`*
++
+Specifica l'indirizzo IP o il nome del sistema di storage prima che venga rinominato. Immettere l'indirizzo IP o il nome del sistema di storage visualizzato quando si esegue `smsap storage list` comando.
+
+* *`-newname _new_storage_name_`*
++
+Specifica l'indirizzo IP o il nome del sistema di storage dopo che il sistema viene rinominato.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio
+
+Nell'esempio riportato di seguito viene utilizzato il `smsap storage rename` comando per rinominare il sistema di storage:
+
+[listing]
+----
+smsap storage rename -profile mjullian -oldname lech -newname hudson -verbose
+----

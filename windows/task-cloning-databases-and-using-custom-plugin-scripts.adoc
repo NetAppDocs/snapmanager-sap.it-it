@@ -1,0 +1,25 @@
+---
+permalink: windows/task-cloning-databases-and-using-custom-plugin-scripts.html 
+sidebar: sidebar 
+keywords: snapmanager, method, custom, script, clone, operation, sid, policy, naming, name, plug-in 
+summary: 'SnapManager fornisce un metodo per utilizzare gli script personalizzati prima e dopo un"operazione di clonazione. Ad esempio, potrebbe essere stato creato uno script personalizzato che convalida un SID del database clone e garantisce che il SID sia consentito dalla policy di naming. Utilizzando il plug-in del clone di SnapManager, è possibile includere gli script personalizzati e farli eseguire automaticamente prima o dopo un"operazione di clone di SnapManager.' 
+---
+= Clonazione di database e utilizzo di script plug-in personalizzati
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager fornisce un metodo per utilizzare gli script personalizzati prima e dopo un'operazione di clonazione. Ad esempio, potrebbe essere stato creato uno script personalizzato che convalida un SID del database clone e garantisce che il SID sia consentito dalla policy di naming. Utilizzando il plug-in del clone di SnapManager, è possibile includere gli script personalizzati e farli eseguire automaticamente prima o dopo un'operazione di clone di SnapManager.
+
+. Visualizza script plug-in di esempio.
+. Creare uno script da zero o modificare uno degli script dei plug-in di esempio.
++
+Creare lo script personalizzato in base alle linee guida dello script del plug-in SnapManager.
+
+. Inserire lo script personalizzato in una directory specificata.
+. Aggiornare il file XML delle specifiche dei cloni e includere informazioni sullo script personalizzato da utilizzare durante il processo di cloning.
+. Utilizzando un comando SnapManager, verificare che gli script personalizzati siano operativi.
+. Quando si avvia l'operazione di clonazione, includere il nome dello script e i parametri facoltativi.
+

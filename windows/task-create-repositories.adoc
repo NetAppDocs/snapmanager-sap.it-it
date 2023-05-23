@@ -1,0 +1,83 @@
+---
+permalink: windows/task-create-repositories.html 
+sidebar: sidebar 
+keywords: snapmanager, require, repository, host, data, operation, perform, create 
+summary: SnapManager richiede un repository su un host per contenere i dati relativi alle operazioni eseguite. 
+---
+= Creare repository
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager richiede un repository su un host per contenere i dati relativi alle operazioni eseguite.
+
+
+
+== Di cosa hai bisogno
+
+Assicurarsi che le seguenti attività siano state completate:
+
+.Fasi
+. Creare un utente Oracle e una password nel database del repository.
+. Autorizzare l'accesso dell'utente al repository.
+
+
+Per un repository, SnapManager per SAP richiede una dimensione minima del blocco 4K per lo spazio tabella in cui è installato. È possibile controllare la dimensione del blocco utilizzando il seguente comando SQL:
+
+[listing]
+----
+select a.username, a.default_tablespace, b.block_size
+from dba_users a, dba_tablespaces b
+a.username = repo_user
+----
+dove
+
+* `a.default_tablespace = b.tablespace_name`
+* `a.username` = il nome utente sul repository
+
+
+
+
+== A proposito di questa attività
+
+Se si stanno aggiornando i repository, è necessario riavviare il server SnapManager per riavviare le pianificazioni associate.
+
+.Fase
+. Per creare il repository, immettere il comando di creazione del repository, utilizzando il seguente formato generale:
++
+`*smsap repository create -repository -dbname _repo_service_name_ -host _repo_host_ -login -username _repo_username_ -port _repo_port_ [-force] [-noprompt] [-quiet | -verbose]*`
+
++
+Dove:
+
++
+** `-repository -dbname` è il nome del database del repository.
+** `-host` è il nome dell'host per il repository.
+** `-username` è il nome dell'utente del database che ha accesso al repository.
+** `-port` è la porta per l'host. Le altre opzioni per questo comando sono le seguenti:
++
+[`-force`] [`-noprompt`]
+
++
+[`quiet` | `-verbose`]
+
+
+
+
+
+
+NOTE: Se si dispone di un repository con lo stesso nome e si utilizza `-force` tutti i dati all'interno di uno schema di repository esistente verranno sovrascritti.
+
+
+
+== Creazione di un repository
+
+La seguente riga di comando crea un repository.
+
+[listing]
+----
+smsap repository create -repository -dbname HR1
+-host server1 -login -username admin -port 1521
+----

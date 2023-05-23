@@ -1,0 +1,35 @@
+---
+permalink: windows/concept-partial-online-backups.html 
+sidebar: sidebar 
+keywords: full, backup, perform, partial, tablespace, database, snapmanager, snapshot, copy, volume, online 
+summary: Invece di eseguire un backup completo, è possibile scegliere di eseguire un backup parziale degli spazi delle tabelle in un database. Mentre SnapManager esegue una copia Snapshot dei volumi per i backup completi, SnapManager esegue una copia Snapshot di ogni tablespace specificato per i backup parziali. 
+---
+= Backup online parziali
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Invece di eseguire un backup completo, è possibile scegliere di eseguire un backup parziale degli spazi delle tabelle in un database. Mentre SnapManager esegue una copia Snapshot dei volumi per _backup completi_, SnapManager esegue una copia Snapshot di ogni spazio tabella specificato per i backup _parziali_.
+
+Poiché il livello tablespace è il livello più basso consentito da Oracle in modalità di backup, SnapManager elabora i backup a livello di tablespace, anche se si specifica un file di dati in uno spazio di tabella.
+
+Con un backup parziale, ogni tablespace esiste in modalità di backup per un periodo di tempo più breve rispetto a un backup completo. Durante un backup online, il database è sempre disponibile per gli utenti; tuttavia, il database deve eseguire più lavoro e l'host deve eseguire più i/o fisico Inoltre, poiché sta prendendo copie Snapshot di ogni tablespace specificato o di ogni tablespace contenente un file di dati specificato invece dell'intero volume, SnapManager utilizza più copie Snapshot.
+
+SnapManager esegue copie Snapshot di tablespace o file di dati specifici. L'algoritmo di backup parziale è un loop che SnapManager ripete fino a quando non ha eseguito una copia Snapshot di ogni tablespace o file di dati specificato.
+
+
+NOTE: Sebbene sia possibile eseguire un backup parziale, si consiglia di eseguire sempre un backup completo dell'intero database.
+
+Durante un backup parziale, SnapManager esegue le seguenti azioni:
+
+.Fasi
+. Posiziona lo spazio delle tabelle contenente i file di dati in modalità di backup.
+. Esegue una copia Snapshot di tutti i volumi utilizzati dallo spazio di tabella.
+. Elimina la tablespace dalla modalità di backup.
+. Continua questo processo fino a quando non viene eseguita una copia Snapshot di tutti i tablespace o file.
+. Forza uno switch di log e quindi archivia i file di log.
+. Genera file di controllo del backup.
+. Esegue una copia Snapshot dei file di log e dei file di controllo del backup.
+

@@ -1,0 +1,39 @@
+---
+permalink: windows/task-cloning-a-database-to-an-alternate-host.html 
+sidebar: sidebar 
+keywords: clone, command, database, alternate, host, cloning 
+summary: È possibile utilizzare il comando clone create per clonare un backup del database su un host alternativo. 
+---
+= Clonazione di un database in un host alternativo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare il comando clone create per clonare un backup del database su un host alternativo.
+
+* Creare un profilo o disporre di un profilo esistente.
+* Creare un backup completo o disporre di un backup del database esistente.
+* Creare una specifica di cloni o disporre di una specifica di cloni esistente.
+
+
+.Fase
+. Per clonare un database in un host alternativo, immettere il seguente comando:
++
+`smsap clone create -backup-labelbackup_label_name-newsidnew_sid-hosttarget_host-labelclone_label-comment comment_text-profileprofile_name-clonespecfull_path_to_clonespecfile`
+
++
+Oracle non consente di eseguire contemporaneamente due database con lo stesso SID sullo stesso host. Per questo motivo, è necessario fornire un nuovo SID per ciascun clone. Tuttavia, è possibile avere un database su un altro host con lo stesso SID.
+
+
+
+*Informazioni correlate*
+
+xref:task-creating-profiles.adoc[Creazione di profili]
+
+xref:task-cloning-databases-from-backups.adoc[Clonare i database dai backup]
+
+xref:task-creating-clone-specifications.adoc[Creazione di specifiche di cloni]
+
+xref:reference-the-smosmsapclone-create-command.adoc[Il comando di creazione del clone di smsap]

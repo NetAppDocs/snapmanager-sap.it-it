@@ -1,0 +1,43 @@
+---
+permalink: windows/reference-the-smosmsapprofile-show-command.html 
+sidebar: sidebar 
+keywords: run, profile, command, display, information, smsap 
+summary: È possibile eseguire il comando profile show per visualizzare le informazioni relative a un profilo. 
+---
+= Il comando smsap profile show
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `profile show` per visualizzare le informazioni relative a un profilo.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap profile show
+-profile profile_name
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+

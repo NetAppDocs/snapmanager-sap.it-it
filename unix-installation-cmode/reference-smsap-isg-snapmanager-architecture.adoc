@@ -1,0 +1,65 @@
+---
+permalink: unix-installation-cmode/reference-smsap-isg-snapmanager-architecture.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, component, work, together, comprehensive, powerful, backup, restore, recovery, clone, solution, oracle, database, architecture 
+summary: SnapManager per SAP include componenti che lavorano insieme per fornire una soluzione completa e potente di backup, ripristino, ripristino e cloning per i database Oracle. 
+---
+= Architettura SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP include componenti che lavorano insieme per fornire una soluzione completa e potente di backup, ripristino, ripristino e cloning per i database Oracle.
+
+image::../media/smsap_architcture_cmode.gif[diagramma dell'architettura di smsap per cmode]
+
+
+
+== SnapDrive per UNIX
+
+SnapManager richiede SnapDrive per stabilire la connessione con il sistema di storage. Prima di installare SnapManager, è necessario installare SnapDrive per UNIX su ogni host di database di destinazione.
+
+
+
+== SnapManager per SAP
+
+È necessario installare SnapManager per SAP su ogni host di database di destinazione.
+
+È possibile utilizzare l'interfaccia a riga di comando (CLI) o l'interfaccia utente dall'host del database in cui è installato SnapManager per SAP. È inoltre possibile utilizzare l'interfaccia utente di SnapManager in remoto utilizzando un browser Web da qualsiasi sistema in esecuzione su un sistema operativo supportato da SnapManager.
+
+
+NOTE: La versione JRE supportata è la 1.8.
+
+
+
+== Database di destinazione
+
+Il database di destinazione è un database Oracle che si desidera gestire utilizzando SnapManager eseguendo operazioni di backup, ripristino, ripristino e clonazione.
+
+Il database di destinazione può essere standalone, Real Application Clusters (RAC) o risiedere su volumi Oracle Automatic Storage Management (ASM). Per ulteriori informazioni sulle versioni, le configurazioni, i sistemi operativi e i protocolli dei database Oracle supportati, consultare il NetApp Interoperability Matrix Tool.
+
+
+
+== Repository SnapManager
+
+Il repository SnapManager risiede in un database Oracle e memorizza i metadati relativi a profili, backup, ripristino, ripristino e clonazione. Un singolo repository può contenere informazioni sulle operazioni eseguite su più profili di database.
+
+Il repository SnapManager non può risiedere nel database di destinazione. Il database del repository SnapManager e il database di destinazione devono essere online prima di eseguire le operazioni SnapManager.
+
+
+
+== Sistema di storage primario
+
+SnapManager esegue il backup dei database di destinazione sul sistema di storage NetApp primario.
+
+
+
+== Sistema di storage secondario
+
+Quando si abilita la protezione dei dati su un profilo di database, i backup creati sul sistema di storage primario da SnapManager vengono replicati su un sistema di storage NetApp secondario utilizzando le tecnologie SnapVault e SnapMirror.
+
+*Informazioni correlate*
+
+http://mysupport.netapp.com/matrix["Tool di matrice di interoperabilità NetApp"^]

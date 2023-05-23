@@ -1,0 +1,47 @@
+---
+permalink: unix-administration/task-use-protection-manager-to-configure-a-secondary-resource-pool.html 
+sidebar: sidebar 
+keywords: support, backup, database, secondary, storage, administrator, protection, manager, organize, snapvault, license, resource, pool 
+summary: 'Per supportare il backup del database sullo storage secondario, l"amministratore dello storage utilizza Gestione protezione per organizzare i sistemi di storage secondari abilitati con la licenza secondaria SnapVault in un pool di risorse per i backup.' 
+---
+= Utilizzare Protection Manager per configurare un pool di risorse secondario
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per supportare il backup del database sullo storage secondario, l'amministratore dello storage utilizza Gestione protezione per organizzare i sistemi di storage secondari abilitati con la licenza secondaria SnapVault in un pool di risorse per i backup.
+
+*Cosa ti serve*
+
+Idealmente, i sistemi storage in un pool di risorse sono intercambiabili in termini di accettabilità come destinazioni per i backup. Ad esempio, quando si sviluppa la strategia di protezione per il database delle retribuzioni, l'amministratore dello storage ha identificato i sistemi storage secondari con performance e livelli di servizio simili, che sarebbero stati membri idonei dello stesso pool di risorse.
+
+Sono già stati creati aggregati di spazio inutilizzato nei sistemi storage che si intende assegnare ai pool di risorse. In questo modo si garantisce uno spazio sufficiente per contenere i backup.
+
+.Fasi
+. Accedere alla NetApp Management Console di Protection Manager.
+. Dalla barra dei menu, fare clic su *Data* > *Resource Pools*.
++
+Viene visualizzata la finestra Resource Pools (pool di risorse).
+
+. Fare clic su *Aggiungi*.
++
+Viene avviata la procedura guidata Aggiungi pool di risorse.
+
+. Completare la procedura guidata per creare il pool di risorse *paydb_backup_resource*.
++
+Utilizzare le seguenti impostazioni:
+
++
+** Nome: Utilizzare *paydb-backup_resource*
+** Soglie di spazio (utilizzare le impostazioni predefinite):
++
+*** Soglie di utilizzo dello spazio: Attivate
+*** Soglia quasi completa (per pool di risorse): 80%
+*** Soglia completa (per il pool di risorse): 90%
+
+
+
+
+

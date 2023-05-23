@@ -1,0 +1,38 @@
+---
+permalink: unix-administration/concept-what-snapmanager-database-backups-are.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, perform, backup, task, assign, retention, class, retain, reach, database 
+summary: SnapManager consente di eseguire diverse attività di backup. È possibile assegnare classi di conservazione per specificare la durata di conservazione del backup; una volta raggiunto tale limite di tempo, il backup viene eliminato. 
+---
+= Quali sono i backup del database SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di eseguire diverse attività di backup. È possibile assegnare classi di conservazione per specificare la durata di conservazione del backup; una volta raggiunto tale limite di tempo, il backup viene eliminato.
+
+* Creare backup sullo storage primario
+* Creare backup protetti sulle risorse di storage secondarie
+* Verificare che i backup siano stati completati correttamente
+* Visualizzare un elenco di backup
+* Pianifica i backup utilizzando l'interfaccia grafica utente
+* Gestire il numero di backup conservati
+* Risorse di backup gratuite
+* Montare e smontare i backup
+* Eliminare i backup
+
+
+SnapManager crea i backup utilizzando una delle seguenti classi di conservazione:
+
+* Ogni ora
+* Ogni giorno
+* Settimanale
+* Mensile
+* Senza limiti
+
+
+Protection Manager deve essere installato per utilizzare i criteri di protezione per la protezione dei backup. Un backup può avere uno dei seguenti stati di protezione: Non richiesto, non protetto o protetto.
+
+Se vengono aggiunti nuovi file di dati al database, è necessario creare immediatamente un nuovo backup. Inoltre, se si ripristina un backup eseguito prima dell'aggiunta dei nuovi file di dati e si tenta di eseguire il ripristino a un punto successivo all'aggiunta dei nuovi file di dati, il processo di ripristino automatico potrebbe non riuscire. Consultare la documentazione Oracle per ulteriori informazioni sul processo di ripristino dei file di dati aggiunti dopo un backup.

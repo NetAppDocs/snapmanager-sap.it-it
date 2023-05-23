@@ -1,0 +1,105 @@
+---
+permalink: windows/task-update-profiles.html 
+sidebar: sidebar 
+keywords: update, profile, modify, password, backup, database, operate, system, authentication, information, host, oracle 
+summary: 'È possibile aggiornare i profili per modificare la password del profilo, il numero di backup da conservare, l"accesso al database, l"autenticazione del sistema operativo per l"autenticazione del database e viceversa e le informazioni sull"host. Se le informazioni relative alla password del database Oracle cambiano, è necessario modificarle anche nel profilo.' 
+---
+= Aggiornare i profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile aggiornare i profili per modificare la password del profilo, il numero di backup da conservare, l'accesso al database, l'autenticazione del sistema operativo per l'autenticazione del database e viceversa e le informazioni sull'host. Se le informazioni relative alla password del database Oracle cambiano, è necessario modificarle anche nel profilo.
+
+
+
+== A proposito di questa attività
+
+SnapManager (3.2 o versione successiva) consente di aggiornare il profilo per separare i backup del registro di archiviazione dai backup del file di dati utilizzando `-separate-archivelog-backups` opzione. È possibile specificare una durata di conservazione separata per il backup del registro di archiviazione. SnapManager consente di includere il backup del registro di archiviazione insieme al backup del database online. È inoltre possibile creare un backup dei file di dati online e un backup dei log di archiviazione per la clonazione. Quando si crea un backup dei file di dati online, i backup dei registri di archiviazione vengono creati immediatamente insieme ai file di dati.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap profile update -profile _profile_ [-new-profile _new_profile_name_] [-profile-password _profile_password_][-database _-dbnamedb_dbname_ -host _db_host_ [-sid _db_sid_] [-login -usernamedb_username-password _db_password-port_ _db_port_]] [{-rman{-controlfile | {-login  -username _rman_username_ -password  rman_password-tnsname  _rman_tnsname_}}} | -remove-rman] [-retain [-hourly [-countn] [-durationm]] [-daily [-countn] [-durationm]] [-weekly [-countn] [-durationm]] [-monthly [-countn] [-durationm]]] [-commentcomment][-snapname-patternpattern] [-summary-notification] [-notification [-success-email _email_address1_, _email_address2_ -subjects _ubject_pattern_] [-failure-email _email_address1_, _email_address2_ -subject _subject_pattern_]] [-separate-archivelog-backups-retain-archivelog-backups-hours _hours_ | -days _days_ | -weeks _weeks_| -months _months_ [-include-with-online-backups | -no-include-with-online-backups]] [-dump]*`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+[`-force`] [`-noprompt`]
+
++
+[`quiet` | `verbose`]
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*Modificare il criterio di conservazione del backup per i backup del database nel profilo*
+ a| 
+Specificare il numero di conservazione o la durata di conservazione per una classe di conservazione o entrambi per modificare il criterio di conservazione. La durata è espressa in unità della classe (ad esempio, ore per ora, giorni per giorno).
+
+** `-hourly` è la classe di conservazione oraria per la quale [`-countn`] [`-durationm`]] sono rispettivamente il numero di conservazione e la durata di conservazione.
+** `-daily` è la classe di conservazione giornaliera per cui [`-countn`] [`-durationm`]] sono rispettivamente il numero di conservazione e la durata di conservazione.
+** `-weekly` è la classe di conservazione settimanale, per cui [`-countn`] [`-durationm`]] sono rispettivamente il numero di conservazione e la durata di conservazione.
+** -mensile è la classe di conservazione mensile per cui [`-countn`] [`-durationm`]] sono rispettivamente il numero di conservazione e la durata di conservazione.
+
+
+
+
+ a| 
+*Attivare le notifiche e-mail per lo stato di completamento delle operazioni del database*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-summary-notification` consente di configurare una notifica email di riepilogo per più profili in un database repository.
+** `-notification` consente di ricevere una notifica via email sullo stato di completamento dell'operazione del database per un profilo.
+** `-success-emailemail_address2` consente di ricevere una notifica via email dopo il completamento di un'operazione di database eseguita correttamente utilizzando un profilo nuovo o esistente.
+** `-failure-emailemail_address2` consente di ricevere una notifica via email su un'operazione di database non riuscita eseguita utilizzando un profilo nuovo o esistente.
+** `-subjectsubject_text` specifica il testo dell'oggetto della notifica via email durante la creazione di un nuovo profilo o di un profilo esistente. Se le impostazioni di notifica non sono configurate per il repository e si sta tentando di configurare le notifiche di profilo o di riepilogo utilizzando l'interfaccia della riga di comando (CLI), il seguente messaggio viene registrato nel log della console: `SMSAP-14577: Notification Settings not configured`.
++
+Se sono state configurate le impostazioni di notifica e si sta tentando di configurare la notifica di riepilogo utilizzando l'interfaccia CLI senza attivare la notifica di riepilogo per il repository, il seguente messaggio viene registrato nel log della console: `SMSAP-14575: Summary notification configuration not available for this repository`
+
+
+
+
+
+ a| 
+*Aggiornare il profilo per creare separatamente il backup dei file di log dell'archivio*
+ a| 
+Specificare le seguenti opzioni e variabili:
+
+** `-separate-archivelog-backups` consente di creare un backup dei file di log dell'archivio separatamente dai file di database.
++
+Dopo aver specificato questa opzione, è possibile creare un backup solo file di dati o un backup solo archivio. Impossibile creare un backup completo. Inoltre, non è possibile ripristinare le impostazioni del profilo separando il backup. SnapManager conserva i backup in base ai criteri di conservazione per i backup creati prima di eseguire il backup solo per l'archiviazione.
+
+** `-retain-archivelog-backups` imposta la durata della conservazione per i backup del registro di archiviazione.
++
+
+NOTE: Se si aggiorna il profilo per la prima volta, è possibile separare i backup del registro di archiviazione dal backup dei file di dati utilizzando `-separate-archivelog-backups` specificare la durata di conservazione per i backup del registro di archiviazione utilizzando `-retain-archivelog-backups` opzione. L'impostazione della durata della conservazione è facoltativa quando si aggiorna il profilo in un secondo momento.
+
+** `-include-with-online-backups` specifica che il backup del registro di archiviazione è incluso insieme al backup del database.
+** `-no-include-with-online-backups` specifica che il backup del file di log dell'archivio non è incluso con il backup del database.
+
+
+
+
+ a| 
+*Modificare il nome host del database di destinazione*
+ a| 
+Specificare `-hostnew_db_host` per modificare il nome host del profilo.
+
+
+
+ a| 
+*Raccogliere i file dump dopo l'operazione di aggiornamento del profilo*
+ a| 
+Specificare `-dump` opzione.
+
+|===
+. Per visualizzare il profilo aggiornato, immettere il seguente comando: `smsap profile show`
+

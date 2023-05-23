@@ -1,0 +1,26 @@
+---
+permalink: windows/task-set-the-path-for-br-tools.html 
+sidebar: sidebar 
+keywords: set, path, br, tools, command 
+summary: Impostare il percorso per BR*Tools per utilizzare il comando BR*Tools. 
+---
+= Impostare il percorso per BR*Tools
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Impostare il percorso per BR*Tools per utilizzare il comando BR*Tools.
+
+
+
+== A proposito di questa attività
+
+Se il percorso non è impostato e si tenta di eseguire l'operazione di dump del sistema utilizzando BR*Tools, viene visualizzato il seguente messaggio di errore `config_summary.txt: 'brtools' is not recognized as an internal or external command, operable program or batch file`
+
+.Fasi
+. Fare clic su *Start* > *risorse del computer*, quindi fare clic con il pulsante destro del mouse su *Proprietà* > *Avanzate* > *variabili ambientali*.
+. Nella finestra *variabili ambientali*, fare clic su *nuovo* per aggiungere un nuovo percorso BR*tools o su *Modifica* per modificare il percorso BR*Tools esistente per le variabili di sistema e le variabili utente.
+. Fare clic su *OK* per salvare le modifiche.
+

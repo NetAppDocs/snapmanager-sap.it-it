@@ -1,0 +1,335 @@
+---
+permalink: unix-administration/reference-troubleshooting-known-issues.html 
+sidebar: sidebar 
+keywords: aware, snapmanager, troubleshooting, known, issue 
+summary: È necessario essere a conoscenza di alcuni problemi noti che potrebbero verificarsi quando si utilizza SnapManager e di come risolverli. 
+---
+= Risoluzione dei problemi noti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario essere a conoscenza di alcuni problemi noti che potrebbero verificarsi quando si utilizza SnapManager e di come risolverli.
+
+
+
+== SnapManager per SAP non riesce a identificare il profilo come profilo in modalità cluster
+
+Se il nome del profilo Cluster-Mode non è presente in `cmode_profiles.config` Nella directory di installazione di SnapManager per SAP, potrebbe essere visualizzato il seguente messaggio di errore:
+
+`Please configure DFM server using snapdrive config set -dfm user_name appliance_name.`
+
+Inoltre, durante l'aggiornamento di SnapManager per SAP, se si elimina ``/opt/NetApp/smsap/*`` , quindi `cmode_profiles.config` Viene eliminato anche il file con i nomi dei profili Cluster-Mode. Questo problema genera anche lo stesso messaggio di errore.
+
+*Soluzione*
+
+Aggiornare il profilo: `*smsap profile update-profile _<profile_name>_*`
+
+
+NOTE: Se SnapManager per SAP è installato in ``/opt/NetApp/smsap/`` percorso, quindi la posizione del file sarà ``/opt/NetApp/smsap/cmode_profile/cmode_profiles.config.``
+
+
+
+== Il server non si avvia
+
+All'avvio del server, potrebbe essere visualizzato un messaggio di errore simile al seguente:
+
+`SMSAP-01104: Error invoking command: SMSAP-17107: SnapManager Server failed to start on port 8074 because of the following errors: java.net.BindException: Address already in use`
+
+Ciò potrebbe essere dovuto al fatto che le porte di ascolto SnapManager (27314 e 27315, per impostazione predefinita) sono attualmente in uso da un'altra applicazione.
+
+Questo errore può verificarsi anche se `smsap_server` Il comando è già in esecuzione, ma SnapManager non rileva il processo esistente.
+
+*Soluzione*
+
+È possibile riconfigurare SnapManager o l'altra applicazione per utilizzare porte diverse.
+
+Per riconfigurare SnapManager, modificare il seguente file: ``/opt/NTAP/smsap/properties/smsap.config``
+
+Vengono assegnati i seguenti valori:
+
+* SMSAP Server.port=27314
+* SMSAP Server.rmiRegistry.port=27315
+* remote.registry.ocijdbc.port= 27315
++
+Remote.registry.ocijdbc.port deve essere uguale a Server.rmiRegistry.port.
+
+
+
+Per avviare il server SnapManager, immettere il seguente comando: `*smsap_server start*`
+
+
+NOTE: Se il server è già in esecuzione, viene visualizzato un messaggio di errore.
+
+Se il server è già in esecuzione, attenersi alla seguente procedura:
+
+. Arrestare il server immettendo il seguente comando: `*smsap_server stop*`
+. Riavviare il server immettendo il seguente comando: `*smsap_server start*`
+
+
+
+
+== Interruzione di un'operazione SnapManager in esecuzione
+
+Se il server SnapManager si blocca e non è possibile eseguire correttamente alcuna operazione, è possibile terminare SnapManager e le relative operazioni.
+
+*Soluzione*
+
+SnapManager funziona sia con SnapManager che con Gestione protezione. Per elencare i diversi processi in esecuzione e interrompere l'ultimo processo in esecuzione, attenersi alla procedura riportata di seguito.
+
+. Elencare tutti i processi SnapDrive in esecuzione: `ps`
++
+`*ps*`
+
++
+Esempio:
+
++
+`*ps  | rep snapdrive*`
+
+. Arrestare il processo o i processi SnapDrive: `*kill <pid>*`
++
+`_pid_` è l'elenco dei processi trovati utilizzando `ps` comando.
+
++
+
+NOTE: Non interrompere tutti i processi SnapDrive. È possibile terminare solo l'ultimo processo in esecuzione.
+
+. Se una delle operazioni comporta il ripristino di un backup protetto dallo storage secondario, aprire la console di Protection Manager ed eseguire le seguenti operazioni:
++
+.. Dal menu System (sistema), selezionare *Jobs* (processi).
+.. Selezionare *Restore* (Ripristina).
+.. Verificare il nome del dataset che corrisponde a quello nel profilo SnapManager.
+.. Fare clic con il pulsante destro del mouse e selezionare *Annulla*.
+
+
+. Elencare i processi SnapManager:
++
+.. Accedere come utente root.
+.. Elencare i processi utilizzando il comando ps.
++
+Esempio: `*ps | grep java*`
+
+
+
+. Terminare il processo SnapManager: `*kill <pid>*`
+
+
+
+
+== Impossibile eliminare o liberare l'ultimo backup protetto
+
+Quando si crea il primo backup per un profilo sullo storage secondario, SnapManager invia tutte le informazioni sul backup a Gestione protezione. Per i backup successivi relativi a questo profilo, SnapManager invia solo le informazioni modificate. Se si rimuove l'ultimo backup protetto, SnapManager perde la capacità di identificare le differenze tra i backup e deve trovare un modo per eseguire una nuova baseline di queste relazioni. Pertanto, se si tenta di eliminare l'ultimo backup protetto, viene visualizzato un messaggio di errore.
+
+*Soluzione*
+
+È possibile eliminare il profilo o solo il backup del profilo.
+
+Per eliminare il profilo, attenersi alla seguente procedura:
+
+. Eliminare i backup del profilo.
+. Aggiornare il profilo e disattivare la protezione nel profilo.
++
+In questo modo si elimina il dataset.
+
+. Eliminare l'ultimo backup protetto.
+. Eliminare il profilo.
+
+
+Per eliminare solo il backup, attenersi alla seguente procedura:
+
+. Creare un'altra copia di backup del profilo.
+. Trasferire la copia di backup sullo storage secondario.
+. Eliminare la copia di backup precedente.
+
+
+
+
+== Impossibile gestire i nomi di destinazione del file di log dell'archivio se i nomi di destinazione fanno parte di altri nomi di destinazione
+
+Durante la creazione di un backup del registro di archiviazione, se l'utente esclude una destinazione che fa parte di altri nomi di destinazione, vengono esclusi anche gli altri nomi di destinazione.
+
+Ad esempio, si supponga che siano disponibili tre destinazioni da escludere: ``/dest, /dest1,`` e. ``/dest2.`` Durante la creazione del backup del file di log dell'archivio, se si esclude ``/dest`` utilizzando il comando
+
+[listing]
+----
+smsap backup create -profile almsamp1 -data -online -archivelogs  -exclude-dest /dest
+----
+, SnapManager per SAP esclude tutte le destinazioni che iniziano con /dest.
+
+*Soluzione*
+
+* Aggiungere un separatore di percorso dopo aver configurato le destinazioni in `v$archive_dest`. Ad esempio, modificare ``/dest`` a. ``/dest/``.
+* Durante la creazione di un backup, includere le destinazioni invece di escludere qualsiasi destinazione.
+
+
+
+
+== Il ripristino dei file di controllo multiplati in ASM (Automatic Storage Management) e storage non ASM non riesce
+
+Quando i file di controllo vengono multiplati su storage ASM e non ASM, l'operazione di backup viene eseguita correttamente. Tuttavia, quando si tenta di ripristinare i file di controllo dal backup eseguito correttamente, l'operazione di ripristino non riesce.
+
+
+
+== L'operazione di clonazione SnapManager non riesce
+
+Quando si clona un backup in SnapManager, il server DataFabric Manager potrebbe non rilevare i volumi e visualizzare il seguente messaggio di errore:
+
+`SMSAP-13032: Cannot perform operation: Clone Create. Root cause: SMSAP-11007: Error cloning from snapshot: FLOW-11019: Failure in ExecuteConnectionSteps: SD-00018: Error discovering storage for /mnt/datafile_clone3: SD-10016: Error executing snapdrive command "/usr/sbin/snapdrive storage show -fs /mnt/datafile_clone3": 0002-719 Warning: Could not check SD.Storage.Read access on volume filer:/vol/SnapManager_20091122235002515_vol1 for user user-vm5\oracle on Operations Manager servers x.x.x.x`
+
+`Reason: Invalid resource specified. Unable to find its Id on Operations Manager server 10.x.x.x`
+
+Ciò si verifica se il sistema di storage dispone di un elevato numero di volumi.
+
+*Soluzione*
+
+Eseguire una delle seguenti operazioni:
+
+* Dal server Data Fabric Manager, eseguire
++
+`*dfm host discover _storage_system_*`
+
++
+È inoltre possibile aggiungere il comando in un file di script della shell e pianificare un processo nel server DataFabric Manager per eseguire lo script a intervalli frequenti.
+
+* Aumentare il valore di `_dfm-rbac-retries_` in `Snapdrive.conf` file.
++
+SnapDrive utilizza il valore predefinito dell'intervallo di refresh e il numero predefinito di tentativi. Il valore predefinito di `_dfm-rbac-retry-sleep-secs_` è di 15 secondi e. `_dfm-rbac-retries_` è 12 iterazioni.
+
++
+
+NOTE: L'intervallo di aggiornamento di Operations Manager dipende dal numero di sistemi storage, dal numero di oggetti storage nel sistema storage e dal carico sul server DataFabric Manager.
+
+
+
+Come consiglio, eseguire le seguenti operazioni:
+
+. Dal server DataFabric Manager, eseguire manualmente il seguente comando per tutti i sistemi di storage secondari associati al dataset:
++
+`*dfm host discover _storage_system_*`
+
+. Raddoppiare il tempo necessario per eseguire l'operazione di rilevamento dell'host e assegnare tale valore a. `_dfm-rbac-retry-sleep-secs_`.
++
+Ad esempio, se l'operazione richiede 11 secondi, è possibile impostare il valore di `_dfm-rbac-retry-sleep-secs_` a 22 (11*2).
+
+
+
+
+
+== Le dimensioni del database del repository aumentano con il tempo e non con il numero di backup
+
+Le dimensioni del database del repository aumentano con il tempo perché le operazioni SnapManager inseriscono o eliminano i dati all'interno dello schema nelle tabelle del database del repository, il che comporta un elevato utilizzo dello spazio dell'indice.
+
+*Soluzione*
+
+È necessario monitorare e ricostruire gli indici in base alle linee guida Oracle per controllare lo spazio occupato dallo schema del repository.
+
+
+
+== Non è possibile accedere all'interfaccia grafica di SnapManager e le operazioni SnapManager non vengono eseguite quando il database del repository non è attivo
+
+Le operazioni SnapManager non riescono e non è possibile accedere alla GUI quando il database del repository non è attivo.
+
+La tabella seguente elenca le diverse azioni che si desidera eseguire e le relative eccezioni:
+
+[cols="1a,3a"]
+|===
+| Operazioni | Eccezioni 
+
+
+ a| 
+Apertura di un repository chiuso
+ a| 
+Viene visualizzato il seguente messaggio di errore `sm_gui.log: [WARN ]: SMSAP-01106: Error occurred while querying the repository: Closed Connection java.sql.SQLException: Closed Connection.`
+
+
+
+ a| 
+Aggiornare un repository aperto premendo F5
+ a| 
+Nella GUI viene visualizzata un'eccezione di repository e viene inoltre registrato un NullPointerException in `sm_gui.log` file.
+
+
+
+ a| 
+Aggiornamento del server host
+ a| 
+Un NullPointerException viene collegato in `sumo_gui.log` file.
+
+
+
+ a| 
+Creazione di un nuovo profilo
+ a| 
+Nella finestra Configurazione profilo viene visualizzata un'eccezione NullPointerException.
+
+
+
+ a| 
+Aggiornamento di un profilo
+ a| 
+Viene eseguita l'accesso alla seguente eccezione SQL `sm_gui.log: [WARN ]: SMSAP-01106: Error occurred while querying the repository: Closed Connection.`
+
+
+
+ a| 
+Accesso a un backup
+ a| 
+Viene visualizzato il seguente messaggio di errore ``sm_gui.log: Failed to lazily initialize a collection.``
+
+
+
+ a| 
+Visualizzazione delle proprietà dei cloni
+ a| 
+Viene visualizzato il seguente messaggio di errore `sm_gui.log` e. ``sumo_gui.log: Failed to lazily initialize a collection.``
+
+|===
+*Soluzione*
+
+È necessario assicurarsi che il database del repository sia in esecuzione quando si desidera accedere alla GUI o eseguire operazioni SnapManager.
+
+
+
+== Impossibile creare file temporanei per il database clonato
+
+Quando i file tablespace temporanei del database di destinazione vengono posizionati in punti di montaggio diversi dal punto di montaggio dei file di dati, l'operazione di creazione del clone ha esito positivo, ma SnapManager non riesce a creare file temporanei per il database clonato.
+
+*Soluzione*
+
+Eseguire una delle seguenti operazioni:
+
+* Assicurarsi che il database di destinazione sia disposto in modo che i file temporanei siano posizionati nello stesso punto di montaggio dei file di dati.
+* Creare o aggiungere manualmente file temporanei nel database clonato.
+
+
+
+
+== Impossibile migrare il protocollo da NFSv3 a NFSv4
+
+È possibile migrare il protocollo da NFSv3 a NFSv4 attivando `enable-migrate-nfs-version` nel `snapdrive.conf` file. Durante la migrazione, SnapDrive considera solo la versione del protocollo, indipendentemente dalle opzioni del punto di montaggio, ad esempio `rw, largefiles, nosuid,` e così via.
+
+Tuttavia, dopo la migrazione del protocollo a NFSv4, quando si ripristina il backup creato utilizzando NFSv3, si verifica quanto segue:
+
+* Se NFSv3 e NFSv4 sono attivati a livello di storage, l'operazione di ripristino ha esito positivo, ma viene montata con le opzioni del punto di montaggio disponibili durante il backup.
+* Se solo NFSv4 è attivato a livello di storage, l'operazione di ripristino ha esito positivo e viene mantenuta solo la versione del protocollo (NFSv4).
++
+Tuttavia, le altre opzioni del punto di montaggio, ad esempio `rw, largefiles, nosuid,` e così via non vengono conservati.
+
+
+
+*Soluzione*
+
+Prima di eseguire il ripristino, è necessario arrestare manualmente il database, smontare i punti di montaggio del database e montarli con le opzioni disponibili.
+
+
+
+== Il backup del database Standby Data Guard non riesce
+
+Se una posizione del registro di archiviazione è configurata con il nome del servizio del database primario, il backup del database di standby Data Guard non riesce.
+
+*Soluzione*
+
+Nella GUI, è necessario deselezionare *specificare la posizione del registro archivio esterno* corrispondente al nome del servizio del database primario.

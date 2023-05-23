@@ -1,0 +1,21 @@
+---
+permalink: unix-administration/task-retain-backups-forever.html 
+sidebar: sidebar 
+keywords: specify, backup, ineligible, deletion, retention, policy, indefinitely, retain, forever 
+summary: 'È possibile specificare che un backup non deve essere idoneo per l"eliminazione da parte del criterio di conservazione per mantenere il backup a tempo indeterminato.' 
+---
+= Conserva i backup per sempre
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile specificare che un backup non deve essere idoneo per l'eliminazione da parte del criterio di conservazione per mantenere il backup a tempo indeterminato.
+
+.Fase
+. Per specificare che un backup deve essere conservato senza limiti, immettere questo comando:
++
+`*smsap backup update -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_} -retain -unlimited*`
+
+

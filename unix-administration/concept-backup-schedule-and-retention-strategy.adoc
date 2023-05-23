@@ -1,0 +1,69 @@
+---
+permalink: unix-administration/concept-backup-schedule-and-retention-strategy.html 
+sidebar: sidebar 
+keywords: dba, ensure, backup, loss, data, disaster, regulatory, reason, retention, policy, database, schedule 
+summary: Il DBA desidera garantire che i backup siano disponibili in caso di perdita di dati, in caso di disastro e per motivi normativi. Ciò richiede una policy di conservazione attentamente studiata per i vari database. 
+---
+= Pianificazione del backup e strategia di conservazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Il DBA desidera garantire che i backup siano disponibili in caso di perdita di dati, in caso di disastro e per motivi normativi. Ciò richiede una policy di conservazione attentamente studiata per i vari database.
+
+Per il database delle retribuzioni in produzione, il DBA aderisce alla seguente strategia di conservazione TechCo:
+
+[cols="1a,1a,1a,1a"]
+|===
+| Frequenza di backup | Durata della conservazione | Tempi di backup | Tipo di storage 
+
+
+ a| 
+Una volta al giorno
+ a| 
+10 giorni
+ a| 
+19:00
+ a| 
+Primario (locale)
+
+
+
+ a| 
+Una volta al giorno
+ a| 
+10 giorni
+ a| 
+19:00
+ a| 
+Secondario (archivio)
+
+
+
+ a| 
+Una volta alla settimana
+ a| 
+52 settimane
+ a| 
+Sabato 1:00
+ a| 
+Secondario (archivio)
+
+|===
+* *Vantaggi del backup locale*
++
+Il backup locale giornaliero offre una protezione del database istantanea, utilizza una larghezza di banda di rete pari a zero, utilizza un minimo di spazio di storage aggiuntivo, fornisce un ripristino istantaneo e offre funzionalità di backup e ripristino di precisione.
+
++
+Poiché i backup settimanali finali del database delle retribuzioni vengono conservati per un minimo di 52 settimane in un sito di storage secondario, non è necessario conservare i backup giornalieri per più di 10 giorni.
+
+* *Vantaggi del backup protetto*
++
+I backup giornalieri e settimanali sullo storage secondario in una posizione remota garantiscono che, se i dati nel sito di storage primario vengono danneggiati, il database di destinazione rimane protetto e può essere ripristinato dallo storage secondario.
+
++
+I backup giornalieri sullo storage secondario vengono eseguiti per proteggersi dai danni al sistema di storage primario. Poiché i backup settimanali finali del database delle retribuzioni vengono conservati per un minimo di 52 settimane, non è necessario conservare i backup giornalieri per più di 10 giorni.
+
+

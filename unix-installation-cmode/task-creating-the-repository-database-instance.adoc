@@ -1,0 +1,36 @@
+---
+permalink: unix-installation-cmode/task-create-the-repository-database-instance.html 
+sidebar: sidebar 
+keywords: repository, database, instance, oracle, snapmanager, stand-alone, target, create 
+summary: 'L"istanza del database del repository è un database Oracle in cui è possibile creare il repository SnapManager. L"istanza del database del repository deve essere un database standalone e non può essere il database di destinazione.' 
+---
+= Creare l'istanza del database del repository
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+L'istanza del database del repository è un database Oracle in cui è possibile creare il repository SnapManager. L'istanza del database del repository deve essere un database standalone e non può essere il database di destinazione.
+
+
+
+== Di cosa hai bisogno
+
+Per accedere al database, è necessario disporre di un database Oracle e di un account utente.
+
+.Fasi
+. Accedi a SQL *Plus: `sqlplus '/ as sysdba'`
+. Creare un nuovo tablespace per il repository SnapManager: `*create tablespacetablespace_name datafile ′/u01/app/oracle/oradata/datafile/tablespace_name.dbf′ size 100M autoextend on;*`
++
+`tablespace_name` è il nome della tablespace.
+
+. Verificare la dimensione del blocco dello spazio tabella: `*select tablespace_name, block_size from dba_tablespaces;*`
++
+SnapManager richiede una dimensione minima del blocco 4-K per lo spazio tabella.
+
+
+
+*Informazioni correlate*
+
+http://www.netapp.com/us/media/tr-3761.pdf["Report tecnico di NetApp 3761: SnapManager per Oracle: Best practice"^]

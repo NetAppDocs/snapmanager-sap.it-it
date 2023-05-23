@@ -1,0 +1,21 @@
+---
+permalink: windows/task-viewing-the-detailed-history-of-a-specific-operation-associated-with-a-profile.html 
+sidebar: sidebar 
+keywords: view, detail, history, snapmanager, operation, associate, profile 
+summary: È possibile visualizzare la cronologia dettagliata di una specifica operazione SnapManager associata a un profilo. 
+---
+= Visualizzazione della cronologia dettagliata di un'operazione specifica associata a un profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare la cronologia dettagliata di una specifica operazione SnapManager associata a un profilo.
+
+.Fase
+. Per visualizzare informazioni dettagliate sulla cronologia di un'operazione SnapManager specifica associata a un profilo, immettere il seguente comando:
++
+`smsap history operation-show -profile profile_name {-label label | -id id} [-quiet | -verbose]`
+
+

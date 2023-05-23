@@ -1,0 +1,57 @@
+---
+permalink: unix-administration/concept-workflow-summary-for-local-and-secondary-database-backup.html 
+sidebar: sidebar 
+keywords: dba, snapmanager, storage, administrator, netapp, management, console, data, protection, capability, local, backup, protect, database, target, workflow, summary, local, secondary, backup 
+summary: 'In questo esempio, il DBA (utilizzando SnapManager) e l"amministratore dello storage (utilizzando la funzionalità di protezione dei dati della console di gestione NetApp) coordinano le azioni per configurare il backup locale e secondario (noto anche come backup protetto) del database di destinazione.' 
+---
+= Riepilogo del flusso di lavoro per il backup del database locale e secondario
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo esempio, il DBA (utilizzando SnapManager) e l'amministratore dello storage (utilizzando la funzionalità di protezione dei dati della console di gestione NetApp) coordinano le azioni per configurare il backup locale e secondario (noto anche come backup protetto) del database di destinazione.
+
+La sequenza di azioni eseguite è riassunta come segue:
+
+* *Configurazione del pool di risorse secondario*
++
+L'amministratore dello storage utilizza la funzionalità di protezione dei dati di NetApp Management Console per configurare un pool di risorse di sistemi storage nel sito secondario che può essere utilizzato per memorizzare il backup del database delle retribuzioni.
+
+* *Pianificazione del backup secondario*
++
+L'amministratore dello storage utilizza la funzionalità di protezione dei dati di NetApp Management Console per configurare le pianificazioni di backup secondarie.
+
+* *Configurazione del criterio di protezione*
++
+L'amministratore dello storage utilizza la funzionalità di protezione dei dati di NetApp Management Console per configurare una policy di protezione di backup secondaria per il database di destinazione. Il criterio di protezione include le pianificazioni e specifica il tipo di protezione di base per implementare la protezione di backup (backup, mirroring o una combinazione di entrambi) e definisce i criteri di conservazione dei nomi per i nodi di storage primari, secondari e talvolta terziari.
+
+* *Configurazione del profilo del database e assegnazione dei criteri di protezione*
++
+L'amministratore di database utilizza SnapManager per creare o modificare un profilo del database di destinazione che supporti il backup secondario. Durante la configurazione del profilo, l'amministratore di database:
+
++
+** Abilita la protezione del backup sullo storage secondario.
+** Assegna a questo profilo la nuova policy di protezione creata e recuperata dalla funzionalità di protezione dei dati di NetApp Management Console.
++
+L'assegnazione della policy di protezione include automaticamente il database di destinazione in un set di dati con funzionalità di protezione dei dati di NetApp Management Console parzialmente sottoposto a provisioning, ma non conforme. Una volta eseguito il provisioning completo, la configurazione del set di dati consente il backup del database di destinazione sullo storage secondario.
+
++
+Il nome del dataset utilizza la seguente sintassi: `_smsap_hostname_databasename_`, che si traduce in "smsap_prod01.sample.com_p01".
+
+
+
+* *Provisioning dello storage secondario e terzo*
++
+L'amministratore dello storage utilizza la funzionalità di protezione dei dati di NetApp Management Console per assegnare pool di risorse per il provisioning dei nodi di storage secondari e talvolta terziari (se la policy di protezione assegnata specifica nodi di storage terziari).
+
+* *Backup su storage locale*
++
+L'amministratore di database apre il profilo con la protezione attivata in SnapManager e crea un backup completo sullo storage locale. Il nuovo backup viene visualizzato in SnapManager come pianificato per la protezione, ma non ancora protetto.
+
+* *Conferma backup secondario*
++
+Poiché il backup si basava su un profilo abilitato alla protezione, il backup viene trasferito al backup secondario in base alla pianificazione del criterio di protezione. L'amministratore di database utilizza SnapManager per confermare il trasferimento del backup allo storage secondario. Una volta copiato il backup nello storage secondario, SnapManager modifica lo stato di protezione del backup da "non protetto" a "protetto".
+
+

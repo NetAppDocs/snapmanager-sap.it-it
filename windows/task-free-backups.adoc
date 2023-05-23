@@ -1,0 +1,40 @@
+---
+permalink: windows/task-free-backups.html 
+sidebar: sidebar 
+keywords: free, backup, delete, snapshot, copies, copy, metadata, function, space, smsap 
+summary: È possibile liberare i backup, eliminando le copie Snapshot senza eliminare i metadati di backup. Questa funzione libera lo spazio occupato dal backup. È possibile utilizzare il comando ssap backup free per liberare i backup. 
+---
+= Backup gratuiti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile liberare i backup, eliminando le copie Snapshot senza eliminare i metadati di backup. Questa funzione libera lo spazio occupato dal backup. È possibile utilizzare lo smsap `backup free` per liberare i backup.
+
+
+
+== Di cosa hai bisogno
+
+Affinché un backup possa essere liberato, è necessario assicurarsi di quanto segue:
+
+* Backup riuscito
+* Il backup non deve essere montato
+* Il backup non ha cloni
+* Il backup non deve essere conservato utilizzando una policy di conservazione illimitata
+* Il backup non è già stato liberato
+
+
+
+
+== A proposito di questa attività
+
+È possibile specificare `-dump` opzione come parametro opzionale per raccogliere i file dump dopo l'operazione senza backup riuscita o non riuscita.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap backup free -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_ | -all} -force[-dump] [-quiet] [-force]*`
+
+

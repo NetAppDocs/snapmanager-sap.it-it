@@ -1,0 +1,133 @@
+---
+permalink: unix-administration/reference-examples-of-backup-restore-and-recover-operations.html 
+sidebar: sidebar 
+keywords: information, backup, restore, recover, scenario, accomplish, data, protection, goal, example, operation 
+summary: Sono disponibili informazioni su alcuni scenari di backup, ripristino e ripristino che è possibile utilizzare per raggiungere gli obiettivi di protezione dei dati. 
+---
+= Esempi di operazioni di backup, ripristino e ripristino
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sono disponibili informazioni su alcuni scenari di backup, ripristino e ripristino che è possibile utilizzare per raggiungere gli obiettivi di protezione dei dati.
+
+L'illustrazione seguente mostra il contenuto dello spazio tabella:
+
+image::../media/prnt_en_drw_smo_smsap_db_tables.gif[prnt en drw smo tabelle db smsap]
+
+Nell'illustrazione, Tablespace1 ha una tabella e due file di database associati. Tablespace2 dispone di due tabelle e di un file di database associato.
+
+Le seguenti tabelle descrivono alcuni scenari completi e parziali di backup, ripristino e ripristino:
+
+
+
+== Esempi di operazioni complete di backup, ripristino e ripristino
+
+[cols="1a,1a,1a"]
+|===
+| Backup completo | Ripristinare | Ripristinare 
+
+
+ a| 
+SnapManager esegue un backup di tutto ciò che è contenuto nel database DB1, inclusi i file di dati, i log di archiviazione e i file di controllo.
+ a| 
+Ripristino completo con file di controllo SnapManager ripristina tutti i file di dati, gli spazi delle tabelle e i file di controllo nel backup.
+ a| 
+È possibile specificare una delle seguenti opzioni:
+
+* SCN - inserire un SCN, ad esempio 384641.
+* Data/ora - inserire una data e un'ora del backup, ad esempio 2005-11-25:19:06:22.
+* L'ultima transazione effettuata nel database.
+
+
+
+
+ a| 
+Ripristino completo senza file di controllo SnapManager ripristina tutti i tablespace e i file di dati, senza i file di controllo.
+
+
+
+ a| 
+Ripristinare file di dati o tablespace con file di controllo specificare una delle seguenti opzioni:
+
+* Tablespace
+* File di dati
+
+ a| 
+SnapManager ripristina i dati nell'ultima transazione effettuata nel database.
+
+
+
+ a| 
+Ripristino di file di dati o tablespace senza file di controllo SnapManager ripristina una delle seguenti opzioni:
+
+* Tablespace
+* File di dati
+
+
+
+
+ a| 
+Ripristinare solo i file di controllo
+
+|===
+
+
+== Esempi di operazioni parziali di backup, ripristino e ripristino
+
+[cols="1a,1a,1a"]
+|===
+| Backup parziale | Ripristinare | Ripristinare 
+
+
+ a| 
+È possibile scegliere una delle seguenti opzioni:
+
+* Tablespace
++
+È possibile specificare Tablespace1 e Tablespace2 o solo uno di essi.
+
+* File di dati
++
+È possibile specificare tutti e tre i file di database (TS1_1.dbf, TS1_2.dbf e TS2_1.dbf), due o un file.
+
+
+
+Indipendentemente dall'opzione selezionata, il backup include tutti i file di controllo. I file di log dell'archivio sono inclusi nel backup parziale se il profilo non è abilitato a creare i backup del log dell'archivio separatamente.
+ a| 
+Ripristino completo SnapManager ripristina tutti i file di dati, gli spazi delle tabelle e i file di controllo specificati nel backup parziale.
+ a| 
+SnapManager ripristina i dati nell'ultima transazione eseguita nell'istanza del database.
+
+
+
+ a| 
+Ripristino di file di dati o tablespace con file di controllo SnapManager ripristina una delle seguenti opzioni:
+
+* Tutti i file di dati specificati
+* Tutti i tablespace specificati
+
+
+
+
+ a| 
+Ripristino di file di dati o tablespace senza file di controllo SnapManager ripristina una delle seguenti opzioni:
+
+* Tablespace
++
+Specificare uno degli spazi delle tabelle. SnapManager ripristina solo gli spazi delle tabelle specificati. Se il backup contiene Tablespace1, SnapManager ripristina solo tale tablespace.
+
+* File di dati
++
+Specificare uno dei file di database. SnapManager ripristina solo i file di dati specificati. Se il backup contiene file di database (TS1_1.dbf e TS1_2.dbf), SnapManager ripristina solo questi file.
+
+
+
+
+
+ a| 
+Ripristinare solo i file di controllo
+
+|===

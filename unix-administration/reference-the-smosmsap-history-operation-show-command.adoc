@@ -1,0 +1,56 @@
+---
+permalink: unix-administration/reference-the-smosmsap-history-operation-show-command.html 
+sidebar: sidebar 
+keywords: command, enable, history, snapmanager, operation, associated, profile, smsap, operation-show 
+summary: 'Questo comando consente di visualizzare la cronologia di un"operazione SnapManager specifica associata a un profilo.' 
+---
+= Il comando ssap history operation-show
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando consente di visualizzare la cronologia di un'operazione SnapManager specifica associata a un profilo.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap history operation-show
+-profile _profile_ {-label _label_ | -id _id_} [-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* `*-profile _profile_*`
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* `*-label _label_ | -id _id_*`
++
+Specifica l'ID o l'etichetta dell'operazione SnapManager per la quale si desidera visualizzare la cronologia.
+
+* `*-quiet*`
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* `*-verbose*`
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+'''
+
+
+== Esempio di comando
+
+[listing]
+----
+ smsap history operation-show -profile PROFILE1 -label backup1 -verbose
+----
+'''

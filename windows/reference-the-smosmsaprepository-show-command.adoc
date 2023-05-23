@@ -1,0 +1,92 @@
+---
+permalink: windows/reference-the-smosmsaprepository-show-command.html 
+sidebar: sidebar 
+keywords: command, display, information, repository, smsap 
+summary: Questo comando visualizza le informazioni sul repository. 
+---
+= Il comando show del repository smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando visualizza le informazioni sul repository.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap repository show
+-repository
+-dbname repo_service_name
+-host repo_host
+-port repo_port
+-login -username repo_username
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-repository`*
++
+Le opzioni seguenti `-repository` specificare i dettagli del database per il repository.
+
+* *`-dbname _repo_service_name_`*
++
+Specifica il nome del database in cui è memorizzato il repository. Utilizzare il nome globale o il SID.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP del computer host su cui viene eseguito il database del repository.
+
+* *`-login`*
++
+Avvia i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente necessario per accedere al database in cui è memorizzato il repository.
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP utilizzato per accedere al database in cui è memorizzato il repository.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio riportato di seguito vengono illustrati i dettagli relativi al repository nel database SALESDB.
+
+[listing]
+----
+smsap repository show -repository -dbname SALESDB  -host server1
+-port 1521 -login -username admin
+Repository Definition:
+User Name: admin
+Host Name: server1
+Database Name: SALESDB
+Database Port: 1521
+Version: 28
+Hosts that have run operations using this repository: 2
+server2
+server3
+Profiles defined in this repository: 2
+GSF5A
+GSF3A
+Incomplete Operations: 0
+----

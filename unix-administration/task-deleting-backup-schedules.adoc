@@ -1,0 +1,21 @@
+---
+permalink: unix-administration/task-delete-backup-schedules.html 
+sidebar: sidebar 
+keywords: delete, backup, schedule, deleting 
+summary: È possibile eliminare le pianificazioni di backup quando non sono più necessarie. 
+---
+= Eliminare le pianificazioni di backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eliminare le pianificazioni di backup quando non sono più necessarie.
+
+.Fase
+. Per eliminare la pianificazione di backup, immettere il seguente comando:
++
+`*smsap schedule delete -profile _profile_name_ -schedule-name _schedulename_ [-quiet | -verbose]*`
+
+

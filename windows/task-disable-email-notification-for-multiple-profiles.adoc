@@ -1,0 +1,35 @@
+---
+permalink: windows/task-disable-email-notification-for-multiple-profiles.html 
+sidebar: sidebar 
+keywords: enable, summary, email, notification, multiple, profile, disable, alert 
+summary: Dopo aver attivato la notifica e-mail di riepilogo per più profili, è possibile disattivarli per non ricevere più avvisi e-mail. 
+---
+= Disattiva la notifica e-mail per più profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver attivato la notifica e-mail di riepilogo per più profili, è possibile disattivarli per non ricevere più avvisi e-mail.
+
+
+
+== A proposito di questa attività
+
+SnapManager consente di disattivare la notifica e-mail di riepilogo per le operazioni di database eseguite dal profilo. Dall'interfaccia utente di SnapManager, immettere `notification remove-summary-notification` comando per disattivare la notifica e-mail di riepilogo per più profili e il nome del database del repository per cui non è richiesta la notifica e-mail.
+
+.Fase
+. Per disattivare la notifica di riepilogo per più profili in un database di repository, immettere il seguente comando:
++
+`*smsap notification remove-summary-notification -repository -port _repo_port_ -dbname _repo_service_name_ -host _repo_host_ -login -username _repo_username_*`
+
+
+
+Nell'esempio seguente viene illustrata la disattivazione della notifica di riepilogo per più profili in un database di repository:
+
+[listing]
+----
+
+smsap notification remove-summary-notification –repository –port 1521 –dbname repo2 –host 10.72.197.133 –login –username oba5
+----

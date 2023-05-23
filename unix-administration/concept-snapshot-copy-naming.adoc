@@ -1,0 +1,164 @@
+---
+permalink: unix-administration/concept-snapshot-copy-naming.html 
+sidebar: sidebar 
+keywords: naming, name, snapshot, copy, convention, pattern, copies 
+summary: È possibile specificare una convenzione o un modello di denominazione per descrivere le copie Snapshot correlate al profilo creato o aggiornato. È inoltre possibile includere testo personalizzato in tutti i nomi delle copie Snapshot. 
+---
+= Naming delle copie Snapshot
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile specificare una convenzione o un modello di denominazione per descrivere le copie Snapshot correlate al profilo creato o aggiornato. È inoltre possibile includere testo personalizzato in tutti i nomi delle copie Snapshot.
+
+È possibile modificare il modello di denominazione della copia Snapshot quando si crea un profilo o dopo averlo creato. Il modello aggiornato si applica solo alle copie Snapshot che non si sono ancora verificate; le copie Snapshot esistenti mantengono il modello Snapname precedente.
+
+Gli esempi seguenti mostrano i due nomi delle copie Snapshot presi per un volume. La seconda copia Snapshot elencata ha _F_H_1_ al centro del nome. "1" indica che si tratta della prima copia Snapshot acquisita nel set di backup. La prima copia Snapshot elencata è la più recente e ha un "2", il che significa che è la seconda copia Snapshot acquisita. La copia Snapshot "1" include i file di dati; la copia Snapshot "2" include i file di controllo. Poiché le copie Snapshot del file di controllo devono essere eseguite dopo la copia Snapshot del file di dati, sono necessarie due copie Snapshot.
+
+[listing]
+----
+smsap_profile_sid_f_h_2_8ae482831ad14311011ad14328b80001_0
+smsap_profile_sid_f_h_1_8ae482831ad14311011ad14328b80001_0
+----
+Il modello predefinito include il valore smid richiesto, come illustrato di seguito:
+
+* Modello predefinito: Smsap_{profile}_{db-sid}_{scope}_{mode}_{smid}
+* Esempio: Smsap_my_profile_rac51_f_h_2_8abc01e915a55ac50115a55acc8d0001_0
+
+
+È possibile utilizzare le seguenti variabili nel nome della copia Snapshot:
+
+[cols="1a,3a,2a"]
+|===
+| Nome della variabile | Descrizione | Valore di esempio 
+
+
+ a| 
+smid (obbligatorio)
+ a| 
+L'ID univoco SnapManager è l'unico elemento richiesto quando si crea un nome per la copia Snapshot. Questo ID garantisce la creazione di un nome Snapshot univoco.
+ a| 
+8abc01e915a55ac50115a55acc8d0001_0
+
+
+
+ a| 
+Classe (opzionale)
+ a| 
+Classe di conservazione associata al backup per il profilo e indicata da oraria (h), giornaliera (d), settimanale (w), mensile (m) o illimitata (u).
+ a| 
+d
+
+
+
+ a| 
+Commento (opzionale)
+ a| 
+Commento associato al backup per il profilo. Gli spazi in questo campo verranno convertiti in caratteri di sottolineatura una volta completato il nome della copia Snapshot.
+ a| 
+sample_comment_spaces_replaced
+
+
+
+ a| 
+Data (opzionale)
+ a| 
+Data in cui viene eseguito il backup per il profilo. Se necessario, i valori delle date vengono aggiunti a zero. (aaaammgg)
+ a| 
+20070218
+
+
+
+ a| 
+db-host (opzionale)
+ a| 
+Nome host del database associato al profilo da creare o aggiornare.
+ a| 
+my_host
+
+
+
+ a| 
+db-name (opzionale)
+ a| 
+Nome del database associato alla copia Snapshot creata.
+ a| 
+rac5
+
+
+
+ a| 
+db-sid (opzionale)
+ a| 
+sid del database associato alla copia Snapshot creata.
+ a| 
+rac51
+
+
+
+ a| 
+Etichetta (opzionale)
+ a| 
+Etichetta associata al backup del profilo.
+ a| 
+sample_label
+
+
+
+ a| 
+Mode (opzionale)
+ a| 
+Specifica se il backup viene completato online (h) o offline (c).
+ a| 
+h
+
+
+
+ a| 
+Profilo (opzionale)
+ a| 
+Nome del profilo associato al backup creato.
+ a| 
+profilo personale
+
+
+
+ a| 
+Scopo (opzionale)
+ a| 
+Specifica se il backup è completo (f) o parziale (p).
+ a| 
+f
+
+
+
+ a| 
+Ora (opzionale)
+ a| 
+Ora in cui viene eseguito il backup per il profilo. I valori di tempo per questa variabile utilizzano l'orologio a 24 ore e vengono aggiunti degli zeri, se necessario. Ad esempio, 5:32 e 8 secondi vengono visualizzati come 053208 (hhmmss).
+ a| 
+170530
+
+
+
+ a| 
+Fuso orario (opzionale)
+ a| 
+Fuso orario specificato per l'host del database di destinazione.
+ a| 
+EST
+
+
+
+ a| 
+Testo utente (opzionale)
+ a| 
+Testo personalizzato che è possibile inserire.
+ a| 
+prod
+
+|===
+
+NOTE: SnapManager per SAP non supporta il simbolo dei due punti (:) nelle forme lunghe dei nomi delle copie Snapshot.

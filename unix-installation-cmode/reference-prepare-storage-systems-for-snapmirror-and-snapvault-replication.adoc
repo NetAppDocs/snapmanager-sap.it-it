@@ -1,0 +1,16 @@
+---
+permalink: unix-installation-cmode/reference-prepare-storage-systems-for-snapmirror-and-snapvault-replication.html 
+sidebar: sidebar 
+keywords: snapmanager, ontap, snapmirror, create, mirror, copies, copy, backup, volume, snapvault, technology, disk-to-disk, replication, backup, governance-related, volume, prepare 
+summary: È possibile utilizzare SnapManager con la tecnologia SnapMirror di ONTAP per creare copie mirror dei set di backup su un altro volume e con la tecnologia ONTAP SnapVault per eseguire la replica del backup disk-to-disk per la conformità agli standard e altri scopi correlati alla governance. Prima di eseguire queste attività, è necessario configurare una relazione di protezione dei dati tra i volumi di origine e di destinazione e inizializzare la relazione. 
+---
+= Preparazione dei sistemi storage per la replica di SnapMirror e SnapVault
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare SnapManager con la tecnologia SnapMirror di ONTAP per creare copie mirror dei set di backup su un altro volume e con la tecnologia ONTAP SnapVault per eseguire la replica del backup disk-to-disk per la conformità agli standard e altri scopi correlati alla governance. Prima di eseguire queste attività, è necessario configurare una _relazione di protezione dei dati_ tra i volumi di origine e di destinazione e _inizializzare_ la relazione.
+
+Una relazione di protezione dei dati replica i dati sullo storage primario (il volume di origine) nello storage secondario (il volume di destinazione). Quando si inizializza la relazione, ONTAP trasferisce i blocchi di dati a cui fa riferimento il volume di origine al volume di destinazione.

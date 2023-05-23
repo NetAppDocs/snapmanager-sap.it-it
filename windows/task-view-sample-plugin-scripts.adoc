@@ -1,0 +1,212 @@
+---
+permalink: windows/task-view-sample-plugin-scripts.html 
+sidebar: sidebar 
+keywords: snapmanager, include, script, example, basis, custom, view, sample, plug-in 
+summary: SnapManager include script che è possibile utilizzare come esempio per creare script personalizzati o come base per gli script personalizzati. 
+---
+= Visualizza script plug-in di esempio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager include script che è possibile utilizzare come esempio per creare script personalizzati o come base per gli script personalizzati.
+
+
+
+== A proposito di questa attività
+
+Gli script dei plug-in di esempio si trovano nella seguente posizione:
+
+* `<default_install_directory>\plugins\examples\backup\create`
+* `<default_install_directory>\plugins\examples\clone\create`
+* `<default_install_directory>\plugins\windows\examples\backup\create\post`
+
+
+La directory che contiene gli script dei plug-in di esempio include le seguenti sottodirectory:
+
+* `policy`: Contiene script che, una volta configurati, vengono sempre eseguiti sull'operazione di clonazione.
+* `pre`: Contiene script che, una volta configurati, vengono eseguiti prima dell'operazione di clonazione.
+* `post`: Contiene script che, una volta configurati, vengono eseguiti dopo l'operazione di clonazione.
+
+
+La seguente tabella descrive gli script di esempio:
+
+|===
+| Nome dello script | Descrizione | Tipo di script 
+
+
+ a| 
+`validate_sid.sh`
+ a| 
+Contiene controlli aggiuntivi per il SID utilizzato nel sistema di destinazione. Lo script verifica che il SID abbia le seguenti caratteristiche:
+
+* Contiene tre caratteri alfanumerici
+* Inizia con una lettera
+* Non include i SID SAP riservati
+
+ a| 
+Policy
+
+
+
+ a| 
+`cleanup.sh`
+ a| 
+Pulisce il sistema di destinazione in modo che sia pronto per memorizzare il clone appena creato. Conserva o elimina file e directory in base alle esigenze.
+ a| 
+Pretask
+
+
+
+ a| 
+`sap_follow_up_activities.sh`
+ a| 
+Esegue attività di follow-up come descritto in _SAP System Copy Guide_ e TR-3442, SAP con Oracle su UNIX e NFS e NetApp Storage. Ad esempio, questo script elimina o modifica le voci di tabella nello schema SAP.
+ a| 
+Post-task
+
+
+
+ a| 
+`os_db_authentication.sh`
+ a| 
+Adatta l'autenticazione del sistema operativo per l'utente OPS, come raccomandato nella nota SAP 316641. Questo è un esempio di come elaborare file SQL esterni.
+ a| 
+Post-task
+
+
+
+ a| 
+`Mirror_the_backup.cmd`
+ a| 
+Esegue il mirroring dei volumi dopo l'esecuzione dell'operazione di backup in un ambiente Windows quando si utilizza Data ONTAP in modalità 7.
+ a| 
+Post-task
+
+
+
+ a| 
+`Vault_the_backup.cmd`
+ a| 
+Esegue il vault dei qtree dopo che l'operazione di backup si è eseguita in un ambiente Windows quando si utilizza Data ONTAP in 7-Mode.
+ a| 
+Post-task
+
+
+
+ a| 
+`Mirror_the_backup_cDOT.cmd`
+ a| 
+Esegue il mirroring dei volumi dopo l'esecuzione dell'operazione di backup in un ambiente Windows quando si utilizza Clustered Data ONTAP.
+ a| 
+Post-task
+
+
+
+ a| 
+`Vault_the_backup_cDOT.cmd`
+ a| 
+Esegue il vault dei qtree dopo l'esecuzione dell'operazione di backup in un ambiente Windows quando si utilizza Clustered Data ONTAP.
+ a| 
+Post-task
+
+|===
+Gli script forniti con SnapManager utilizzano la shell BASH per impostazione predefinita. Prima di eseguire uno qualsiasi degli script di esempio, è necessario assicurarsi che il supporto per la shell BASH sia installato sul sistema operativo.
+
+.Fasi
+. Per verificare che si stia utilizzando LA shell BASH, immettere il seguente comando al prompt dei comandi:
++
+`*bash*`
+
++
+Se non viene visualizzato alcun errore, LA shell BASH funziona correttamente.
+
++
+In alternativa, è possibile immettere `which-bash` al prompt dei comandi.
+
+. Individuare lo script nella seguente directory:
++
+`<installdir>\plugins\examples\clone\create`
+
+. Aprire lo script in un editor di script come vi.
+
+
+
+
+== Script di esempio
+
+Il seguente script personalizzato di esempio convalida i nomi SID del database e impedisce l'utilizzo di nomi non validi nel database clonato. Include tre operazioni (check, descrivi ed esegui), che vengono chiamate dopo l'esecuzione dello script. Lo script include anche la gestione dei messaggi di errore con i codici 0, 4 e >4.
+
+[listing]
+----
+@echo off
+REM $Id: //depot/prod/capstan/Rcapstan_ganges/src/plugins/windows/examples/clone/create/policy/validate_sid.cmd#1 $
+REM $Revision: #1 $ $Date: 2011/12/06 $
+REM
+REM
+
+set /a EXIT=0
+
+set name="Validate SID"
+set description="Validate SID used on the target system"
+set parameter=()
+
+rem reserved system IDs
+set INVALID_SIDS=("ADD" "ALL" "AND" "ANY" "ASC" "COM" "DBA" "END" "EPS" "FOR" "GID" "IBM" "INT" "KEY" "LOG" "MON" "NIX" "NOT" "OFF" "OMS" "RAW" "ROW" "SAP" "SET" "SGA" "SHG" "SID" "SQL" "SYS" "TMP" "UID" "USR" "VAR")
+
+if /i "%1" == "-check" goto :check
+if /i "%1" == "-execute" goto :execute
+if /i "%1" == "-describe" goto :describe
+
+:usage:
+	echo usage: %0 "{ -check | -describe | -execute }"
+	set /a EXIT=99
+	goto :exit
+
+:check
+	set /a EXIT=0
+	goto :exit
+
+:describe
+	echo SM_PI_NAME:%name%
+	echo SM_PI_DESCRIPTION:%description%
+	set /a EXIT=0
+	goto :exit
+
+:execute
+	set /a EXIT=0
+
+	rem SM_TARGET_SID must be set
+	if "%SM_TARGET_SID%" == "" (
+		set /a EXIT=4
+		echo SM_TARGET_SID not set
+		goto :exit
+	)
+
+	rem exactly three alphanumeric characters, with starting with a letter
+	echo %SM_TARGET_SID% | findstr "\<[a-zA-Z][a-zA-Z0-9][a-zA-Z0-9]\>" >nul
+	if %ERRORLEVEL% == 1 (
+		set /a EXIT=4
+		echo SID is defined as a 3 digit value starting with a letter. [%SM_TARGET_SID%] is not valid.
+		goto :exit
+	)
+
+	rem not a SAP reserved SID
+	echo %INVALID_SIDS% | findstr /i \"%SM_TARGET_SID%\" >nul
+	if %ERRORLEVEL% == 0 (
+		set /a EXIT=4
+		echo SID [%SM_TARGET_SID%] is reserved by SAP
+		goto :exit
+	)
+
+	goto :exit
+
+
+
+:exit
+	echo Command complete.
+	exit /b %EXIT%
+----
+http://media.netapp.com/documents/tr-3442.pdf["SAP con Oracle su UNIX e NFS e storage NetApp: TR-3442"^]

@@ -1,0 +1,92 @@
+---
+permalink: windows/reference-the-smosmsaprepository-create-command.html 
+sidebar: sidebar 
+keywords: command, create, repository, store, database, profile, associate, credential, adequate, smsap 
+summary: Questo comando crea un repository in cui memorizzare i profili di database e le credenziali associate. Questo comando verifica inoltre che la dimensione del blocco sia adeguata. 
+---
+= Il comando di creazione del repository di smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+
+
+== Sintassi
+
+Questo comando crea un repository in cui memorizzare i profili di database e le credenziali associate. Questo comando verifica inoltre che la dimensione del blocco sia adeguata.
+
+[listing]
+----
+
+smsap repository create
+-repository
+-port repo_port
+-dbname repo_service_name
+-host repo_host
+-login -username repo_username
+[-force] [-noprompt]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-repository`*
++
+Le opzioni che seguono -repository specificano i dettagli del database per il repository
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP utilizzato per accedere al database in cui è memorizzato il repository.
+
+* *`-dbname _repo_service_name_`*
++
+Specifica il nome del database in cui è memorizzato il repository. Utilizzare il nome globale o il SID.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP del computer host su cui viene eseguito il database del repository.
+
+* *`-login`*
++
+Avvia i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente necessario per accedere al database in cui è memorizzato il repository.
+
+* *`-force`*
++
+Tenta di forzare la creazione del repository. L'utilizzo di questa opzione comporta la richiesta di SnapManager di eseguire il backup del repository prima di creare il repository.
+
+* *`-noprompt`*
++
+Non visualizza la richiesta di eseguire il backup del repository prima di crearlo se si utilizza `-force` opzione. Utilizzando il `-noprompt` l'opzione garantisce che il prompt non venga visualizzato, semplificando la creazione di repository utilizzando uno script.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente viene creato un repository nel database SMSAPREPO sull'host hotspur.
+
+[listing]
+----
+smsap repository create -repository -port 1521 -dbname SMSAPREPO -host hotspur -login -username grabal21 -verbose
+SMSAP-09202 [INFO ]: Creating new schema as grabal21 on jdbc:oracle:thin:@//hotspur:1521/SMSAPREPO.
+SMSAP-09205 [INFO ]: Schema generation complete.
+SMSAP-09209 [INFO ]: Performing repository version INSERT.
+SMSAP-09210 [INFO ]: Repository created with version: 30
+SMSAP-13037 [INFO ]: Successfully completed operation: Repository Create
+SMSAP-13049 [INFO ]: Elapsed Time: 0:00:08.844
+----

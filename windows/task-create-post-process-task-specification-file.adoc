@@ -1,0 +1,23 @@
+---
+permalink: windows/task-create-post-process-task-specification-file.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, create, post-process, task-specification, xml, file, operation, snapmirror, snapvault, post-script, backup, secondary, storage 
+summary: 'SnapManager consente di creare file XML di post-elaborazione con specifiche delle attività per l"operazione di backup che includono gli script di post-elaborazione SnapMirror o SnapVault. Gli script consentono di eseguire il mirroring o il vault del backup sullo storage secondario.' 
+---
+= Creazione di file post-processo con specifiche delle attività
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di creare file XML di post-elaborazione con specifiche delle attività per l'operazione di backup che includono gli script di post-elaborazione SnapMirror o SnapVault. Gli script consentono di eseguire il mirroring o il vault del backup sullo storage secondario.
+
+.Fasi
+. Aprire un nuovo file XML.
++
+È possibile visualizzare il file XML di esempio delle specifiche delle attività disponibile all'indirizzo `default_install_directory`plug-in/esempi.
+
+. Aggiungere il nome dello script come parametro di input.
+. Salvare il file XML delle specifiche delle attività.
+

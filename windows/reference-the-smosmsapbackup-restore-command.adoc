@@ -1,0 +1,154 @@
+---
+permalink: windows/reference-the-smosmsapbackup-restore-command.html 
+sidebar: sidebar 
+keywords: run, backup, restore, command, database, portion, information, smsap 
+summary: È possibile eseguire il comando di ripristino del backup per ripristinare i backup di un database o di una parte di un database, quindi ripristinare facoltativamente le informazioni del database. 
+---
+= Il comando di ripristino del backup di smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup restore` comando per ripristinare i backup di un database o di una parte di un database e, se necessario, ripristinare le informazioni del database.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap backup restore
+-profile profile_name
+[-label label | -id id]
+[-files files [files...] |
+-tablespaces tablespaces [tablespaces...]] |
+-complete | -controlfiles]
+[-recover {-alllogs | -nologs | -until until} [-using-backup-controlfile]]
+[-restorespec restorespec | ]]
+[-preview]
+
+[-recover-from-location path1 [, path2]]
+[-taskspec taskspec]
+[-dump]
+[-force]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il database che si desidera ripristinare. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-label _name_`*
++
+Ripristina il backup con l'etichetta specificata.
+
+* *`-id _guid_`*
++
+Ripristina il backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare `smsap backup list` Per visualizzare il GUID per ciascun backup.
+
+* *`Choose all or specified files`*
++
+In alternativa, è possibile utilizzare una delle seguenti opzioni:
+
++
+** `-complete`: Ripristina tutti i file di dati nel backup.
+** `-tablespaceslist`: Ripristina solo gli spazi delle tabelle specificati dal backup.
++
+È necessario utilizzare gli spazi per separare i nomi nell'elenco.
+
+** `-fileslist`: Ripristina solo i file di dati specificati dal backup.
++
+È necessario utilizzare gli spazi per separare i nomi nell'elenco. Se il database è in esecuzione, SnapManager garantisce che lo spazio tabella contenente i file sia offline.
+
+
+
+* *`-controlfiles`*
++
+Ripristina i file di controllo. SnapManager consente di ripristinare i file di controllo insieme ai file di dati dai backup in una singola operazione. Il `-controlfiles` l'opzione è indipendente da altri parametri dell'ambito di ripristino, ad esempio `-complete`, `-tablespaces`, e. `-files`.
+
+* *`-recover`*
++
+Recupera il database dopo averlo ripristinato. È inoltre necessario specificare il punto in cui si desidera che SnapManager ripristini il database utilizzando una delle seguenti opzioni:
+
++
+** `-nologs`: Ripristina il database al momento del backup e non applica alcun log.
++
+È possibile utilizzare questo parametro per i backup online o offline.
+
+** `-alllogs`: Ripristina il database all'ultima transazione o commit e applica tutti i log richiesti.
+** `-until date`: Ripristina il database fino alla data e all'ora specificate.
++
+È necessario utilizzare il formato anno-mese-data: Ora: Minuto: Secondo (_aaaa-mm-gg:hh:mm:ss_). Per le ore, utilizzare il formato 12 ore o 24 ore, a seconda dell'impostazione del database.
+
+** `-until scn`: Inoltra i file di dati fino a quando non raggiunge il numero SCN (System Change Number) specificato.
+** `-using-backup-controlfile`: Ripristina il database utilizzando il file di controllo del backup.
+
+
+* *`-restorespec`*
++
+Consente di ripristinare i dati in un file system attivo e di eseguire il ripristino dai dati specificati, fornendo una mappatura di ciascuna copia Snapshot originale nel file system attivo. Se non si specifica un'opzione, SnapManager ripristina i dati delle copie Snapshot sullo storage primario. È possibile specificare una delle seguenti opzioni:
+
++
+** `-restorespec`: Specifica i dati da ripristinare e il formato di ripristino.
+
+
+* *`-preview`*
++
+Visualizza le seguenti informazioni:
+
++
+** Quale meccanismo di ripristino (ripristino del file system lato storage, ripristino del file lato storage o ripristino della copia del file lato host) verrà utilizzato per ripristinare ciascun file
+** Perché non sono stati utilizzati meccanismi più efficienti per ripristinare ciascun file, quando si specifica `-verbose` Opzione se si utilizza `-preview` è necessario conoscere quanto segue:
+** Il `-force` l'opzione non ha alcun impatto sul comando.
+** Il `-recover` l'opzione non ha alcun impatto sul comando. Per visualizzare in anteprima l'operazione di ripristino, è necessario montare il database. Se si desidera visualizzare un'anteprima di un piano di ripristino e il database non è attualmente montato, SnapManager monta il database. Se il database non può essere montato, il comando non riesce e SnapManager riporta il database allo stato originale.
+
+
++
+Il `-preview` visualizza fino a 20 file. È possibile configurare il numero massimo di file da visualizzare in `smsap.config file`.
+
+* *`-recover-from-location`*
++
+Specifica la posizione del log di archiviazione esterno dei file di log di archiviazione. SnapManager preleva i file di log dell'archivio dalla posizione esterna e li utilizza per il processo di ripristino.
+
+* *`-taskspec`*
++
+Specifica il file XML della specifica dell'attività per l'attività di pre-elaborazione o di post-elaborazione dell'operazione di ripristino. Specificare il percorso completo del file XML per la specifica dell'attività.
+
+* *`-dump`*
++
+Specifica di raccogliere i file dump dopo l'operazione di ripristino.
+
+* *`-force`*
++
+Se necessario, cambia lo stato del database in uno stato inferiore a quello corrente.
+
++
+Per impostazione predefinita, SnapManager può modificare lo stato del database in uno stato superiore durante un'operazione. Questa opzione non è necessaria per consentire a SnapManager di modificare il database in uno stato superiore.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console. È possibile utilizzare questa opzione per scoprire perché non è stato possibile utilizzare processi di ripristino più efficienti per ripristinare il file.
+
+
+
+
+
+== Esempio
+
+Nell'esempio seguente viene ripristinato un database insieme ai file di controllo:
+
+[listing]
+----
+smsap backup restore -profile SALES1 -label full_backup_sales_May
+-complete -controlfiles -force
+----

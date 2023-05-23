@@ -1,0 +1,26 @@
+---
+permalink: windows/concept-what-a-rollback-is.html 
+sidebar: sidebar 
+keywords: rollback, operation, enable, revert, version, snapmanager, perform, roll, upgrade 
+summary: 'L"operazione di rollback consente di ripristinare una versione precedente di SnapManager dopo l"esecuzione di un aggiornamento in sequenza.' 
+---
+= Che cos'è un rollback
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+L'operazione di rollback consente di ripristinare una versione precedente di SnapManager dopo l'esecuzione di un aggiornamento in sequenza.
+
+
+NOTE: Prima di eseguire un rollback, è necessario assicurarsi che tutti gli host presenti nel database del repository possano essere risolti.
+
+Quando si esegue un rollback, vengono ripristinati i seguenti elementi:
+
+* Backup creati, liberati ed eliminati utilizzando la versione di SnapManager da cui si esegue il rollback
+* Cloni creati da un backup creato utilizzando la versione di SnapManager da cui si sta eseguendo il rollback
+* Credenziali del profilo modificate utilizzando la versione di SnapManager da cui si sta eseguendo il rollback
+
+
+Le funzioni disponibili nella versione di SnapManager in uso, ma non disponibili nella versione a cui si sta eseguendo il rollback, non sono supportate. Ad esempio, quando si esegue un rollback da SnapManager 3.3 o versioni successive a SnapManager 3.1, la configurazione della cronologia per i profili in SnapManager 3.3 o versioni successive non viene rollback ai profili in SnapManager 3.1. Questo perché la funzione di configurazione della cronologia non era disponibile in SnapManager 3.1.

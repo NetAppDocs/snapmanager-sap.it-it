@@ -1,0 +1,92 @@
+---
+permalink: windows/reference-the-smosmsapbackup-unmount-command.html 
+sidebar: sidebar 
+keywords: run, backup, unmount, command, smsap 
+summary: È possibile eseguire il comando di disinstallazione del backup per smontare un backup. 
+---
+= Il comando sspap backup unmount
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `backup unmount` comando per smontare un backup.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap backup unmount
+-profile profile_name
+[-label label [-data | -archivelogs] | [-id id]
+[-force]
+[-dump]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il profilo per il quale si desidera smontare un backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-id _id_`*
++
+Disinstalla il backup con il GUID specificato. Il GUID viene generato da SnapManager quando si crea un backup. È possibile utilizzare `smsap backup list` Per visualizzare il GUID per ciascun backup.
+
+* *`-label _label_`*
++
+Disinstalla il backup con l'etichetta specificata.
+
+* *`-data`*
++
+Specifica i file di dati.
+
+* *`-archivelogs`*
++
+Specifica i file di log dell'archivio.
+
+* *`-dump`*
++
+Raccoglie i file dump dopo un'operazione di disinstallazione riuscita o non riuscita.
+
+* *`-force`*
++
+Consente di rimuovere il backup anche in caso di problemi di liberare le risorse associate al backup. SnapManager tenta di smontare il backup e di ripulire le risorse associate. Il log mostra che l'operazione di disinstallazione ha avuto esito positivo, ma potrebbe essere necessario ripulire manualmente le risorse in caso di errori nel log.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio
+
+Di seguito viene riportato un esempio di operazione di disinstallazione:
+
+[listing]
+----
+# smsap backup unmount -label test -profile SALES1 -verbose
+----
+[listing]
+----
+[INFO ]: SMSAP-13051: Process PID=9788
+[INFO ]: SMSAP-13036: Starting operation Backup Unmount on host hadley.domain.private
+[INFO ]: SMSAP-13036: Starting operation Backup Unmount on host hadley.domain.private
+[INFO ]: SMSAP-13046: Operation GUID 8abc015738849a3d0138849a43900001 starting on Profile FAS_P1
+[INFO ]: SD-00031: Beginning to disconnect filesystem(s) [C:\SnapManager_auto_mounts\H-2012071400592312_0, C:\SnapManager_auto_mounts\I-2012071400592328_0].
+[INFO ]: SD-00032: Finished disconnecting filesystem(s) [C:\SnapManager_auto_mounts\H-2012071400592312_0, C:\SnapManager_auto_mounts\I-2012071400592328_0].
+[INFO ]: SMSAP-13048: Backup Unmount Operation Status: SUCCESS
+[INFO ]: SMSAP-13049: Elapsed Time: 0:07:26.754
+----

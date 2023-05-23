@@ -1,0 +1,69 @@
+---
+permalink: unix-administration/concept-configuring-e-mail-notification.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, email, notification, completion, status, profile-executed, database, operation, configuring, configure 
+summary: SnapManager consente di ricevere una notifica via email sullo stato di completamento delle operazioni di database eseguite dal profilo. SnapManager genera il messaggio e-mail e aiuta a intraprendere le azioni appropriate in base allo stato di completamento delle operazioni del database. La configurazione della notifica via email è un parametro facoltativo. 
+---
+= Configurazione di una notifica via email
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di ricevere una notifica via email sullo stato di completamento delle operazioni di database eseguite dal profilo. SnapManager genera il messaggio e-mail e aiuta a intraprendere le azioni appropriate in base allo stato di completamento delle operazioni del database. La configurazione della notifica via email è un parametro facoltativo.
+
+È possibile configurare una notifica e-mail per un singolo profilo come notifica del profilo e per più profili in un database di repository come notifica di riepilogo.
+
+*Notifica del profilo*
+
+Per un singolo profilo, è possibile ricevere un'e-mail per le operazioni di database riuscite o non riuscite.
+
+
+NOTE: Per impostazione predefinita, la notifica e-mail è attivata per le operazioni di database non riuscite.
+
+*Notifica di riepilogo*
+
+La notifica di riepilogo consente di ricevere un'e-mail di riepilogo sulle operazioni del database eseguite utilizzando più profili. È possibile attivare notifiche orarie, giornaliere, settimanali o mensili.
+
+
+NOTE: Da SnapManager 3.3, le notifiche di riepilogo vengono inviate solo se si specifica il server host che deve inviare la notifica. Se si aggiorna SnapManager da una versione precedente alla 3.3, le notifiche di riepilogo potrebbero non essere inviate se non è stato specificato il server host nella configurazione delle notifiche di riepilogo.
+
+
+NOTE: Se si crea un repository in un nodo di un database che si trova in un ambiente RAC (Real Application Clusters) e si attiva la notifica di riepilogo, in seguito quando si aggiunge lo stesso repository a un altro nodo del database, l'email di notifica di riepilogo viene inviata due volte.
+
+È possibile utilizzare la notifica a livello di profilo o la notifica di riepilogo alla volta.
+
+SnapManager abilita la notifica via email per le seguenti operazioni di database eseguite dal profilo:
+
+* Creazione di backup sullo storage primario
+* Ripristinare i backup
+* Creare cloni
+* Separare i cloni
+* Verificare i backup
+
+
+Dopo aver creato o aggiornato i profili con la notifica e-mail attivata, è possibile disattivarla. Se si disattiva la notifica e-mail, non si ricevono più avvisi e-mail per le operazioni di database eseguite dal profilo.
+
+L'e-mail ricevuta contiene i seguenti dettagli:
+
+* Nome dell'operazione di database, ad esempio backup, ripristino o clonazione
+* Nome del profilo utilizzato per l'operazione del database
+* Nome del server host
+* Identificatore di sistema del database
+* Ora di inizio e fine dell'operazione del database
+* Stato dell'operazione del database
+* Messaggio di errore, se presente
+* Eventuali messaggi di avviso
+
+
+È possibile configurare quanto segue:
+
+* Mail server per un repository
+* Notifica via email per un nuovo profilo
+* Notifica via email per un profilo esistente
+* Notifica e-mail di riepilogo per più profili in un repository
+
+
+
+NOTE: È possibile configurare la notifica via email sia dall'interfaccia della riga di comando (CLI) che dall'interfaccia grafica utente (GUI).

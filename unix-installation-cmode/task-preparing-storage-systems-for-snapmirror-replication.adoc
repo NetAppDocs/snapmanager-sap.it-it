@@ -1,0 +1,103 @@
+---
+permalink: unix-installation-cmode/task-prepare-storage-systems-for-snapmirror-replication.html 
+sidebar: sidebar 
+keywords: snapmanager, mirror, snapshot, copies, copy, configure, data-protection, relationship, source, destination, volume, initialize, snapmirror, transfer, replication 
+summary: 'Prima di utilizzare SnapManager per eseguire il mirroring delle copie Snapshot, è necessario configurare una relazione di protezione dei dati tra i volumi di origine e di destinazione, quindi inizializzare la relazione. Al momento dell"inizializzazione, SnapMirror crea una copia Snapshot del volume di origine, quindi trasferisce la copia e tutti i blocchi di dati a cui fa riferimento al volume di destinazione. Inoltre, trasferisce al volume di destinazione qualsiasi altra copia Snapshot meno recente sul volume di origine.' 
+---
+= Preparazione dei sistemi storage per la replica di SnapMirror
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di utilizzare SnapManager per eseguire il mirroring delle copie Snapshot, è necessario configurare una _relazione di protezione dei dati_ tra i volumi di origine e di destinazione, quindi inizializzare la relazione. Al momento dell'inizializzazione, SnapMirror crea una copia Snapshot del volume di origine, quindi trasferisce la copia e tutti i blocchi di dati a cui fa riferimento al volume di destinazione. Inoltre, trasferisce al volume di destinazione qualsiasi altra copia Snapshot meno recente sul volume di origine.
+
+
+
+== Di cosa hai bisogno
+
+* Devi essere un amministratore del cluster.
+* Per la verifica della copia Snapshot sul volume di destinazione, le Storage Virtual Machine (SVM) di origine e di destinazione devono disporre di una LIF di gestione e di una LIF dei dati.
++
+La LIF di gestione deve avere lo stesso nome DNS della SVM. Impostare il ruolo LIF di gestione su dati, il protocollo su NONE e il criterio firewall su *Mgmt*.
+
+
+
+
+
+== A proposito di questa attività
+
+Per creare una relazione SnapMirror, è possibile utilizzare l'interfaccia della riga di comando (CLI) di ONTAP o Gestione di sistema di OnCommand. La seguente procedura descrive l'utilizzo della CLI.
+
+
+IMPORTANT: Se si memorizzano file di database e log delle transazioni su volumi diversi, è necessario creare relazioni tra i volumi di origine e di destinazione per i file di database e tra i volumi di origine e di destinazione per i log delle transazioni.
+
+La seguente illustrazione mostra la procedura per inizializzare una relazione SnapMirror:
+
+image::../media/snapmirror_steps_clustered.gif[Questa illustrazione mostra la procedura per l'inizializzazione di una relazione SnapMirror: Identificazione del cluster di destinazione,creating a destination volume,creating a SnapMirror relationship between the volumes]
+
+.Fasi
+. Identificare il cluster di destinazione.
+. Sul cluster di destinazione, utilizzare `volume create` con il `-type` Opzione DP per creare un volume di destinazione SnapMirror di dimensioni uguali o superiori a quelle del volume di origine.
++
+
+IMPORTANT: L'impostazione della lingua del volume di destinazione deve corrispondere all'impostazione della lingua del volume di origine.
+
++
+*Esempio*
+
++
+Il seguente comando crea un volume di destinazione da 2 GB chiamato dstvolB in SVM2 sull'aggregato node01_aggr:
+
++
+[listing]
+----
+cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -type DP
+-size 2GB
+----
+. Sulla SVM di destinazione, utilizzare `snapmirror create` con il `-type DP` Parametro per creare una relazione SnapMirror.
++
+Il tipo di DP definisce la relazione come relazione SnapMirror.
+
++
+*Esempio*
+
++
+Il seguente comando crea una relazione SnapMirror tra il volume di origine srcvolA su SVM1 e il volume di destinazione dstvolB su SVM2 e assegna il criterio SnapMirror predefinito DPDefault:
+
++
+[listing]
+----
+SVM2::> snapmirror create -source-path SVM1:srcvolA -destination-path SVM2:dstvolB
+-type DP
+----
++
+
+NOTE: Non definire una pianificazione mirror per la relazione SnapMirror. lo fa per te quando crei una pianificazione di backup.
+
++
+Se non si desidera utilizzare il criterio predefinito di SnapMirror, è possibile richiamare `snapmirror policy create` Per definire un criterio SnapMirror.
+
+. Utilizzare `snapmirror initialize` per inizializzare la relazione.
++
+Il processo di inizializzazione esegue un _trasferimento baseline_ al volume di destinazione. SnapMirror crea una copia Snapshot del volume di origine, quindi trasferisce la copia e tutti i blocchi di dati a cui fa riferimento al volume di destinazione. Inoltre, trasferisce al volume di destinazione tutte le altre copie Snapshot presenti nel volume di origine.
+
++
+*Esempio*
+
++
+Il seguente comando inizializza la relazione tra il volume di origine srcvolA su SVM1 e il volume di destinazione dstvolB su SVM2:
+
++
+[listing]
+----
+SVM2::> snapmirror initialize -destination-path SVM2:dstvolB
+----
+
+
+*Informazioni correlate*
+
+http://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-clus-peer/home.html["Guida rapida al peering dei cluster di ONTAP 9"^]
+
+http://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-sm-ic-cg/home.html["Guida rapida alla preparazione del disaster recovery di ONTAP 9"^]

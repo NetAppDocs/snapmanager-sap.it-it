@@ -1,0 +1,22 @@
+---
+permalink: unix-administration/concept-requirements-for-using-rac-databases-with-snapmanager.html 
+sidebar: sidebar 
+keywords: recommendation, real, application, cluster, rac, database, snapmanager, number, password, authentication, mode, requirement 
+summary: 'È necessario conoscere i consigli per l"utilizzo di database RAC (Real Application Clusters) con SnapManager. I consigli includono numeri di porta, password e modalità di autenticazione.' 
+---
+= Requisiti per l'utilizzo di database RAC con SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario conoscere i consigli per l'utilizzo di database RAC (Real Application Clusters) con SnapManager. I consigli includono numeri di porta, password e modalità di autenticazione.
+
+* In modalità di autenticazione del database, il listener su ciascun nodo che interagisce con un'istanza del database RAC deve essere configurato in modo da utilizzare lo stesso numero di porta.
++
+Il listener che interagisce con l'istanza primaria del database deve essere avviato prima di iniziare un backup.
+
+* In modalità di autenticazione del sistema operativo, il server SnapManager deve essere installato e in esecuzione su ciascun nodo dell'ambiente RAC.
+* La password dell'utente del database (ad esempio, per un amministratore di sistema o un utente con il privilegio sysdba) deve essere la stessa per tutte le istanze di database Oracle in un ambiente RAC.
+

@@ -1,0 +1,38 @@
+---
+permalink: windows/concept-advantages-of-using-snapmanager.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, task, database, manage, data, advantage, use 
+summary: Puoi utilizzare SnapManager per SAP per eseguire diverse attività sui database e gestire i dati in modo efficiente. 
+---
+= Vantaggi dell'utilizzo di SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puoi utilizzare SnapManager per SAP per eseguire diverse attività sui database e gestire i dati in modo efficiente.
+
+SnapManager per SAP funziona con i sistemi storage e consente di eseguire le seguenti attività:
+
+* Creazione di backup efficienti in termini di spazio sullo storage primario o secondario e pianificazione dei backup.
++
+È possibile creare backup completi e parziali del database e applicare criteri di durata della conservazione.SnapManager (3.2 o versione successiva) consente di creare backup solo dei file di dati e dei registri di archiviazione.
+
++
+** SnapManager (3.2 o versione successiva) consente di eseguire la pre-elaborazione o la post-elaborazione prima o dopo le operazioni di backup e ripristino.
+** SnapManager (3.2 o versione successiva) consente di proteggere i backup utilizzando gli script di post-elaborazione.
+
+
+* Ripristinare database completi o parziali utilizzando l'operazione di ripristino basata su file.
+* Ripristinare e ripristinare automaticamente i backup del database.
++
+SnapManager (3.2 o versioni successive) consente il ripristino e il ripristino automatico dei backup del database. SnapManager ripristina automaticamente il database ripristinato rilevando, montando e applicando i file di log dell'archivio dai backup.
+
+* Quando si creano backup solo per i log di archiviazione, è possibile eseguire la eliminazione dei file di log di archiviazione dalle destinazioni dei log di archiviazione.
+* Mantenere automaticamente il numero minimo di backup del log di archiviazione conservando solo i backup con file di log di archiviazione univoci.
+* Tieni traccia dei dettagli delle operazioni e genera report per host, profilo, backup o clone.
+* Verificare lo stato del backup.
+* Mantenere la cronologia delle operazioni SnapManager associate a un profilo.
+* Creazione di cloni di backup efficienti in termini di spazio sullo storage primario.
+

@@ -1,0 +1,36 @@
+---
+permalink: unix-administration/concept-introduction-to-data-protection-in-snapmanager.html 
+sidebar: sidebar 
+keywords: snapmanager, data, protection, backup, secondary, tertiary, storage, system, snapmirror, snapvault, relationship, destination, volume 
+summary: SnapManager supporta la protezione dei dati per proteggere i backup sui sistemi storage secondari o terziari. È necessario impostare le relazioni di SnapMirror e SnapVault tra i volumi di origine e di destinazione. 
+---
+= Introduzione alla protezione dei dati in SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager supporta la protezione dei dati per proteggere i backup sui sistemi storage secondari o terziari. È necessario impostare le relazioni di SnapMirror e SnapVault tra i volumi di origine e di destinazione.
+
+Se si utilizza Data ONTAP in 7-Mode, SnapManager offre una protezione dei dati basata su policy grazie all'integrazione con Protection Manager (OnCommand Unified Manager). Ciò automatizza la replica dei backup SnapManager su un sistema di storage primario su un sistema di storage secondario o anche su un sistema di storage terzo utilizzando le policy di SnapVault o SnapMirror create dall'amministratore dello storage o del backup in Gestione protezione. La conservazione sullo storage primario è controllata da SnapManager in base alla conservazione definita durante la creazione del profilo e alla classe di conservazione contrassegnata durante la creazione del backup. La conservazione del backup dello storage secondario è controllata dalla policy definita in Protection Manager.
+
+Se si utilizza Clustered Data ONTAP, SnapManager 3.4 fornisce le policy di protezione dei dati di _SnapManager_cDOT_Mirror_ e _SnapManager_cDOT_Vault_. Durante la creazione di un profilo, è possibile selezionare questi criteri in base alla relazione di SnapMirror o SnapVault stabilita utilizzando l'interfaccia utente di Clustered Data ONTAP o Gestione di sistema. Quando si crea un backup selezionando il profilo per cui è stata attivata la protezione, i backup vengono protetti in un sistema di storage secondario.
+
+
+NOTE: I backup creati utilizzando BR*Tools non possono essere protetti utilizzando SnapManager per SAP.
+
+Se si utilizzava SnapManager 3.3.1 con Clustered Data ONTAP, i backup venivano protetti utilizzando post-script selezionati durante la creazione dei profili. Se si desidera utilizzare tali profili, dopo l'aggiornamento a SnapManager 3.4 è necessario eseguire le seguenti operazioni.
+
+* È necessario aggiornare i profili per selezionare la policy _SnapManager_cDOT_Mirror_ o _SnapManager_cDOT_Vault_ ed eliminare il post-script utilizzato per la protezione dei dati.
+* Dopo aver aggiornato il profilo per utilizzare la policy _SnapManager_cDOT_Vault_, è necessario eliminare le pianificazioni di backup esistenti e creare nuove pianificazioni per specificare l'etichetta SnapVault per i backup.
+* Se i profili sono stati creati in SnapManager 3.3.1 senza selezionare gli script successivi, è necessario aggiornarli per selezionare il criterio _SnapManager_cDOT_Mirror_ o _SnapManager_cDOT_Vault_ per abilitare la protezione dei dati.
+
+
+
+NOTE: Se nel sistema di storage secondario sono presenti backup mirrorati o vault utilizzando gli script successivi di SnapManager 3.3.1, non è possibile utilizzarli per il ripristino o la clonazione utilizzando SnapManager 3.4.
+
+Se si utilizza Clustered Data ONTAP, SnapManager 3.4.2 supporta più relazioni di protezione (SnapMirror e SnapVault) sui volumi di origine. Sono supportate solo una relazione SnapMirror e una relazione SnapVault per volume. È necessario creare profili separati, ciascuno con `_SnapManager_cDOT_Mirror_` e a. `_SnapManager_cDOT_Vault_` policy selezionata.
+
+
+NOTE: SnapDrive per Unix 5.3.2 e versioni successive è necessario per utilizzare più policy di protezione.

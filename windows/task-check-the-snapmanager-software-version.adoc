@@ -1,0 +1,18 @@
+---
+permalink: windows/task-check-the-snapmanager-software-version.html 
+sidebar: sidebar 
+keywords: version, product, run, local, host, command, check, snapmanager, software 
+summary: 'È possibile determinare la versione del prodotto in esecuzione sull"host locale eseguendo il comando version.' 
+---
+= Controllare la versione del software SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile determinare la versione del prodotto in esecuzione sull'host locale eseguendo `version` comando.
+
+.Fase
+. Per verificare la versione del SnapManager, immettere il seguente comando: `smsap version`
+

@@ -1,0 +1,13 @@
+---
+permalink: reference-releasenotes.html 
+sidebar: sidebar 
+keywords: release, notes, new, features, fixed, issues, known, limitations, oncommand, workflow, automation, netapp, 5.0, 5.0.1 
+summary: 'Descrive nuove funzionalità, note sull"aggiornamento, problemi risolti, limitazioni note e problemi noti.' 
+---
+= Note di rilascio
+:allow-uri-read: 
+
+
+Le note di rilascio descrivono nuove funzionalità, note sull'aggiornamento, problemi risolti, limitazioni note e problemi noti.
+
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2849494["Note sulla versione di SnapManager per SAP 3.4.2"^]

@@ -1,0 +1,48 @@
+---
+permalink: unix-administration/concept-what-profiles-are.html 
+sidebar: sidebar 
+keywords: snapmanager, profile, store, information, database, database, credential, clone, backup, operation 
+summary: 'SnapManager utilizza i profili per memorizzare le informazioni necessarie per eseguire operazioni su un determinato database. Un profilo contiene le informazioni sul database, incluse le credenziali, i backup e i cloni. Creando un profilo, non è necessario specificare i dettagli del database ogni volta che si esegue un"operazione sul database.' 
+---
+= Quali sono i profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager utilizza i profili per memorizzare le informazioni necessarie per eseguire operazioni su un determinato database. Un profilo contiene le informazioni sul database, incluse le credenziali, i backup e i cloni. Creando un profilo, non è necessario specificare i dettagli del database ogni volta che si esegue un'operazione sul database.
+
+Un profilo può fare riferimento a un solo database. Lo stesso database può essere referenziato da più profili. Non è possibile accedere ai backup creati utilizzando un profilo diverso, anche se entrambi i profili fanno riferimento allo stesso database.
+
+Le informazioni del profilo vengono memorizzate in un repository. Il repository contiene sia le informazioni del profilo per il database che le informazioni sulle copie Snapshot che fungono da backup del database. Le copie Snapshot effettive vengono memorizzate nel sistema di storage. I nomi delle copie Snapshot vengono memorizzati nel repository contenente il profilo per il database. Quando si esegue un'operazione su un database, è necessario selezionare il profilo dal repository.
+
+La figura seguente illustra come i repository possono contenere più profili, ma anche che ciascun profilo può definire un solo database:
+
+image::../media/prnt_en_drw_smo_smsap_rep_prof.gif[prnt en drw smo smsap rep prof]
+
+Nell'esempio precedente, Repository2 si trova sul database DB1 e Repository1 nel database DB4.
+
+Ogni profilo contiene le credenziali del database associato al profilo. Le credenziali consentono a SnapManager di connettersi al database e di lavorare con esso. Le credenziali memorizzate includono le coppie di nome utente e password per l'accesso all'host, al repository, al database e le informazioni di connessione richieste se si utilizza Oracle Recovery Manager (RMAN).
+
+Non è possibile accedere a un backup creato utilizzando un profilo da un profilo diverso, anche se entrambi i profili sono associati allo stesso database. SnapManager inserisce un blocco nel database per impedire l'esecuzione simultanea di due operazioni incompatibili.
+
+*Profilo per la creazione di backup completi e parziali*
+
+È possibile creare profili per eseguire backup completi o parziali.
+
+I profili specificati per creare i backup completi e parziali contengono sia i file di dati che i file di log dell'archivio. SnapManager non consente a tali profili di separare i backup del registro di archiviazione dai backup del file di dati. I backup completi e parziali vengono conservati in base alle policy di conservazione dei backup esistenti e protetti in base alle policy di protezione esistenti. Puoi pianificare backup completi e parziali in base al tempo e alla frequenza che preferisci.
+
+*Profili per la creazione di backup solo file di dati e backup solo log di archiviazione*
+
+SnapManager (3.2 o versione successiva) consente di creare profili che eseguono i backup dei file di log dell'archivio separatamente dai file di dati. Dopo aver utilizzato il profilo per separare i tipi di backup, è possibile creare backup solo file di dati o backup solo log di archiviazione del database. È inoltre possibile creare un backup contenente sia i file di dati che i file di registro dell'archivio.
+
+Il criterio di conservazione si applica a tutti i backup del database quando i backup del registro di archiviazione non sono separati. Dopo aver separato i backup del log di archiviazione, SnapManager consente di specificare diverse durate di conservazione e policy di protezione per i backup del log di archiviazione.
+
+*Politica di conservazione*
+
+SnapManager determina se conservare un backup considerando sia il numero di conservazione (ad esempio, 15 backup) che la durata della conservazione (ad esempio, 10 giorni di backup giornalieri). Un backup scade quando la sua età supera la durata di conservazione impostata per la classe di conservazione e il numero di backup supera il numero di conservazione. Ad esempio, se il numero di backup è 15 (ovvero SnapManager ha eseguito 15 backup riusciti) e il requisito di durata è impostato per 10 giorni di backup giornalieri, i cinque backup più vecchi, riusciti e idonei scadono.
+
+*Durata conservazione registro archivio*
+
+Una volta separati, i backup del registro di archiviazione vengono conservati in base alla durata di conservazione del registro di archiviazione. I backup dei log di archiviazione eseguiti con i backup dei file di dati vengono sempre conservati insieme ai backup dei file di dati, indipendentemente dalla durata della conservazione dei log di archiviazione.

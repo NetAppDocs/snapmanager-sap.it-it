@@ -1,0 +1,77 @@
+---
+permalink: windows/task-schedule-archive-log-file-pruning.html 
+sidebar: sidebar 
+keywords: create, backup, schedule, prune, archive, log, file 
+summary: 'Quando si crea un backup, è possibile pianificare l"eliminazione dei file di log dell"archivio in un momento specifico.' 
+---
+= Pianificare l'eliminazione del file di log dell'archivio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si crea un backup, è possibile pianificare l'eliminazione dei file di log dell'archivio in un momento specifico.
+
+
+
+== A proposito di questa attività
+
+SnapManager consente di modificare periodicamente i file di log dell'archivio dal file system attivo.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap schedule create -profile _profile_name_ {[-full {-online | -offline | -auto}[-retain [-hourly | -daily | -weekly | -monthly | -unlimited] [-verify]] | [-data [-files _files_ [_files_]] | [-tablespaces _-tablespaces_ [_-tablespaces_]] {-online | -offline | -auto}[-retain [-hourly | -daily | -weekly | -monthly | -unlimited] [-verify]] | [-archivelogs]} [-comment _comment_] [-backup-dest _path1_ [,[_path2_]] [-exclude-dest _path1_ [,_path2_]] [-prunelogs{-all | -untilSCN _untilSCN_ | -before {-date _yyyy-MM-dd HH:mm:ss_ | -months _months_ | -weeks _weeks_ | -days _days_ | -hours _hours_}} -prune-dest _prune_dest1_, _prune_dest2_] -schedule-name _schedule_name_ [-schedule-comment _schedule_comment_] -interval {-_hourly_ | _-daily_ | _-weekly_ | _-monthly_ | _-onetimeonly_} -cronstring _cronstring_ -start-time {_start-time_ _start_time_ _<yyyy-MM-dd HH:mm_>} -runasuser _-runasuser_ [-force] [-quiet | -verbose]*`
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*Schedule pruning dei file di log di archivio*
+ a| 
+Specificare le seguenti opzioni:
+
+** `-prunelogs` per pianificare l'eliminazione dei file di log dell'archivio
+** `-prune-dest` per eseguire la eliminazione dei file di log di archiviazione dalle destinazioni del log di archiviazione
+
+
+
+
+ a| 
+*Includere un nome per la pianificazione*
+ a| 
+Specificare `-schedule-name` opzione.
+
+
+
+ a| 
+*Schedule pruning dei file di log di archivio a intervalli di tempo specifici*
+ a| 
+Specificare l'opzione Interval (intervallo) e indicare se i file di log dell'archivio devono essere eliminati in base alle seguenti classi di intervalli:
+
+** `-hourly`
+** `-daily`
+** `-weekly`
+** `-monthly`
+** `-onetimeonly`
+
+
+
+
+ a| 
+*Aggiungere un commento sull'operazione di pianificazione*
+ a| 
+Specificare `-schedule-comment` seguito dalla stringa di descrizione.
+
+
+
+ a| 
+*Specificare l'ora di inizio dell'operazione di pianificazione*
+ a| 
+Specificare `-start-time` nel formato aaaa-mm-gg hh:mm.
+
+|===
+

@@ -1,0 +1,25 @@
+---
+permalink: unix-installation-7mode/reference-copyright.html 
+sidebar: sidebar 
+keywords: copyright, information 
+summary: Informazioni sul copyright 
+---
+= Informazioni sul copyright
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+Copyright © 1994-2017 NetApp, Inc Tutti i diritti riservati. Stampato negli Stati Uniti
+
+Nessuna parte di questo documento coperta da copyright può essere riprodotta in qualsiasi forma o con qualsiasi mezzo - grafico, elettronico o meccanico, incluse fotocopie, registrazioni, nastro o archiviazione in un sistema di recupero elettronico, senza previa autorizzazione scritta del proprietario del copyright.
+
+Il software derivato da materiale NetApp protetto da copyright è soggetto alla seguente licenza e declinazione di responsabilità:
+
+IL PRESENTE SOFTWARE VIENE FORNITO DA NETAPP "COSÌ COM'È" E SENZA GARANZIE ESPLICITE O IMPLICITE, INCLUSE, A TITOLO ESEMPLIFICATIVO MA NON ESAUSTIVO, LE GARANZIE IMPLICITE DI COMMERCIABILITA' E IDONEITA' PER UNO SCOPO PARTICOLARE, CHE SONO QUI DECLINATE. IN NESSUN CASO NETAPP POTRÀ ESSERE RITENUTA RESPONSABILE PER EVENTUALI AZIONI DIRETTE, INDIRETTE, INCIDENTALI, SPECIALI, ESEMPLARI, O DANNI CONSEQUENZIALI (INCLUSI, A TITOLO ESEMPLIFICATIVO MA NON ESAUSTIVO, L'ACQUISTO DI BENI O SERVIZI SOSTITUTIVI; PERDITA DI UTILIZZO, DATI O PROFITTI; O INTERRUZIONE DEL BUSINESS) COMUNQUE CAUSATA E SU QUALSIASI TEORIA DI RESPONSABILITÀ, SIA ESSA CONTRATTUALE, DI RESPONSABILITÀ RIGOROSA, O DI TORTO (INCLUSA LA NEGLIGENZA O ALTRO) DERIVANTI IN QUALSIASI MODO DALL'UTILIZZO DEL PRESENTE SOFTWARE, ANCHE SE AVVISATI DELLA POSSIBILITÀ DI TALI DANNI.
+
+NetApp si riserva il diritto di modificare i prodotti descritti nel presente documento in qualsiasi momento e senza preavviso. NetApp non si assume alcuna responsabilità derivante dall'utilizzo dei prodotti descritti nel presente documento, salvo quanto espressamente concordato per iscritto da NetApp. L'utilizzo o l'acquisto di questo prodotto non comporta la concessione di una licenza in base a diritti di brevetto, diritti di marchio o altri diritti di proprietà intellettuale di NetApp.
+
+Il prodotto descritto in questo manuale potrebbe essere protetto da uno o più Stati Uniti brevetti, brevetti stranieri o domande in sospeso.
+
+LEGENDA DEI DIRITTI LIMITATI: L'utilizzo, la duplicazione o la divulgazione da parte del governo sono soggetti alle restrizioni di cui al comma (c)(1)(II) della clausola Rights in Technical Data and computer Software del DFARS 252.277-7103 (ottobre 1988) e FAR 52-227-19 (giugno 1987).

@@ -1,0 +1,40 @@
+---
+permalink: windows/reference-the-smosmsap-schedule-resume-command.html 
+sidebar: sidebar 
+keywords: command, resume, suspend, backup, schedule, smsap 
+summary: Questo comando ripristina la pianificazione del backup sospeso. 
+---
+= Il comando smsap schedule resume
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando ripristina la pianificazione del backup sospeso.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap schedule resume
+-profile profile_name
+-schedule-name schedule_name
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il nome del profilo correlato al database che si desidera ripristinare la pianificazione di backup sospesa. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-schedule-name _schedule_name_`*
++
+Specifica il nome della pianificazione fornito durante la creazione di una pianificazione di backup.
+
+

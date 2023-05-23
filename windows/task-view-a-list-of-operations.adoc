@@ -1,0 +1,37 @@
+---
+permalink: windows/task-view-a-list-of-operations.html 
+sidebar: sidebar 
+keywords: view, summary, operation, perform, profile, list 
+summary: È possibile visualizzare un elenco riepilogativo di tutte le operazioni eseguite rispetto a un profilo. 
+---
+= Visualizzare un elenco di operazioni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare un elenco riepilogativo di tutte le operazioni eseguite rispetto a un profilo.
+
+
+
+== A proposito di questa attività
+
+Quando si elencano le operazioni associate a un particolare profilo, è possibile visualizzare le seguenti informazioni:
+
+* Data di inizio e fine dell'operazione
+* Stato del funzionamento
+* ID operazione
+* Tipo di operazione
+* Host su cui è stato eseguito
+
+
+.Fase
+. Per elencare le informazioni riepilogative di tutte le operazioni, utilizzare il seguente comando:
++
+`*smsap operation list profile -profile _profile_name_ -delimiter _character_ [-quiet | -verbose]*`
+
++
+Quando il `-delimiter` viene specificata un'opzione, il comando elenca ogni riga su una riga separata e gli attributi in tale riga sono separati dal carattere specificato.
+
+

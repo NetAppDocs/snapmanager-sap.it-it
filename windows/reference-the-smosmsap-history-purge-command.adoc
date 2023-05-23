@@ -1,0 +1,88 @@
+---
+permalink: windows/reference-the-smosmsap-history-purge-command.html 
+sidebar: sidebar 
+keywords: command, enable, delete, history, snapmanager, operation, smsap, purge 
+summary: Questo comando consente di eliminare la cronologia delle operazioni SnapManager. 
+---
+= Il comando di eliminazione della cronologia di smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando consente di eliminare la cronologia delle operazioni SnapManager.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap history purge
+-profile {-name profile_name [profile_name1, profile_name2] | -all
+-repository
+-login [-password repo_password]
+-username repo_username
+-host repo_host
+-dbname repo_dbname
+-port repo_port}
+-operation {-operations operation_name [operation_name1, operation_name2] | -all}
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_`*
++
+Specifica il nome del profilo. Questo nome può contenere fino a 30 caratteri e deve essere univoco all'interno dell'host.
+
+* *`-repository`*
++
+Le opzioni che seguono -repository specificano i dettagli del database che memorizza il profilo.
+
+* *`-dbname _repo_dbname_`*
++
+Specifica il nome del database in cui è memorizzato il profilo. Utilizzare il nome globale o il SID.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP del computer host su cui viene eseguito il database del repository.
+
+* *`-login`*
++
+Avvia i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente necessario per accedere al database in cui è memorizzato il repository.
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP utilizzato per accedere al database in cui è memorizzato il repository.
+
+* *`-operation {-operationsoperation_name [_operation_name1, operation_name2_] | -all`*
++
+Specifica l'operazione SnapManager per la quale si configura la cronologia.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+[listing]
+----
+smsap history purge -profile -name PROFILE1 -operation -operations backup
+-verbose
+----

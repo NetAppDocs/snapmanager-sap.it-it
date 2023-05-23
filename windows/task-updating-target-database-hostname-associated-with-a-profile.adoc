@@ -1,0 +1,63 @@
+---
+permalink: windows/task-updating-target-database-hostname-associated-with-a-profile.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, provide, ability, update, host, name, target, database, profile, updating, associate 
+summary: 'SnapManager (3.2 o versioni successive) per SAP consente di aggiornare il nome host del database di destinazione nel profilo SnapManager.' 
+---
+= Aggiornamento del nome host del database di destinazione associato a un profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager (3.2 o versione successiva) per SAP consente di aggiornare il nome host del database di destinazione nel profilo SnapManager.
+
+* La home directory dell'utente locale deve essere consapevole delle mappature da profilo a repository.
+* Le sessioni dell'interfaccia grafica utente (GUI) di SnapManager devono essere chiuse.
+
+
+È possibile aggiornare il profilo con il nuovo nome host utilizzando solo l'interfaccia CLI.
+
+*Scenari non supportati per la modifica del nome host del database di destinazione nel profilo*
+
+I seguenti scenari non sono supportati per la modifica del nome host del database di destinazione nel profilo:
+
+* Modifica del nome host del database di destinazione mediante l'interfaccia grafica di SnapManager
+* Eseguire il rollback del database del repository dopo aver aggiornato il nome host del database di destinazione del profilo
+* Aggiornamento di più profili per un nuovo nome host del database di destinazione mediante un singolo comando
+* Modifica del nome host del database di destinazione quando è in esecuzione un'operazione SnapManager
+
+
+
+NOTE: Dopo aver aggiornato il nome host del database di destinazione nel profilo, viene modificato solo il nome host del database di destinazione. Tutti gli altri parametri di configurazione impostati sul profilo vengono conservati.
+
+Dopo aver aggiornato il nome host del database di destinazione, non è possibile eliminare o smontare il backup se il clone o il backup montato non sono disponibili nel nuovo host. In tali scenari, l'esecuzione delle operazioni SnapManager dal nuovo host comporta errori e voci obsolete nell'host precedente. Per eseguire operazioni SnapManager, è necessario ripristinare il nome host precedente utilizzando l'aggiornamento del profilo.
+
+.Fasi
+. Immettere il seguente comando:
++
+`smsap profile update -profileprofile [-profile-passwordprofile_password][-database-dbnamedb_dbname-hostdb_host [-siddb_sid] [-login-usernamedb_username-passworddb_password-portdb_port]] [{-rman{-controlfile | {-login-usernamerman_username-passwordrman_password-tnsnamerman_tnsname}}} | -remove-rman] [-retain [-hourly [-countn] [-durationm]] [-daily [-countn] [-durationm]] [-weekly [-countn] [-durationm]] [-monthly [-countn] [-durationm]]] [-commentcomment][-snapname-patternpattern][-summary-notification] [-notification [-success-emailemail_address1, email_address2-subjectsubject_pattern] [-failure-emailemail_address1, email_address2-subjectsubject_pattern]] [-separate-archivelog-backups-retain-archivelog-backups-hourshours | -daysdays | -weeksweeks| -monthsmonths [-protect [-include-with-online-backups | -no-include-with-online-backups]] [-dump]`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+[-force] [-noprompt]
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*Modificare il nome host del database di destinazione*
+ a| 
+Specificare -hostnew_db_host
+
+|===
+. Per visualizzare il nome host del database di destinazione del profilo, immettere il seguente comando:
++
+`smsap profile show`
+
+

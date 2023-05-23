@@ -1,0 +1,68 @@
+---
+permalink: windows/concept-what-cloning-is.html 
+sidebar: sidebar 
+keywords: clone, database, create, replica, original, full, backup 
+summary: È possibile clonare un database per creare una replica esatta del database originale. È possibile creare il clone da un backup completo o dallo stato corrente del database. 
+---
+= Cos'è Cloning
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile clonare un database per creare una replica esatta del database originale. È possibile creare il clone da un backup completo o dallo stato corrente del database.
+
+Di seguito sono riportati alcuni dei vantaggi della creazione di un clone mediante SnapManager:
+
+|===
+| Vantaggi | Dettagli 
+
+
+ a| 
+Velocità
+ a| 
+L'operazione di clonazione SnapManager utilizza la funzione FlexClone disponibile con Data ONTAP. Ciò consente di clonare rapidamente grandi volumi di dati.
+
+
+
+ a| 
+Efficienza dello spazio
+ a| 
+Quando si crea un clone utilizzando SnapManager, lo spazio è necessario solo per le modifiche tra il backup e il clone. Un clone di SnapManager è una copia Snapshot scrivibile del database originale e può crescere in base alle esigenze. Al contrario, un clone fisico del database richiede uno spazio sufficiente per copiare l'intero database.
+
+
+
+ a| 
+Copia virtuale
+ a| 
+È possibile utilizzare il database clonato come se fosse il database originale. Ad esempio, è possibile utilizzare un clone per test, verifiche di piattaforme e aggiornamenti, simulazioni multiple su un set di dati di grandi dimensioni e test e staging della sede remota. Le modifiche apportate al clone non influiscono sul database originale. Una volta clonato il database, il database clonato è completamente operativo.
+
+
+
+ a| 
+Semplicità
+ a| 
+È possibile clonare un database su qualsiasi host utilizzando i comandi SnapManager.
+
+|===
+Prima di clonare un database, è necessario assicurarsi che siano soddisfatti i seguenti prerequisiti:
+
+* Eliminare `spfile<SID>.ora` file da `$ORACLE_HOME\database`.
+* Eliminare `init<SID>.ora` file da `$ORACLE_HOME\database`.
+* Eliminare le destinazioni di dump Oracle specificate nel file di specifica del clone.
+* Eliminare i file di controllo Oracle specificati nel file di specifica del clone.
+* Eliminare i file di log di ripristino Oracle specificati nel file di specifica del clone.
+
+
+È necessario assegnare al clone un nuovo identificatore di sistema. Non è possibile eseguire contemporaneamente due database con lo stesso identificatore di sistema sullo stesso host. È possibile avere un clone su un host diverso utilizzando lo stesso identificatore di sistema. È possibile assegnare un'etichetta al clone o lasciare che SnapManager crei un'etichetta utilizzando l'identificatore di sistema, la data e l'ora di creazione del clone.
+
+Quando si inserisce un'etichetta, non includere spazi o caratteri speciali.
+
+Nell'ambito del processo di cloning, SnapManager crea i file e i parametri Oracle necessari per il database clonato. Un esempio di un file Oracle necessario è `init<SID>.ora`.
+
+Quando si clona un database, SnapManager crea un nuovo `init<SID>.ora` per il database in `$ORACLE_HOME\database` directory.
+
+È possibile clonare un backup del database sull'host in cui risiede il database o su un host alternativo.
+
+Se il database clonato utilizzava un `spfile`, SnapManager crea un `spfile` per il clone. Il file viene inserito in `$ORACLE_HOME\database` directory e crea la struttura di directory per i file di diagnostica. Il nome del file è `spfile <SID>.ora`.

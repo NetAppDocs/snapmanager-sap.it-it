@@ -1,0 +1,30 @@
+---
+permalink: windows/task-creating-or-updating-post-scripts.html 
+sidebar: sidebar 
+keywords: create, post, script, default, install, directory, plugin, creating, update, updating 
+summary: È possibile creare nuovi script post o utilizzare gli script disponibili in directory_installazione_predefinita/plug-in/backup/create/post. 
+---
+= Creazione o aggiornamento degli script post
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile creare nuovi script post o utilizzare gli script disponibili in default_install_directory/plugins/backup/create/post.
+
+È necessario strutturare lo script in modo particolare in modo che possa essere eseguito nel contesto di un'operazione SnapManager. Creare lo script in base alle operazioni previste, ai parametri di input disponibili e alle convenzioni del codice di ritorno.
+
+. Creare un nuovo script o utilizzare gli script di esempio disponibili.
+. Modificare o includere le funzioni, le variabili e i parametri secondo necessità.
+. Salvare lo script personalizzato.
+. Aggiungere il nome dello script e gli input richiesti nel file XML delle specifiche dell'attività di post-elaborazione o fornire gli input dalla GUI selezionando lo script e il parametro di input appropriati.
++
+
+NOTE: Non è necessario fornire dettagli sullo storage secondario nel file XML delle specifiche dell'attività.
+
+
+
+*Informazioni correlate*
+
+xref:concept-creating-task-specification-file-and-scripts-for-snapmanager-operations.adoc[Creazione di script e file di specifica delle attività per le operazioni SnapManager]

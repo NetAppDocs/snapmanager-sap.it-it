@@ -1,0 +1,30 @@
+---
+permalink: unix-administration/reference-running-multiple-parallel-operations-fail-in-snapmanager.html 
+sidebar: sidebar 
+keywords: parallel, operation, seperate, database, storage, system, igroup, lun, delete, igroup, snapmanager, error, message, run, multiple, fail 
+summary: 'Quando si eseguono più operazioni parallele su database separati che risiedono sullo stesso sistema di storage, l"igroup per le LUN associate a entrambi i database potrebbe essere cancellato a causa di una delle operazioni. In seguito, se l"altra operazione tenta di utilizzare l"igroup cancellato, SnapManager visualizza un messaggio di errore.' 
+---
+= L'esecuzione di più operazioni parallele non riesce in SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si eseguono più operazioni parallele su database separati che risiedono sullo stesso sistema di storage, l'igroup per le LUN associate a entrambi i database potrebbe essere cancellato a causa di una delle operazioni. In seguito, se l'altra operazione tenta di utilizzare l'igroup cancellato, SnapManager visualizza un messaggio di errore.
+
+Ad esempio, se si eseguono le operazioni di eliminazione e creazione del backup su database diversi quasi contemporaneamente, l'operazione di creazione del backup non riesce. I seguenti passaggi sequenziali mostrano cosa accade quando si eseguono operazioni di eliminazione e creazione di backup su database diversi quasi contemporaneamente.
+
+. Eseguire `backup delete` comando.
+. Eseguire `backup create` comando.
+. Il `backup create` Il comando identifica l'igroup già esistente e utilizza lo stesso igroup per la mappatura del LUN.
+. Il `backup delete` Il comando elimina il LUN di backup, mappato allo stesso igroup.
+. Il `backup delete` Il comando elimina quindi l'igroup perché non ci sono LUN associati all'igroup.
+. Il `backup create` il comando crea il backup e tenta di eseguire il mapping all'igroup che non esiste, quindi l'operazione non riesce.
+
+
+*Cosa fare*
+
+È necessario creare igroup per ciascun sistema storage utilizzato dal database e utilizzare il seguente comando per aggiornare SDU con le informazioni igroup:
+
+`*snapdrive igroup add*`

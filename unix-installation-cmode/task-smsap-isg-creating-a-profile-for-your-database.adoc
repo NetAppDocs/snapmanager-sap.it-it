@@ -1,0 +1,171 @@
+---
+permalink: unix-installation-cmode/task-smsap-isg-create-a-profile-for-your-database.html 
+sidebar: sidebar 
+keywords: create, profile, database, perform, operation, contain, information, reference, multiple 
+summary: Per eseguire qualsiasi operazione sul database, è necessario creare un profilo per il database. Il profilo contiene informazioni sul database e può fare riferimento a un solo database; tuttavia, un database può essere referenziato da più profili. Non è possibile accedere a un backup creato utilizzando un profilo diverso, anche se entrambi i profili sono associati allo stesso database. 
+---
+= Creare un profilo per il database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per eseguire qualsiasi operazione sul database, è necessario creare un profilo per il database. Il profilo contiene informazioni sul database e può fare riferimento a un solo database; tuttavia, un database può essere referenziato da più profili. Non è possibile accedere a un backup creato utilizzando un profilo diverso, anche se entrambi i profili sono associati allo stesso database.
+
+
+
+== Di cosa hai bisogno
+
+Assicurarsi che i dettagli del database di destinazione siano inclusi in `/etc/oratab` file.
+
+
+
+== A proposito di questa attività
+
+Questi passaggi mostrano come creare un profilo per il database utilizzando l'interfaccia utente di SnapManager. Se lo si desidera, è anche possibile utilizzare l'interfaccia CLI.
+
+Per informazioni su come creare profili utilizzando l'interfaccia CLI, consultare la _Guida all'amministrazione di SnapManager per SAP per UNIX_.
+
+.Fasi
+. Nella struttura dei repository, fare clic con il pulsante destro del mouse sul repository o sull'host e selezionare *Create Profile* (Crea profilo).
+. Nella pagina *Profile Configuration Information* (informazioni configurazione profilo), immettere il nome e la password personalizzati per il profilo.
+. Nella pagina *Database Configuration Information* (informazioni configurazione database), immettere le seguenti informazioni:
++
+|===
+| In questo campo... | Eseguire questa operazione... 
+
+
+ a| 
+*Nome database*
+ a| 
+Immettere il nome del database di cui si desidera eseguire il backup.
+
+
+
+ a| 
+*SID del database*
+ a| 
+Inserire l'ID sicuro (SID) del database. Il nome del database e il SID del database possono essere identici.
+
+
+
+ a| 
+*Host*
+ a| 
+Inserire l'indirizzo IP dell'host in cui risiede il database di destinazione. È inoltre possibile specificare il nome host se il nome host è specificato nel DNS (Domain Name System).
+
+
+
+ a| 
+*Account host*
+ a| 
+Inserire il nome utente Oracle del database di destinazione. Il valore predefinito per l'utente è oracle.
+
+
+
+ a| 
+*Gruppo host*
+ a| 
+Inserire il nome del gruppo di utenti Oracle. Il valore predefinito è dba.
+
+|===
+. Nella pagina *Database Connection Information* (informazioni connessione database), selezionare una delle seguenti opzioni:
++
+|===
+| Scegli questo... | Se si desidera... 
+
+
+ a| 
+*Usa autenticazione o/S*
+ a| 
+Utilizzare le credenziali gestite dal sistema operativo per autenticare gli utenti che accedono al database.
+
+
+
+ a| 
+*Usa autenticazione database*
+ a| 
+Consentire a Oracle di autenticare un utente amministrativo utilizzando l'autenticazione del file di password. Inserire le informazioni di connessione al database appropriate.
+
+** Nel campo *SYSDBA Privileged User Name* (Nome utente privilegiato SYSDBA), immettere il nome dell'amministratore del database con privilegi amministrativi.
+** Nel campo *Password*, inserire la password dell'amministratore del database.
+** Nel campo *Port* (porta), immettere il numero di porta utilizzato per connettersi all'host in cui risiede il database.
++
+Il valore predefinito è 1527.
+
+
+
+
+
+ a| 
+*Usa autenticazione istanza ASM*
+ a| 
+Consentire all'istanza di database ASM (Automatic Storage Management) di autenticare un utente amministrativo. Inserire le informazioni di autenticazione dell'istanza ASM appropriate.
+
+** Nel campo *SYSDBA/SYSASM Privileged User Name*, immettere il nome utente dell'amministratore dell'istanza di ASM con privilegi amministrativi.
+** Nel campo *Password*, inserire la password dell'amministratore.
+
+
+|===
++
+[NOTE]
+====
+È possibile selezionare la modalità di autenticazione ASM solo se si dispone di un'istanza ASM sull'host del database.
+
+====
+. Nella pagina *informazioni configurazione RMAN*, selezionare una delle seguenti opzioni:
++
+|===
+| Scegli questo... | Se... 
+
+
+ a| 
+***Non utilizzare RMAN***
+ a| 
+Non si utilizza RMAN per gestire le operazioni di backup e ripristino.
+
+
+
+ a| 
+***Utilizzare RMAN tramite il file di controllo***
+ a| 
+Si sta gestendo il repository RMAN utilizzando i file di controllo.
+
+
+
+ a| 
+***Utilizzare RMAN tramite il catalogo di ripristino***
+ a| 
+Si sta gestendo il repository RMAN utilizzando il database del catalogo di ripristino. Inserire il nome utente che ha accesso al database del catalogo di ripristino, la password e il nome del servizio netto Oracle del database che gestisce la connessione TNS (transparent Network substrate).
+
+|===
+. Nella pagina *Snapshot Naming Information*, selezionare le variabili per specificare un formato di denominazione per la copia Snapshot.
++
+È necessario includere la variabile smid nel formato di denominazione. La variabile _smid_ crea un identificatore Snapshot univoco.
+
+. Nella pagina *Impostazioni policy*, eseguire le seguenti operazioni:
++
+.. Immettere il numero di conservazione e la durata di ciascuna classe di conservazione.
+.. Dall'elenco a discesa *Protection Policy*, selezionare il criterio di protezione.
++
+Selezionare le policy _SnapManager_cDOT_Mirror_ o _SnapManager_cDOT_Vault_ a seconda che sia stata stabilita una relazione SnapMirror o SnapVault.
+
+.. Se si desidera eseguire il backup dei registri di archiviazione separatamente, selezionare la casella di controllo *Backup Archives separatamente*, specificare la conservazione e selezionare il criterio di protezione.
++
+È possibile selezionare un criterio diverso da quello associato ai file dati. Ad esempio, se è stato selezionato _SnapManager_cDOT_Mirror_ per i file dati, è possibile selezionare _SnapManager_cDOT_Vault_ per i registri di archiviazione.
+
+
+
+. Nella pagina *Configure Notification Settings* (Configura impostazioni notifica), specificare le impostazioni di notifica e-mail.
+. Nella pagina *Cronologia informazioni di configurazione*, selezionare una delle opzioni per mantenere la cronologia delle operazioni SnapManager.
+. Nella pagina *Perform Profile Create Operation* (Esegui operazione di creazione profilo), verificare le informazioni e fare clic su *Create* (Crea).
+. Fare clic su *fine* per chiudere la procedura guidata.
++
+Se l'operazione non riesce, fare clic su *Dettagli operazione* per visualizzare le cause dell'errore dell'operazione.
+
+
+
+*Informazioni correlate*
+
+https://library.netapp.com/ecm/ecm_download_file/ECMP12481453["Guida all'amministrazione di SnapManager 3.4.1 per SAP per UNIX"^]

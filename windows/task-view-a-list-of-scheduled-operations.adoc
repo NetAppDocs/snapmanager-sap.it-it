@@ -1,0 +1,21 @@
+---
+permalink: windows/task-view-a-list-of-scheduled-operations.html 
+sidebar: sidebar 
+keywords: view, list, schedule, operation, profile 
+summary: È possibile visualizzare un elenco di operazioni pianificate per un profilo. 
+---
+= Visualizzare un elenco delle operazioni pianificate
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare un elenco di operazioni pianificate per un profilo.
+
+.Fase
+. Per visualizzare le informazioni relative all'operazione pianificata, immettere il seguente comando:
++
+`*smsap schedule list -profile _profile_name_ [-quiet | -verbose]*`
+
+

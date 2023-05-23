@@ -1,0 +1,278 @@
+---
+permalink: unix-administration/task-set-role-based-access-control-capabilities-and-roles.html 
+sidebar: sidebar 
+keywords: enable, role-based, access, control, rbac, snapmanager, snapdrive, capabilities, capability, setting, role, operation 
+summary: 'Dopo aver attivato RBAC (role-based access control) per SnapManager utilizzando SnapDrive, è possibile aggiungere utenti e funzionalità RBAC ai ruoli per eseguire operazioni SnapManager.' 
+---
+= Impostare ruoli e funzionalità di controllo degli accessi in base al ruolo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver attivato RBAC (role-based access control) per SnapManager utilizzando SnapDrive, è possibile aggiungere utenti e funzionalità RBAC ai ruoli per eseguire operazioni SnapManager.
+
+*Cosa ti serve*
+
+È necessario creare un gruppo nel server Data Fabric Manager e aggiungerlo ai sistemi di storage primario e secondario. Eseguire i seguenti comandi:
+
+* `dfm group create _smsap_grp_`
+* `dfm group add _smsap_grpprimary_storage_system_`
+* `dfm group add _smsap_grpsecondary_storage_system_`
+
+
+*A proposito di questa attività*
+
+È possibile utilizzare l'interfaccia Web di Operations Manager o l'interfaccia a riga di comando del server Data Fabric Manager (CLI) per modificare le funzionalità e i ruoli RBAC.
+
+La tabella elenca le funzionalità RBAC necessarie per eseguire le operazioni SnapManager:
+
+[cols="1a,2a,3a"]
+|===
+| Operazioni SnapManager | Funzionalità RBAC richieste quando la protezione dei dati non è attivata | Funzionalità RBAC richieste quando è attivata la protezione dei dati 
+
+
+ a| 
+Creazione del profilo o aggiornamento del profilo
+ a| 
+SD.Storage.Read (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Protezione del profilo
+ a| 
+DFM.Database.Write (smsap_grp)
+
+SD.Storage.Read (smsap_grp)
+
+SD.Config.Read (smsap_grp)
+
+SD.Config.Write (smsap_grp)
+
+SD.Config.Delete (smsap_grp)
+
+GlobalDataProtection
+ a| 
+Nessuno
+
+
+
+ a| 
+Creazione del backup
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Write (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Delete (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Write (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Creazione del backup (con DBverify)
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Write (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Delete (smsap_grp)
+
+SD.snapshot.Clone (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Write (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+SD.snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Creazione di backup (con RMAN)
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Write (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Delete (smsap_grp)
+
+SD.snapshot.Clone (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Write (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+SD.snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Ripristino del backup
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Write (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Delete (smsap_grp)
+
+SD.snapshot.Clone (smsap_grp)
+
+SD.Snapshot.Restore (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Write (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+SD.snapshot.Clone (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Restore (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Eliminazione del backup
+ a| 
+SD.Snapshot.Delete (smsap_grp)
+ a| 
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Verifica del backup
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Clone (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Montaggio di backup
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.Snapshot.Clone (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Dismount del backup
+ a| 
+SD.Snapshot.Clone (smsap_grp)
+ a| 
+SD.Snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Creazione di cloni
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.snapshot.Clone (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Eliminare i cloni
+ a| 
+SD.Snapshot.Clone (smsap_grp)
+ a| 
+SD.Snapshot.Clone (SMSAP `__profile_` dataset)
+
+
+
+ a| 
+Suddivisione dei cloni
+ a| 
+SD.Storage.Read (smsap_grp)
+
+SD.Snapshot.Read (smsap_grp)
+
+SD.snapshot.Clone (smsap_grp)
+
+SD.Snapshot.Delete (smsap_grp)
+
+SD.Storage.Write (smsap_grp)
+ a| 
+SD.Storage.Read (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Read (SMSAP `__profile_` dataset)
+
+SD.snapshot.Clone (SMSAP `__profile_` dataset)
+
+SD.Snapshot.Delete (SMSAP `__profile_` dataset)
+
+SD.Storage.Write (SMSAP `__profile_` dataset)
+
+|===
+Per ulteriori informazioni sulla definizione delle funzionalità RBAC, consultare la _Guida all'amministrazione di Gestione operazioni di Unified Manager di OnCommand_.
+
+.Fasi
+. Accedere alla console di Operations Manager.
+. Dal menu Setup, selezionare *Roles* (ruoli).
+. Selezionare un ruolo esistente o crearne uno nuovo.
+. Per assegnare le operazioni alle risorse di storage del database, fare clic su *Add Capabilities* (Aggiungi funzionalità).
+. Nella pagina Edit Role Settings (Modifica impostazioni ruolo), per salvare le modifiche apportate al ruolo, fare clic su *Update* (Aggiorna).
+
+
+*Informazioni correlate*
+
+http://support.netapp.com/documentation/productsatoz/index.html["Guida all'amministrazione di OnCommand Unified Manager Operations Manager"^]

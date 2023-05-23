@@ -1,0 +1,65 @@
+---
+permalink: windows/task-configure-e-mail-notification-for-a-new-profile.html 
+sidebar: sidebar 
+keywords: create, profile, configure, receive, email, notification, completion, database, operation, profile 
+summary: 'Quando si crea un nuovo profilo, è possibile configurare per ricevere una notifica via email al completamento dell"operazione del database.' 
+---
+= Configurare la notifica e-mail per un nuovo profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando si crea un nuovo profilo, è possibile configurare per ricevere una notifica via email al completamento dell'operazione del database.
+
+
+
+== Di cosa hai bisogno
+
+* È necessario configurare l'indirizzo e-mail da cui vengono inviati gli avvisi.
+* È necessario utilizzare un elenco separato da virgole per più indirizzi e-mail.
++
+Assicurarsi che non vi sia spazio tra la virgola e l'indirizzo e-mail successivo.
+
++
+
+NOTE: Assicurarsi di inserire il set di indirizzi e-mail tra virgolette doppie.
+
+
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap profile create -profile _profile_ [-profile-password _profile_password_] -repository -dbname _repo_service_name_ -host _repo_host_ -port _repo_port_ -login -username _repo_username_ -database -dbname _db_dbname_ -host _db_host_ [-sid _db_sid_] [-login -username _db_username_ -password _db_password_ -port _db_port_] [-rman {-controlfile | {-login -username _rman_username_ -password _rman_password_ -tnsname _rman_tnsname_} } ] [-retain [-hourly [-count _n_] [-duration _m_]] [-daily [-count _n_] [-duration _m_]] [-weekly [-count _n_] [-duration _m_]] [-monthly [-count _n_] [-duration _m_]]] [-comment _comment_][-snapname-pattern _pattern_][-protect [ ]][-notification [-success-email _email_address1_,_email_address2_ -subject _subject_pattern_] [-failure -email _email_address1_,_email_address2_ -subject _subject_pattern_]]*`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+[`-force`]
+
++
+[`quiet` | `-verbose`]
+
++
+
+NOTE: SnapManager supporta fino a 1000 caratteri per gli indirizzi e-mail.
+
++
+Quando si crea un backup dei file di dati e dei file di log di archiviazione insieme utilizzando il profilo (per la creazione di backup del log di archiviazione separati) e la creazione del backup del file di dati non riesce, viene inviata una notifica e-mail con il backup dei dati come nome dell'operazione invece del backup dei dati e del backup dei log di archiviazione. Una volta eseguita correttamente l'operazione di backup del file di dati e del file di log dell'archivio, viene visualizzato il seguente output:
+
++
+[listing]
+----
+
+Profile Name    : PROF_31
+Operation Name 	: Data Backup and Archive Logs Backup
+Database SID   	: TENDB1
+Database Host 	 : repo1.rtp.org.com
+Start Date 	    : Fri Sep 23 13:37:21 EDT 2011
+End Date 	      : Fri Sep 23 13:45:24 EDT 2011
+Status 	        : SUCCESS
+Error messages 	:
+----
+

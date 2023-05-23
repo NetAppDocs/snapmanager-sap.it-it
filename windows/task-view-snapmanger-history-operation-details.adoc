@@ -1,0 +1,32 @@
+---
+permalink: windows/task-view-snapmanger-history-operation-details.html 
+sidebar: sidebar 
+keywords: view, history, set, single, profile, snapmanager, configuration, detail 
+summary: È possibile visualizzare le impostazioni della cronologia per un singolo profilo. 
+---
+= Visualizza i dettagli di configurazione della cronologia SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare le impostazioni della cronologia per un singolo profilo.
+
+
+
+== A proposito di questa attività
+
+L'operazione SnapManager history visualizza le seguenti informazioni per ciascun profilo:
+
+* Nome dell'operazione
+* Classe di conservazione
+* Numero di conservazione
+
+
+.Fase
+. Per visualizzare informazioni sull'operazione SnapManager history per un profilo specifico, immettere il seguente comando:
++
+`*smsap history show -profile _profile_name_*`
+
+

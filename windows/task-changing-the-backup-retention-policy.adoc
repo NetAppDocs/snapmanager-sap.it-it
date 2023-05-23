@@ -1,0 +1,20 @@
+---
+permalink: windows/task-changing-the-backup-retention-policy.html 
+sidebar: sidebar 
+keywords: change, property, properties, eligible, ineligible, deletion, retention, policy, changing, backup 
+summary: 'È possibile modificare le proprietà di un backup in modo che sia idoneo o non idoneo per l"eliminazione in base ai criteri di conservazione.' 
+---
+= Modifica del criterio di conservazione del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile modificare le proprietà di un backup in modo che sia idoneo o non idoneo per l'eliminazione in base ai criteri di conservazione.
+
+Quando si crea un backup, è possibile impostarne i criteri di conservazione. In un secondo momento, è possibile scegliere di conservare il backup per un periodo di tempo superiore a quello consentito dal criterio di conservazione oppure specificare che il backup non è più necessario e che il criterio di conservazione lo gestisca.
+
+*Informazioni correlate*
+
+xref:reference-the-smosmsapbackup-update-command.adoc[Il comando ssap backup update]

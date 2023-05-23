@@ -1,0 +1,68 @@
+---
+permalink: windows/reference-the-smosmsapoperation-dump-command.html 
+sidebar: sidebar 
+keywords: run, operation, dump, command, jar, file, diagnostic, information, smsap 
+summary: 'È possibile eseguire il comando dump dell"operazione per creare un file JAR contenente informazioni diagnostiche su un"operazione.' 
+---
+= Il comando dump dell'operazione smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile eseguire `operation dump` Per creare un file JAR contenente informazioni diagnostiche su un'operazione.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap operation dump
+-profile profile_name
+[-label label_name | -id guid]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il profilo per cui si desidera creare i file dump. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-label _label_name_`*
++
+Crea file dump per l'operazione e assegna l'etichetta specificata.
+
+* *`-id _guid_`*
++
+Crea file dump per l'operazione con il GUID specificato. Il GUID viene generato da SnapManager all'inizio dell'operazione.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console.
+
+
+
+
+
+== Esempio
+
+Nell'esempio seguente viene creato il file dump per il backup:
+
+[listing]
+----
+smsap operation dump -profile SALES1
+-id 8abc01ec0e78f3e2010e78f3fdd00001
+----
+[listing]
+----
+Dump file created Path: C:\userhomedirectory\netapp\smsap\3.3\smsap_dump_8abc01ec0e78f3e2010e78f3fdd00001.jar
+----

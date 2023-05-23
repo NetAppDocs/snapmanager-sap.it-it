@@ -1,0 +1,21 @@
+---
+permalink: unix-administration/task-authorize-user-access-to-profiles.html 
+sidebar: sidebar 
+keywords: addition, role-based, access, control, snapmanager, enable, password, profile, prevent, unauthorized, authorize, authorizing 
+summary: 'Oltre al RBAC (role-based access control), SnapManager consente di impostare una password per un profilo per impedire accessi non autorizzati.' 
+---
+= Autorizzare l'accesso ai profili
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oltre al RBAC (role-based access control), SnapManager consente di impostare una password per un profilo per impedire accessi non autorizzati.
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap credential set -profile -name _profile_name_ [-password _password_]*`
+
+

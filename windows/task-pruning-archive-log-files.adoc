@@ -1,0 +1,100 @@
+---
+permalink: windows/task-pruning-archive-log-files.html 
+sidebar: sidebar 
+keywords: prune, archive, log, file, location, creating, create, pruning 
+summary: 'Durante la creazione di un backup, è possibile eseguire l"eliminazione dei file di log dell"archivio dalle posizioni di log dell"archivio.' 
+---
+= Eliminazione dei file di log dell'archivio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Durante la creazione di un backup, è possibile eseguire l'eliminazione dei file di log dell'archivio dalle posizioni di log dell'archivio.
+
+* Il backup dei file di log dell'archivio deve essere eseguito con l'operazione di backup corrente.
++
+Se si specifica l'eliminazione insieme ad altri backup che non contengono file di log dell'archivio, i file di log dell'archivio non vengono eliminati.
+
+* Il database deve essere in stato montato.
++
+Se il database non si trova nello stato montato, immettere l'opzione -force insieme al comando backup.
+
+
+
+Durante l'esecuzione di un'operazione di backup, è possibile specificare quanto segue:
+
+* Scopo della potatura:
++
+** Eliminare tutti i file di log dell'archivio.
+** Eliminare i file di registro dell'archivio fino al numero di modifica del sistema (SCN) specificato.
+** Eliminare i file di log dell'archivio fino all'ora specificata.
+** Eliminare i file di log dell'archivio prima del periodo di tempo specificato.
+
+
+* Destinazione da cui è necessario rimuovere i file di log dell'archivio.
++
+
+NOTE: Anche quando l'eliminazione del file di log dell'archivio non riesce in una destinazione, SnapManager continua a rimuovere i file di log dell'archivio dalle altre destinazioni.
+
+
+
+Prima di eliminare i file di log dell'archivio, SnapManager verifica quanto segue:
+
+* Il backup dei file di log dell'archivio viene eseguito almeno una volta.
+* I file di log dell'archivio vengono inviati al database Oracle DataGuard Standby, se presente.
+* I file di log dell'archivio vengono acquisiti dal processo di acquisizione di Oracle Streams, se presente.
+
+
+Se il backup dei file di log dell'archivio viene eseguito, inviato in standby e acquisito dal processo di acquisizione, SnapManager elimina tutti i file di log dell'archivio in una singola esecuzione. Tuttavia, se sono presenti file di log di archiviazione che non vengono sottoposti a backup, non vengono inviati in standby o non vengono acquisiti dal processo di acquisizione, SnapManager elimina i file di log di archiviazione uno per uno. L'eliminazione dei file di log dell'archivio in una singola esecuzione è più rapida rispetto all'eliminazione dei log dell'archivio uno per uno.
+
+SnapManager può anche raggruppare i file di log dell'archivio ed eliminarli batch per batch. Ogni batch avrà un massimo di 998 file. Questo valore può essere configurato al di sotto di 998 utilizzando il parametro di configurazione maximum.archivelog.files.toprune.atATime nel file smsap.config.
+
+SnapManager utilizza i comandi di gestione ripristino Oracle per eliminare i file di log dell'archivio. Tuttavia, SnapManager non si integra con i criteri di conservazione e di eliminazione di RMAN.
+
+
+NOTE: Se si eliminano i file di log dell'archivio dalle destinazioni del log dell'archivio, l'eliminazione dei file di log dell'archivio non riesce.
+
+SnapManager non supporta l'eliminazione dei file di log dell'archivio nei seguenti scenari:
+
+* I file di log dell'archivio si trovano nell'area di ripristino della flash.
+* I file di log dell'archivio si trovano nel database Standby.
+* I file di log dell'archivio sono gestiti da SnapManager e RMAN.
++
+.. Immettere il seguente comando:
++
+`smsap backup create -profile profile_name {[-full {-online | -offline | -auto} [-retain {-hourly | [-daily | -weekly | -monthly | -unlimited}] [-verify] | [-data [[-filesfiles [files]] | [-tablespaces-tablespaces [-tablespaces]] [-datalabellabel] {-online | -offline | -auto} [-retain {-hourly | [-daily | -weekly | -monthly | -unlimited]} [-verify] | [-archivelogs [-labellabel] [-commentcomment][-backup-destpath1 [,[path2]]] [-exclude-destpath1 [,path2]]] [-prunelogs {-all | -untilSCNuntilSCN | -until-dateyyyy-MM-dd:HH:mm:ss | -before {-months | -days | -weeks | -hours}} -prune-destprune_dest1,[prune_dest2]] [-taskspectaskspec]} -dump [-force] [-quiet | -verbose]`
+
++
+|===
+| Se si desidera... | Quindi... 
+
+
+ a| 
+*File di log dell'archivio di Prune*
+ a| 
+Specificare le seguenti opzioni:
+
+*** -prunelogs specifica l'eliminazione dei file di log dell'archivio durante la creazione di un backup.
++
+**** -all specifica l'eliminazione di tutti i file di log dell'archivio.
+**** -UntilSCN specifica l'eliminazione dei file di log dell'archivio fino al numero SCN specificato.
+**** -until-date specifica l'eliminazione dei log di archiviazione, inclusi data e ora specificate.
+**** -prima di {-mesi
+
+
+
+
+
+
+| -giorni | -settimane 
+
+
+| -hours} specifica l'eliminazione dei file di log dell'archivio prima del periodo di tempo specificato.  a| 
+*Includere la destinazione da cui devono essere eliminati i file di log dell'archivio*
+
+|===
+
+
+

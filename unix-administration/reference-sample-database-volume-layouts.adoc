@@ -1,0 +1,182 @@
+---
+permalink: unix-administration/reference-sample-database-volume-layouts.html 
+sidebar: sidebar 
+keywords: sample, database, volume, layout, configuring, configure 
+summary: Per informazioni sulla configurazione del database, fare riferimento ai layout dei volumi del database di esempio. 
+---
+= Layout di volumi di database di esempio
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per informazioni sulla configurazione del database, fare riferimento ai layout dei volumi del database di esempio.
+
+
+
+== Database a istanza singola
+
+[cols="1a,3a,1a,1a"]
+|===
+| Tipi di file | Nomi dei volumi | Volume dedicato per i tipi di file | Copie Snapshot automatiche 
+
+
+ a| 
+Binari Oracle
+ a| 
+orabin_ `_host name_`
+ a| 
+Sì
+ a| 
+Acceso
+
+
+
+ a| 
+File di dati
+ a| 
+oradata_ `_sid_`
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+File di dati temporanei
+ a| 
+ora_ `_sid_`
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+File di controllo
+ a| 
+oracntrl01_ `_sid_` (Multiplex)
+
+oracntrl02_ `_sid_` (Multiplex)
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+Registri di ripristino
+ a| 
+oralog01_ `_sid_` (Multiplex)
+
+oralog02_ `_sid_` (Multiplex)
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+Registri di archiviazione
+ a| 
+oraarch_ `_sid_`
+ a| 
+Sì
+ a| 
+Spento
+
+|===
+
+
+== Real Application Clusters (RAC)
+
+[cols="1a,3a,1a,1a"]
+|===
+| Tipi di file | Nomi dei volumi | Volume dedicato per i tipi di file | Copie Snapshot automatiche 
+
+
+ a| 
+Binari Oracle
+ a| 
+orabin_ `_host name_`
+ a| 
+Sì
+ a| 
+Acceso
+
+
+
+ a| 
+File di dati
+ a| 
+oradata_ `_dbname_`
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+File di dati temporanei
+ a| 
+ora_ `_dbname_`
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+File di controllo
+ a| 
+oracntrl01_ `_dbname_` (Multiplex)
+
+oracntrl02_ `_dbname_` (Multiplex)
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+Registri di ripristino
+ a| 
+oralog01_ `_dbname_` (Multiplex)
+
+oralog02_ `_dbname_` (Multiplex)
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+Registri di archiviazione
+ a| 
+oraarch_ `_dbname_`
+ a| 
+Sì
+ a| 
+Spento
+
+
+
+ a| 
+File del cluster
+ a| 
+oracr_ `_clustername_`
+ a| 
+Sì
+ a| 
+Acceso
+
+|===

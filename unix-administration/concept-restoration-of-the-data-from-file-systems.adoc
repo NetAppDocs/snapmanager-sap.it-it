@@ -1,0 +1,21 @@
+---
+permalink: unix-administration/concept-restoration-of-the-data-from-file-systems.html 
+sidebar: sidebar 
+keywords: restore, data, alternate, location, necessary, file, system, local, host, restoration 
+summary: 'Prima di ripristinare i dati da una posizione alternativa, è necessario ripristinare il file system necessario e montarlo sull"host locale.' 
+---
+= Ripristino dei dati dal file system
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di ripristinare i dati da una posizione alternativa, è necessario ripristinare il file system necessario e montarlo sull'host locale.
+
+È possibile richiamare l'operazione di ripristino da una posizione alternativa per copiare i file da file system alternativi a file system attivi.
+
+Per eseguire questa operazione, è necessario specificare i punti di montaggio alternativi da cui ripristinare i punti di montaggio originali e i nomi delle copie Snapshot originali creando un file di specifica di ripristino.
+
+
+NOTE: Il nome della copia Snapshot è un componente necessario perché lo stesso file system potrebbe essere bloccato più volte in una singola operazione di backup (ad esempio, una volta per i file di dati e una volta per il file di registro).

@@ -1,0 +1,30 @@
+---
+permalink: windows/concept-accessing-snapmanager.html 
+sidebar: sidebar 
+keywords: access, snapmanager, command-line, interface, cli, graphical, user, interface, gui 
+summary: 'È possibile accedere a SnapManager utilizzando l"interfaccia della riga di comando (CLI) o l"interfaccia grafica utente (GUI).' 
+---
+= Accesso a SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile accedere a SnapManager utilizzando l'interfaccia della riga di comando (CLI) o l'interfaccia grafica utente (GUI).
+
+È possibile eseguire diverse operazioni SnapManager nei seguenti modi:
+
+* Immettendo i comandi nella CLI su un host che si trova nella stessa rete dell'host del database.
++
+Per un elenco di tutti i comandi e una spiegazione delle relative opzioni e argomenti, vedere il capitolo riferimento ai comandi.
+
++
+Per accedere alla CLI, fare clic su *Start* > *tutti i programmi* > *NetApp* > *SnapManager per SAP* > *Avvia interfaccia a riga di comando (CLI)*.
+
+* Accedendo alla GUI su un host nella stessa rete dell'host di database.
++
+La GUI offre procedure guidate semplici e facili da utilizzare per eseguire diverse operazioni.
+
+* Utilizzando i comandi SAP BR*Tools.
+

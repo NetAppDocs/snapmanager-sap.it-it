@@ -1,0 +1,31 @@
+---
+permalink: unix-administration/concept-splitting-a-clone.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, split, manage, clone, exist, flexclone, technology, data, block, database 
+summary: SnapManager consente di suddividere e gestire un clone esistente creato utilizzando la tecnologia FlexClone. Nella tecnologia FlexClone, il clone e il database originale condividono gli stessi blocchi di dati fisici. 
+---
+= Dividere un clone
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di suddividere e gestire un clone esistente creato utilizzando la tecnologia FlexClone. Nella tecnologia FlexClone, il clone e il database originale condividono gli stessi blocchi di dati fisici.
+
+Prima di eseguire l'operazione di suddivisione dei cloni, è possibile sapere che la dimensione stimata del clone da suddividere e lo spazio necessario disponibile sull'aggregato.
+
+Un nuovo profilo viene generato da SnapManager se l'operazione di suddivisione del clone ha esito positivo. Se SnapManager non riesce a creare il nuovo profilo, è possibile crearne uno nuovo manualmente. È possibile utilizzare il nuovo profilo per creare backup del database, ripristinare i dati e creare cloni. Se l'operazione di suddivisione dei cloni ha esito positivo, indipendentemente dal fatto che il nuovo profilo sia stato creato o meno, i metadati correlati ai cloni vengono rimossi dal database del repository.
+
+È possibile eseguire le seguenti attività relative alla suddivisione dei cloni:
+
+* Visualizzare la stima del clone split.
+* Dividere un clone su uno storage primario.
+* Dividere un clone su uno storage secondario.
+* Visualizzare lo stato delle operazioni di divisione dei cloni.
+* Interrompere l'operazione di suddivisione del clone.
+* Distruggere il profilo insieme allo storage sottostante.
+* Eliminare il profilo creato per un clone separato.
+
+
+Quando si divide un clone dal volume principale, le copie Snapshot associate al volume clonato vengono eliminate. I backup creati per il database clonato prima del processo di suddivisione del clone non possono essere utilizzati perché le copie Snapshot di questi backup vengono eliminate e i backup rimangono come voci obsolete nel repository.

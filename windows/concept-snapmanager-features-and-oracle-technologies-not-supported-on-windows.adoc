@@ -1,0 +1,29 @@
+---
+permalink: windows/concept-snapmanager-features-and-oracle-technologies-not-supported-on-windows.html 
+sidebar: sidebar 
+keywords: snapmanager, support, feature, platform, oracle, technology, technologies, windows 
+summary: SnapManager non supporta alcune funzionalità, piattaforme e tecnologie SnapManager su Windows. 
+---
+= Le funzionalità e le tecnologie SnapManager non sono supportate in Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager non supporta alcune funzionalità, piattaforme e tecnologie SnapManager su Windows.
+
+SnapManager non supporta le seguenti funzionalità, piattaforme e tecnologie Oracle:
+
+* Protezione dei dati basata su policy disponibile con l'integrazione di Protection Manager
+* RBAC (role-based access control) disponibile con Operations Manager
+* Ripristino rapido o VBSR (Volume-Based SnapRestore)
+* Operazione di suddivisione dei cloni
+* Oracle Real Application Clusters (RAC) che utilizza qualsiasi protocollo
+* Oracle Automatic Storage Management (ASM) che utilizza qualsiasi protocollo
+* Oracle Direct NFS (DNFS)
+* Piattaforme Itanium-64
+
+
+
+NOTE: Le piattaforme hardware supportate per il sistema operativo Windows sono a 32 e 64 bit (Windows x86 e Windows x86_64).

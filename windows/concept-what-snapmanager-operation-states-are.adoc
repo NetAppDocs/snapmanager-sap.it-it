@@ -1,0 +1,69 @@
+---
+permalink: windows/concept-what-snapmanager-operation-states-are.html 
+sidebar: sidebar 
+keywords: snapmanager, operation, backup, restore, clone, state, indicate, progress 
+summary: 'Le operazioni SnapManager (backup, ripristino e clonazione) possono essere in stati diversi, con ciascuno stato che indica l"avanzamento dell"operazione.' 
+---
+= Quali sono gli stati operativi di SnapManager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le operazioni SnapManager (backup, ripristino e clonazione) possono essere in stati diversi, con ciascuno stato che indica l'avanzamento dell'operazione.
+
+|===
+| Stato operativo | Descrizione 
+
+
+ a| 
+Operazione riuscita
+ a| 
+Operazione completata correttamente.
+
+
+
+ a| 
+In esecuzione
+ a| 
+L'operazione è stata avviata, ma non è stata completata. Ad esempio, alle 11:00 viene pianificato un backup che richiede due minuti. Quando si visualizza la scheda *Schedule* alle 11:01, l'operazione viene visualizzata come in esecuzione.
+
+
+
+ a| 
+Nessuna operazione trovata
+ a| 
+La pianificazione non è stata eseguita o l'ultimo backup eseguito è stato eliminato.
+
+
+
+ a| 
+Non riuscito
+ a| 
+Operazione non riuscita. SnapManager ha eseguito automaticamente il processo di interruzione e ha pulito l'operazione.
+
+|===
+
+
+== Eventi ripristinabili e non ripristinabili
+
+Un evento SnapManager ripristinabile presenta i seguenti problemi:
+
+* Il database non viene memorizzato in un sistema storage che esegue Data ONTAP.
+* SnapDrive per Windows non è installato o non può accedere al sistema di storage.
+* SnapManager non riesce a creare una copia Snapshot o a eseguire il provisioning dello storage se il volume è esaurito, se è stato raggiunto il numero massimo di copie Snapshot o se si verifica un'eccezione non prevista.
+
+
+Quando si verifica un evento ripristinabile, SnapManager esegue un processo di interruzione e tenta di riportare l'host, il database e il sistema di storage allo stato iniziale. Se il processo di interruzione non riesce, SnapManager considera l'incidente come un evento irrecuperabile.
+
+Un evento irreversibile (fuori banda) si verifica quando si verifica una delle seguenti condizioni:
+
+* Si verifica un problema di sistema, ad esempio in caso di guasto di un host.
+* Il processo SnapManager viene interrotto.
+* Un'operazione di interruzione in-band non riesce quando il sistema storage si guasta, il numero di unità logica (LUN) o il volume di storage non è in linea o la rete non funziona.
+
+
+Quando si verifica un evento irreversibile, SnapManager esegue immediatamente un processo di interruzione. L'host, il database e il sistema di storage potrebbero non essere tornati agli stati iniziali. In tal caso, è necessario eseguire una pulizia dopo l'operazione SnapManager, eliminando la copia Snapshot orfana e rimuovendo il file di blocco SnapManager.
+
+Se si desidera eliminare il file di blocco SnapManager, accedere a. `$ORACLE_HOME` sul computer di destinazione ed eliminare `sm_lock_TargetDBName` file. Dopo aver eliminato il file, riavviare il server SnapManager per SAP.

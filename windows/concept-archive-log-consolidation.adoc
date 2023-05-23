@@ -1,0 +1,14 @@
+---
+permalink: windows/concept-archive-log-consolidation.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, consolidate, archive, log, backup, file, identify, identifies, consolidation 
+summary: 'SnapManager (3.2 o versioni successive) per SAP consolida i backup del log di archiviazione per mantenere un numero minimo di backup per i file di log di archiviazione. SnapManager per SAP identifica e libera i backup che contengono file di log di archivio che sono sottoinsiemi di altri backup.' 
+---
+= Consolidamento dei log di archiviazione
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager (3.2 o versioni successive) per SAP consolida i backup del log di archiviazione per mantenere un numero minimo di backup per i file di log di archiviazione. SnapManager per SAP identifica e libera i backup che contengono file di log di archivio che sono sottoinsiemi di altri backup.

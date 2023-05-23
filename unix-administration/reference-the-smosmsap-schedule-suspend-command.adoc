@@ -1,0 +1,37 @@
+---
+permalink: unix-administration/reference-the-smosmsap-schedule-suspend-command.html 
+sidebar: sidebar 
+keywords: command, suspend, backup, schedule, resume, smsap 
+summary: Questo comando sospende una pianificazione di backup fino al ripristino della pianificazione di backup. 
+---
+= Il comando smsap schedule suspend
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando sospende una pianificazione di backup fino al ripristino della pianificazione di backup.
+
+
+
+== Sintassi
+
+[listing, subs="+macros"]
+----
+pass:quotes[smsap schedule suspend -profile _profile_name_
+-schedule-name _schedule_name_ [-quiet | -verbose\]]
+----
+
+
+== Parametri
+
+* `*-profile _profile_name_*`
++
+Specifica il nome del profilo correlato al database che si desidera sospendere una pianificazione di backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* `*-schedule-name _schedule_name_*`
++
+Specifica il nome della pianificazione fornito durante la creazione di una pianificazione di backup.
+
+

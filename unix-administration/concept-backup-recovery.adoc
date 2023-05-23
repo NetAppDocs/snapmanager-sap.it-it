@@ -1,0 +1,23 @@
+---
+permalink: unix-administration/concept-backup-recovery.html 
+sidebar: sidebar 
+keywords: snapmanager, perform, restore, operation, recover, backup 
+summary: 'In SnapManager, è necessario eseguire contemporaneamente le operazioni di ripristino e ripristino. Non è possibile eseguire un"operazione di ripristino, quindi eseguire un"operazione di ripristino di SnapManager in un secondo momento.' 
+---
+= Recovery del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+In SnapManager, è necessario eseguire contemporaneamente le operazioni di ripristino e ripristino. Non è possibile eseguire un'operazione di ripristino, quindi eseguire un'operazione di ripristino di SnapManager in un secondo momento.
+
+In SnapManager 3.2 o versioni precedenti, è possibile utilizzare SnapManager per ripristinare e ripristinare il backup o SnapManager per ripristinare il backup e utilizzare un altro strumento, ad esempio Oracle Recovery Manager (RMAN), per ripristinare i dati. Poiché SnapManager è in grado di registrare i propri backup con RMAN, è possibile utilizzare RMAN per ripristinare e ripristinare il database con granularità più fini, come i blocchi. Questa integrazione combina i vantaggi della velocità e dell'efficienza dello spazio delle copie Snapshot con il livello di controllo ottimale per il ripristino mediante RMAN.
+
+
+NOTE: È necessario ripristinare un database prima di poterlo utilizzare. È possibile utilizzare qualsiasi strumento o script per ripristinare un database.
+
+A partire da SnapManager 3.2 per SAP, SnapManager consente il ripristino automatico dei backup del database utilizzando i backup del registro di archiviazione. Anche quando i backup del registro di archiviazione sono disponibili nella posizione esterna, SnapManager utilizza i backup del registro di archiviazione dalla posizione esterna per ripristinare i backup del database.
+
+Se vengono aggiunti nuovi file di dati al database, Oracle consiglia di eseguire immediatamente un nuovo backup. Inoltre, se si ripristina un backup eseguito prima dell'aggiunta dei nuovi file di dati e si tenta di eseguire il ripristino a un punto successivo all'aggiunta dei nuovi file di dati, il processo di ripristino automatico di Oracle potrebbe non riuscire, in quanto non è in grado di creare file di dati. Consultare la documentazione Oracle per il processo di ripristino dei file di dati aggiunti dopo un backup.

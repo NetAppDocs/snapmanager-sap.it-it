@@ -1,0 +1,88 @@
+---
+permalink: windows/reference-the-smosmsaprepository-delete-command.html 
+sidebar: sidebar 
+keywords: command, delete, repository, store, database, profile, associate, credential, smsap 
+summary: Questo comando elimina un repository utilizzato per memorizzare i profili di database e le credenziali associate. È possibile eliminare un repository solo se non sono presenti profili nel repository. 
+---
+= Il comando di eliminazione del repository di smsap
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questo comando elimina un repository utilizzato per memorizzare i profili di database e le credenziali associate. È possibile eliminare un repository solo se non sono presenti profili nel repository.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap repository delete
+-repository
+-port repo_port
+-dbname repo_service_name
+-host repo_host
+-login -username repo_username
+[-force] [-noprompt]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-repository`*
++
+Le opzioni seguenti `-repository` specificare i dettagli del database per il repository.
+
+* *`-port _repo_port_`*
++
+Specifica il numero di porta TCP utilizzato per accedere al database in cui è memorizzato il repository.
+
+* *`-dbname _repo_service_name_`*
++
+Specifica il nome del database in cui è memorizzato il repository. Utilizzare il nome globale o il SID.
+
+* *`-host _repo_host_`*
++
+Specifica il nome o l'indirizzo IP del computer host su cui viene eseguito il database del repository.
+
+* *`-login`*
++
+Avvia i dettagli di accesso al repository.
+
+* *`-username _repo_username_`*
++
+Specifica il nome utente necessario per accedere al database in cui è memorizzato il repository.
+
+* *`-force`*
++
+Tenta di forzare l'eliminazione del repository, anche in caso di operazioni incomplete. In caso di operazioni incomplete, SnapManager visualizza un messaggio che chiede se si è sicuri di voler eliminare il repository.
+
+* *`-noprompt`*
++
+Non richiede prima di eliminare il repository. Utilizzando il `-noprompt` l'opzione garantisce che il prompt non venga visualizzato, semplificando l'eliminazione dei repository mediante uno script.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore sulla console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi sulla console.
+
+
+
+
+
+== Esempio di comando
+
+Nell'esempio seguente viene eliminato il repository nel database SALESDB.
+
+[listing]
+----
+smsap repository delete -repository -dbname SALESDB
+-host server1 -login -username admin -port 1527 -force -verbose
+----

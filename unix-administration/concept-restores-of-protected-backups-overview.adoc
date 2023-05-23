@@ -1,0 +1,56 @@
+---
+permalink: unix-administration/concept-restores-of-protected-backups-overview.html 
+sidebar: sidebar 
+keywords: restore, method, backup, data, secondary, primary, storage, protect, overview 
+summary: È possibile scegliere il metodo di ripristino da utilizzare per ripristinare i dati di backup dallo storage secondario allo storage primario. 
+---
+= Panoramica sui ripristini dei backup protetti
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile scegliere il metodo di ripristino da utilizzare per ripristinare i dati di backup dallo storage secondario allo storage primario.
+
+Nella tabella seguente sono illustrati i diversi scenari e metodi che è possibile utilizzare per ripristinare un backup dallo storage secondario:
+
+[cols="1a,3a"]
+|===
+| Ripristinare la destinazione | Spiegazione 
+
+
+ a| 
+Direttamente allo storage primario
+ a| 
+Restituisce i dati dal sistema di storage secondario direttamente alla posizione originale sul sistema di storage primario sulla stessa rete utilizzata per proteggere i dati.
+
+SnapManager utilizza il metodo di storage diretto quando possibile. Questo metodo non è possibile se i dati si trovano in un file system su una SAN (Storage Area Network) e se si verifica una delle seguenti condizioni:
+
+* Altri file non di database non vengono ripristinati nello stesso file system.
+* Le copie Snapshot dei file di controllo e dei file di dati in un file system in fase di ripristino sono state eseguite in momenti diversi.
+* Il numero di unità logica (LUN) si trova in un gruppo di volumi, ma le altre LUN dello stesso gruppo di volumi non vengono ripristinate.
+
+
+
+
+ a| 
+Direttamente all'host
+ a| 
+Clona i dati sul sistema di storage secondario e monta i dati clonati sull'host. Una volta clonati e montati i dati, SnapManager li copia nella posizione originale.
+
+
+
+ a| 
+Indirettamente allo storage o all'host
+ a| 
+Restituisce i dati dal sistema di storage secondario a una nuova posizione sul sistema primario sulla stessa rete utilizzata per proteggere i dati e per montare il nuovo storage sull'host. Una volta restituiti e montati i dati, SnapManager li copia nella posizione originale. Il metodo di storage indiretto potrebbe richiedere molto tempo per restituire i dati.
+
+SnapManager copia prima i dati su un volume scratch sull'host primario prima che SnapManager li utilizzi per ripristinare e ripristinare il database. L'eliminazione automatica dei dati di scratch dipende dal protocollo utilizzato.
+
+* Per LA SAN, SnapManager elimina i dati restituiti.
+* Per il NAS (Network-Attached Storage), SnapManager elimina il contenuto dei qtree restituiti, ma non elimina i qtree stessi. Per eliminare i qtree, gli amministratori devono montare il volume scratch e rimuovere i qtree utilizzando il comando UNIX rmdir.
+
+
+|===
+Se non è possibile restituire direttamente i dati allo storage, SnapManager può restituire i dati direttamente all'host o indirettamente allo storage o all'host. Il metodo dipende dalla policy che stabilisce se l'organizzazione consente la connessione diretta allo storage secondario o richiede la copia dei dati sulla rete di storage. È possibile gestire questo criterio impostando le informazioni di configurazione nel file smsap.config.

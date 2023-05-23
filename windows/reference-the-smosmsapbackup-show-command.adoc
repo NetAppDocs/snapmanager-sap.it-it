@@ -1,0 +1,102 @@
+---
+permalink: windows/reference-the-smosmsapbackup-show-command.html 
+sidebar: sidebar 
+keywords: backup, show, command, display, detail, information, protection, status, retention, class, primary, secondary, storage, smsap 
+summary: È possibile utilizzare il comando show di backup per visualizzare informazioni dettagliate su un backup, tra cui lo stato di protezione, la classe di conservazione del backup e i backup sullo storage primario e secondario. 
+---
+= Il comando sspap backup show
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile utilizzare `backup show` comando per visualizzare informazioni dettagliate su un backup, tra cui lo stato di protezione, la classe di conservazione del backup e i backup sullo storage primario e secondario.
+
+
+
+== Sintassi
+
+[listing]
+----
+
+smsap backup show
+-profile profile_name
+[-label label [-data | -archivelogs] | [-id id]
+[-quiet | -verbose]
+----
+
+
+== Parametri
+
+* *`-profile _profile_name_`*
++
+Specifica il profilo per cui visualizzare i backup. Il profilo contiene l'identificatore del database e altre informazioni del database.
+
+* *`-label _label_`*
++
+Specifica l'etichetta del backup.
+
+* *`-data`*
++
+Specifica i file di dati.
+
+* *`-archivelogs`*
++
+Specifica i file di log dell'archivio.
+
+* *`-id _id_`*
++
+Specifica l'ID del backup.
+
+* *`-quiet`*
++
+Visualizza solo i messaggi di errore nella console. L'impostazione predefinita prevede la visualizzazione dei messaggi di errore e di avviso.
+
+* *`-verbose`*
++
+Visualizza messaggi di errore, di avviso e informativi nella console, nonché informazioni su cloni e verifica.
+
+
+
+
+
+== Esempio
+
+L'esempio seguente mostra informazioni dettagliate sul backup:
+
+[listing]
+----
+smsap backup show -profile SALES1 -label BTNFS -verbose
+Backup id: 8abc013111a450480111a45066210001
+Backup status: SUCCESS
+Primary storage resources: EXISTS
+Protection sate: NOT REQUESTED
+Retention class: DAILY
+Backup scope: FULL
+Backup mode: OFFLINE
+Mount status: NOT MOUNTED
+Backup label: BTNFS
+Backup comment:
+
+Backup start time: 2007-03-30 15:26:30
+Backup end time: 2007-03-30 15:34:13
+Verification status: OK
+Backup Retention Policy: NORMAL
+Backup database: hsdb1
+Checkpoint: 2700620
+Tablespace: SYSAUX
+Datafile: E:\disks\data\hsdb\sysaux01.dbf [ONLINE]
+...
+Control Files:
+File: E:\disks\data\control03.ctl
+...
+Archive Logs:
+File: E:\disks\data\archive_logs\2_131_626174106.dbf
+...
+Volume: hs_data
+Snapshot: SMSAP_HSDBR_hsdb1_F_C_1_
+8abc013111a450480111a45066210001_0
+File: E:\disks\data\hsdb\SMSAPBakCtl_1175283005231_0
+...
+----

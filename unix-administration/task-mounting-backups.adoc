@@ -1,0 +1,37 @@
+---
+permalink: unix-administration/task-mount-backups.html 
+sidebar: sidebar 
+keywords: snapmanager, automatic, handle, mount, backup, available, host, scenario, external, tool, oracle, recovery, manager, rman, access, file 
+summary: 'SnapManager gestisce automaticamente il montaggio di un backup per renderlo disponibile all"host. È inoltre possibile montare i backup in scenari in cui si utilizza uno strumento esterno, ad esempio Oracle Recovery Manager (RMAN), per accedere ai file nel backup.' 
+---
+= Montare i backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager gestisce automaticamente il montaggio di un backup per renderlo disponibile all'host. È inoltre possibile montare i backup in scenari in cui si utilizza uno strumento esterno, ad esempio Oracle Recovery Manager (RMAN), per accedere ai file nel backup.
+
+*A proposito di questa attività*
+
+Il `smsap backup mount` Il comando visualizza un elenco di percorsi in cui sono state montate le copie Snapshot costituite dal backup.
+
+È possibile utilizzare `-from-secondary` opzione per montare il backup dallo storage secondario. Se non si utilizza questa opzione, SnapManager installa il backup dallo storage primario.
+
+Specificare `-copy-id` ogni volta che si specifica `-from-secondary` opzione. Se nel sistema di storage secondario sono presenti più backup, il `-copy-id` viene utilizzata per specificare quale copia di backup sullo storage secondario utilizzare per montare il backup.6
+
+
+NOTE: Se si utilizza Data ONTAP in modalità 7, è necessario specificare un valore valido per `-copy-id` opzione. Tuttavia, se si utilizza Clustered Data ONTAP, il `-copy-id` opzione non richiesta.
+
+Se si sta montando un backup del database su un host remoto, è necessario assicurarsi che le credenziali di Automatic Storage Management (ASM) siano le stesse su entrambi gli host.
+
+
+NOTE: È possibile raccogliere i file dump dopo un'operazione di montaggio di backup riuscita o non riuscita.
+
+.Fase
+. Per attivare un backup, immettere il seguente comando:
++
+`*smsap backup mount -profile _profile_name label_ [data | -archivelogs] | -id _id_} [-host _-host_] [-from-secondary [-copy-id _id_]] [-dump] [-quiet | -verbose]*`
+
+

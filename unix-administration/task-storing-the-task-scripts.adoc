@@ -1,0 +1,106 @@
+---
+permalink: unix-administration/task-store-the-task-scripts.html 
+sidebar: sidebar 
+keywords: store, pretask, post-task, policy, task, script, backup, clone, create, restore, operation, directory, target, server, storing 
+summary: 'È necessario memorizzare gli script delle attività di pre-task, post-task e policy in una directory specifica sul server di destinazione in cui verranno creati i backup o i cloni. Per l"operazione di ripristino, gli script devono essere posizionati nella directory specificata sul server di destinazione in cui si desidera ripristinare il backup.' 
+---
+= Memorizzare gli script delle attività
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario memorizzare gli script delle attività di pre-task, post-task e policy in una directory specifica sul server di destinazione in cui verranno creati i backup o i cloni. Per l'operazione di ripristino, gli script devono essere posizionati nella directory specificata sul server di destinazione in cui si desidera ripristinare il backup.
+
+.Fasi
+. Creare lo script.
+. Salvare lo script in una delle seguenti posizioni:
++
+*Per l'operazione di backup*
+
++
+[cols="1a,2a"]
+|===
+| Directory | Descrizione 
+
+
+ a| 
+`*<default_install_directory >/plugins/backup/create/policy*`
+ a| 
+Gli script dei criteri vengono eseguiti prima delle operazioni di backup.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/backup/create/pre*`
+ a| 
+Gli script di pre-elaborazione eseguono le operazioni prima del backup.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/backup/create/post*`
+ a| 
+Gli script di post-elaborazione vengono eseguiti dopo le operazioni di backup.
+
+|===
++
+*Per l'operazione di ripristino*
+
++
+[cols="1a,2a"]
+|===
+| Directory | Descrizione 
+
+
+ a| 
+`*<default_install_directory >/plugins/restore/create/policy*`
+ a| 
+Gli script dei criteri vengono eseguiti prima delle operazioni di ripristino.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/restore/create/pre*`
+ a| 
+Gli script di pre-elaborazione vengono eseguiti prima delle operazioni di ripristino.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/restore/create/post*`
+ a| 
+Gli script di post-elaborazione vengono eseguiti dopo le operazioni di ripristino.
+
+|===
++
+*Per l'operazione di cloni*
+
++
+[cols="1a,2a"]
+|===
+| Directory | Descrizione 
+
+
+ a| 
+`*<default_install_directory >/plugins/clone/create/policy*`
+ a| 
+Gli script dei criteri vengono eseguiti prima delle operazioni di clonazione.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/clone/create/pre*`
+ a| 
+Gli script di pre-elaborazione vengono eseguiti prima delle operazioni di cloni.
+
+
+
+ a| 
+`*<default_install_directory >/plugins/clone/create/post*`
+ a| 
+Gli script di post-elaborazione vengono eseguiti dopo le operazioni di cloni.
+
+|===
+

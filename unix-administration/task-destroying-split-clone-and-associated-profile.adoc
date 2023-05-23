@@ -1,0 +1,28 @@
+---
+permalink: unix-administration/task-destroy-split-clone-and-associated-profile.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, destroy, profile, associate, split, clone, database, storage, remove. backup 
+summary: 'SnapManager consente di distruggere il profilo associato al clone split (database) insieme allo storage sottostante. Prima di distruggere il profilo, assicurarsi di rimuovere i backup e i cloni associati.' 
+---
+= Distruggere un profilo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di distruggere il profilo associato al clone split (database) insieme allo storage sottostante. Prima di distruggere il profilo, assicurarsi di rimuovere i backup e i cloni associati.
+
+.Fase
+. Per distruggere un profilo creato utilizzando l'operazione di clonazione divisa e il database di cloni divisi, immettere il seguente comando:
++
+`*smsap profile destroy -profileprofile [-host _hostname_] [-quiet | -verbose]*`
+
+
+
+'''
+[listing]
+----
+smsap profile destroy -profile AUTO-REVEN
+----
+'''

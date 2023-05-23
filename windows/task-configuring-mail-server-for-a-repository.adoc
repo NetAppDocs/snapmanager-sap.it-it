@@ -1,0 +1,70 @@
+---
+permalink: windows/task-configuring-mail-server-for-a-repository.html 
+sidebar: sidebar 
+keywords: snapmanager, enable, mail, server, detail, email, alert, configuring, configure, repository 
+summary: SnapManager consente di specificare i dettagli del server di posta da cui inviare gli avvisi e-mail. 
+---
+= Configurazione di un server di posta per un repository
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager consente di specificare i dettagli del server di posta da cui inviare gli avvisi e-mail.
+
+SnapManager consente di specificare il nome host o l'indirizzo IP del server di posta del mittente e il numero di porta del server di posta per un nome di database del repository che richiede la notifica via email. È possibile configurare il numero di porta del server di posta in un intervallo compreso tra 0 e 65535; il valore predefinito è 25. Se si richiede l'autenticazione per l'indirizzo e-mail, è possibile specificare il nome utente e la password.
+
+È necessario specificare il nome o l'indirizzo IP del server host che gestisce la notifica e-mail.
+
+.Fase
+. Per configurare il server di posta per l'invio di avvisi e-mail, immettere il seguente comando:
++
+`smsap notification set -sender-emailemail_address-mailhostmailhost-mailportmailport [-authentication-usernameusername-passwordpassword] -repository-portrepo_port-dbnamerepo_service_name-hostrepo_host-login-usernamerepo_username`
+
++
+Le altre opzioni per questo comando sono le seguenti:
+
++
+[-force] (forza)
+
++
+|===
+| Per effettuare le seguenti operazioni... | Quindi... 
+
+
+ a| 
+*Per specificare l'indirizzo e-mail del mittente.*
+ a| 
+Specificare l'opzione -sender-email. Da SnapManager 3.2 per SAP, è possibile includere il trattino (-) specificando il nome di dominio dell'indirizzo e-mail. Ad esempio, è possibile specificare l'indirizzo e-mail del mittente come -sender-emailuser@org-corp.com.
+
+
+
+ a| 
+*Per specificare il nome host o l'indirizzo IP del server di posta del mittente.*
+ a| 
+Specificare l'opzione -mailhost.
+
+
+
+ a| 
+*Per specificare il numero di porta del server di posta elettronica per un nome di database del repository che richiede la notifica via email. È possibile configurare il numero di porta del server di posta in un intervallo compreso tra zero e 65535; il valore predefinito è 25.*
+ a| 
+Specificare l'opzione -mailport.
+
+
+
+ a| 
+*Specificare il nome utente e la password se si richiede l'autenticazione per l'indirizzo e-mail.*
+ a| 
+Specificare l'opzione -Authentication seguita dal nome utente e dalla password.
+
+|===
+
+
+Nell'esempio seguente viene configurato il server di posta.
+
+[listing]
+----
+smsap notification set -sender-email admin1@org.com -mailhost hostname.org.com -mailport 25 authentication -username admin1 -password admin1 -repository -port 1521 -dbname SMSAPREPO -host hotspur -login -username grabal21 -verbose
+----

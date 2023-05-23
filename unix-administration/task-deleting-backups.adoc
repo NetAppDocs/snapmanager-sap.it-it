@@ -1,0 +1,121 @@
+---
+permalink: unix-administration/task-delete-backups.html 
+sidebar: sidebar 
+keywords: delete, backup, free, space, remove, snapshot, copies, copy, volume, deleting 
+summary: È necessario eliminare i backup quando non sono più necessari, liberando così lo spazio occupato dai backup. Se si rimuovono i backup, si riduce la possibilità di raggiungere il limite di 255 copie Snapshot per volume. 
+---
+= Eliminare i backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È necessario eliminare i backup quando non sono più necessari, liberando così lo spazio occupato dai backup. Se si rimuovono i backup, si riduce la possibilità di raggiungere il limite di 255 copie Snapshot per volume.
+
+*Cosa ti serve*
+
+* Assicurarsi che il backup non sia stato utilizzato per creare un clone.
+
+
+*A proposito di questa attività*
+
+Quando si elimina un backup protetto, SnapManager elimina il backup dallo storage secondario e dal repository SnapManager. La seguente tabella mostra le azioni eseguite sullo storage primario e secondario quando si elimina un backup locale:
+
+[cols="2a,1a,3a,3a,4a"]
+|===
+| Stato di protezione | Stato locale | Azione sullo storage primario | Azione sullo storage secondario | Spiegazione 
+
+
+ a| 
+Non richiesto (da proteggere)
+ a| 
+Esiste
+ a| 
+Elimina le copie Snapshot
+ a| 
+Non è richiesta alcuna azione
+ a| 
+SnapManager elimina il backup locale.
+
+
+
+ a| 
+Liberato
+ a| 
+Non è richiesta alcuna azione
+ a| 
+Non è richiesta alcuna azione
+ a| 
+Il backup locale è già stato liberato. Se si elimina un backup liberato, i metadati del backup vengono rimossi dal repository.
+
+
+
+ a| 
+Non protetto
+ a| 
+Esiste
+ a| 
+Elimina le copie Snapshot
+ a| 
+Non è richiesta alcuna azione
+ a| 
+SnapManager elimina il backup locale indipendentemente dal fatto che sia stato protetto.
+
+
+
+ a| 
+Liberato
+ a| 
+Non è richiesta alcuna azione
+ a| 
+Non è richiesta alcuna azione
+ a| 
+Il backup locale è già stato liberato. Se si elimina un backup liberato, i metadati del backup vengono rimossi dal repository.
+
+
+
+ a| 
+Protetto
+ a| 
+Esiste
+ a| 
+Elimina le copie Snapshot
+ a| 
+SnapManager elimina il backup sullo storage secondario
+ a| 
+SnapManager elimina il backup locale e le copie secondarie.
+
+
+
+ a| 
+Liberato
+ a| 
+Non è richiesta alcuna azione
+ a| 
+SnapManager libera il backup sullo storage secondario
+ a| 
+SnapManager elimina il backup locale e le copie secondarie.
+
+|===
+Se si tenta di eliminare un backup protetto dallo storage secondario, le copie Snapshot potrebbero essere contrassegnate per l'eliminazione e successivamente eliminate da Protection Manager.
+
+È possibile eliminare i backup conservati senza limiti senza modificare la classe di conservazione.
+
+È possibile raccogliere i file dump dopo l'operazione di eliminazione del backup riuscita o non riuscita.
+
+Se si desidera eliminare i backup del registro di archiviazione, è necessario verificare la durata di conservazione impostata per il backup del registro di archiviazione. Se il backup del registro di archiviazione rientra nella durata di conservazione e i file di registro di archiviazione sono necessari per il ripristino di un database ripristinato, non è possibile eliminare il backup del registro di archiviazione.
+
+.Fasi
+. Verificare che le operazioni siano complete immettendo il seguente comando:
++
+`*smsap operation list -profile _profile_name_-dump-quiet-verbose*`
+
+. Per eliminare un backup, immettere il seguente comando:
++
+`*smsap backup delete -profile _profile_name_ [-label _label_ [data | -archivelogs] | -id _id_ | -all] [-force] [ -dump] [-quiet | -verbose]*`
+
++
+Utilizzare l'opzione -force per forzare la rimozione del backup. Forzare la rimozione di un backup con operazioni incomplete potrebbe lasciare il backup in uno stato incoerente.
+
+

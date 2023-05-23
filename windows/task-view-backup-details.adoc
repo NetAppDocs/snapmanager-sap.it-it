@@ -1,0 +1,75 @@
+---
+permalink: windows/task-view-backup-details.html 
+sidebar: sidebar 
+keywords: view, detail, information, backup, profile, smsap, show, command 
+summary: È possibile visualizzare le informazioni dettagliate su un particolare backup in un profilo utilizzando il comando sspap backup show. 
+---
+= Visualizzare i dettagli del backup
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+È possibile visualizzare informazioni dettagliate su un particolare backup in un profilo utilizzando `smsap backup show` comando.
+
+
+
+== A proposito di questa attività
+
+Il `smsap backup show` il comando visualizza le seguenti informazioni per ogni backup:
+
+* L'ID di backup
+* Se il backup ha avuto esito positivo o negativo
+* Ambito del backup (completo, parziale, online o offline)
+* Modalità di backup
+* Stato del montaggio
+* L'etichetta di backup
+* Commento
+* La data e l'ora di inizio e fine dell'operazione
+* Informazioni sulla verifica del backup
+* Classe di conservazione del backup
+* Il nome del database e dell'host
+* Il numero SCN (System Change Number) del checkpoint
+* La SCN di fine backup (solo per backup online)
+* I tablespace e i file di dati del database di cui è stato eseguito il backup
+* File di controllo del database di cui è stato eseguito il backup
+* L'archivio registra dal database di cui è stato eseguito il backup
+* Il sistema di storage e i volumi in cui si trovano i file
+* Le copie Snapshot eseguite e la loro posizione
+* Lo stato delle risorse di storage principali
+* Lo stato di protezione del backup
+* Modalità di backup
+
+
+Se si specifica `-verbose` vengono visualizzate le seguenti informazioni aggiuntive:
+
+* I cloni creati dal backup, se presenti
+* Informazioni di verifica
+* Se il backup è montato, SnapManager visualizza i punti di montaggio in uso
+
+
+Per il backup del file di registro dell'archivio, vengono visualizzate le stesse informazioni dell'altro backup del database, ad eccezione delle seguenti informazioni:
+
+* SCN del punto di verifica
+* Fine SCN. Backup
+* Tablespace
+* File di controllo
+
+
+Tuttavia, il backup del file di log dell'archivio contiene le seguenti informazioni aggiuntive:
+
+* Il primo numero di modifica del backup
+* Il numero di modifica successivo del backup
+* Numero del thread
+* Reimpostare l'ID dei log
+* Incarnazione
+* Nome del file di log
+
+
+.Fase
+. Immettere il seguente comando:
++
+`*smsap backup show -profile _profile_name_ {-label _label_ [data | -archivelogs] | -id _id_ [-quiet | -verbose]*`
+
+

@@ -1,0 +1,41 @@
+---
+permalink: unix-administration/task-use-snapmanager-for-oraclesnapmanager-for-sap-to-restore-backups-from-secondary-storage.html 
+sidebar: sidebar 
+keywords: administrator, restore, protect, backup, secondary, storage, copy, data, back, primary, snapmanager 
+summary: Gli amministratori possono ripristinare i backup protetti dallo storage secondario e scegliere come copiare di nuovo i dati nello storage primario. 
+---
+= Utilizza SnapManager per SAP per ripristinare i backup dallo storage secondario
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gli amministratori possono ripristinare i backup protetti dallo storage secondario e scegliere come copiare di nuovo i dati nello storage primario.
+
+*Cosa ti serve*
+
+Prima di tentare di ripristinare il backup, controllare le proprietà del backup e assicurarsi che il backup sia liberato nel sistema di storage primario e protetto sullo storage secondario.
+
+.Fasi
+. Nella struttura ad albero del repository SnapManager per SAP, fare clic con il pulsante destro del mouse sul backup che si desidera ripristinare e selezionare *Ripristina*.
+. Nella pagina iniziale della procedura guidata di ripristino e ripristino, fare clic su *Avanti*.
+. Nella pagina Restore Configuration Information (Ripristina informazioni configurazione), fare clic su *complete Datafile/tablespace Restore with Control Files* (completa ripristino file dati/tablespace con file di controllo).
+. Fare clic su *Allow shutdown of database if necessary*, quindi fare clic su *Next*.
++
+SnapManager modifica lo stato del database, se necessario. Ad esempio, se il database è offline e deve essere online, SnapManager lo impone online.
+
+. Nella pagina Recovery Configuration Information (informazioni configurazione ripristino), fare clic su *All Logs* (tutti i registri). Quindi, fare clic su *Avanti*.
++
+SnapManager ripristina e ripristina il database all'ultima transazione e applica tutti i log richiesti.
+
+. Nella pagina Restore Source Location Configuration (Configurazione percorso di origine ripristino), selezionare l'ID dell'origine di backup protetta e fare clic su *Next* (Avanti).
+. Nella pagina Volume Restore Configuration Information (informazioni di configurazione ripristino volume), fare clic su *tentativo di ripristino del volume* per tentare il ripristino del volume.
+. Fare clic su *Fallback to file-based restore*.
++
+Questo consente a SnapManager di utilizzare il metodo di ripristino basato su file se non è possibile completare il metodo di ripristino del volume.
+
+. Per visualizzare i controlli di idoneità per il ripristino rapido e le informazioni sui controlli obbligatori e sovrascrivibili, fare clic su *Anteprima*.
+. Nella pagina Perform operation (Esegui operazione), verificare le informazioni fornite e fare clic su *Restore* (Ripristina).
+. Per visualizzare i dettagli del processo, fare clic su *Dettagli operazione*.
+

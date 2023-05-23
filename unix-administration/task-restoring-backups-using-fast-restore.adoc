@@ -1,0 +1,61 @@
+---
+permalink: unix-administration/task-restore-backups-using-fast-restore.html 
+sidebar: sidebar 
+keywords: force, snapmanager, sap, volume-based, snaprestore, condition, restore, eligibility, restoring 
+summary: Puoi forzare SnapManager per SAP a utilizzare il processo SnapRestore basato su volume piuttosto che altri processi di ripristino, se vengono soddisfatte tutte le condizioni obbligatorie di idoneità per il ripristino rapido. 
+---
+= Ripristinare i backup utilizzando il ripristino rapido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puoi forzare SnapManager per SAP a utilizzare il processo SnapRestore basato su volume piuttosto che altri processi di ripristino, se vengono soddisfatte tutte le condizioni obbligatorie di idoneità per il ripristino rapido.
+
+*A proposito di questa attività*
+
+È possibile utilizzare il comando di ripristino del backup con `-fast`:
+
+`*backup restore -fast [require | override | fallback | off]*`
+
+È possibile utilizzare `-fast` solo se si desidera eseguire un ripristino completo di un backup completo. Il `-fast` l'opzione include i seguenti parametri:
+
+* `require`: Consente di eseguire un ripristino del volume se vengono soddisfatte tutte le condizioni di idoneità per il ripristino obbligatorio e non vengono rilevati controlli sovrascrivibili.
++
+Se si specifica `-fast` ma non specificare alcun parametro per `-fast`, SnapManager utilizza `-require` come parametro predefinito.
+
+* `override`: Consente di ignorare i controlli di idoneità non obbligatori ed eseguire il ripristino rapido basato sul volume.
+* `fallback`: Consente di ripristinare il database utilizzando qualsiasi metodo determinato da SnapManager.
++
+Se non si specifica `-fast`, SnapManager utilizza `-fallback` come parametro predefinito.
+
+* `off`: Consente di evitare il tempo necessario per eseguire tutti i controlli di idoneità, per eseguire un processo di ripristino basato su file piuttosto che un processo di ripristino rapido.
+
+
+Se il backup non supera i controlli di idoneità obbligatori, il ripristino rapido non può essere completato correttamente.
+
+SnapManager esegue ripristini rapidi basati su volumi solo in ambienti basati su UNIX; SnapManager non esegue ripristini rapidi nell'ambiente Windows.
+
+Durante l'esecuzione di VBSR sul backup del file di dati, se i file di dati e i file di log dell'archivio sono presenti nello stesso volume e se i file di log dell'archivio non sono presenti nel file system attivo, il ripristino e il ripristino del database hanno esito positivo. Tuttavia, le future istantanee del log di archiviazione vengono eliminate come parte del VBSR, con conseguente inserimento obsoleto del backup del log di archiviazione nel repository.
+
+.Fasi
+. Immettere il seguente comando:
++
+`*smsap backup restore -profile _profile_name_ -label _label_ -complete-fast require-verbose*`
+
++
+*Esempio*
+
++
+[listing]
+----
+smsap backup restore -profile targetdb1_prof1
+      -label full_bkup_sales_nov_08  -complete -fast require -verbose
+----
+. Esaminare i controlli di idoneità per il ripristino rapido.
+. Se il controllo di idoneità determina che non è stato superato alcun controllo obbligatorio, se è possibile ignorare determinate condizioni e se si desidera continuare con il processo di ripristino, immettere il seguente comando:
++
+`*backup restore -fast override*`
+
+

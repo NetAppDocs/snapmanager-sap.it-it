@@ -1,0 +1,298 @@
+---
+permalink: windows/task-creating-clone-specifications.html 
+sidebar: sidebar 
+keywords: snapmanager, sap, clone, specification, xml, file, mapping, option, parameter, clone, operation, information, creating, create 
+summary: 'SnapManager per SAP utilizza un file XML di specifica del clone, che include mappature, opzioni e parametri da utilizzare nell"operazione del clone. SnapManager utilizza queste informazioni per determinare dove posizionare i file cloni e come gestire le informazioni diagnostiche, i file di controllo, i parametri e così via.' 
+---
+= Creazione di specifiche di cloni
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapManager per SAP utilizza un file XML di specifica del clone, che include mappature, opzioni e parametri da utilizzare nell'operazione del clone. SnapManager utilizza queste informazioni per determinare dove posizionare i file cloni e come gestire le informazioni diagnostiche, i file di controllo, i parametri e così via.
+
+È possibile creare il file di specifica del clone utilizzando l'interfaccia grafica utente (GUI), l'interfaccia della riga di comando (CLI) o un editor di testo di SnapManager.
+
+Quando si crea il file di specifica del clone utilizzando un editor di testo, è necessario salvarlo come file .xml. È possibile utilizzare questo file XML per altre operazioni di clonazione.
+
+È inoltre possibile creare un modello di specifica clone e personalizzarlo. È possibile utilizzare il comando smsap clone template oppure, nella GUI, utilizzare la procedura guidata Clone.
+
+SnapManager per SAP aggiunge una stringa di versione a qualsiasi modello di specifica clone generato. SnapManager per SAP presuppone la versione più recente per qualsiasi file di specifica clone privo di stringa di versione.
+
+Se si desidera eseguire la clonazione remota, non modificare le posizioni predefinite dei file di dati, ripristinare i file di log e i file di controllo nel file di specifica del clone. Se si modifica la posizione predefinita, SnapManager non crea il clone o il clone su un database che non supporta la funzionalità Snapshot. Pertanto, la creazione automatica del profilo non riesce.
+
+
+NOTE: Sebbene le informazioni relative al punto di montaggio e al gruppo di dischi ASM siano modificabili dalla GUI, è possibile modificare solo il nome del file e non le posizioni dei file.
+
+È possibile eseguire un'attività più volte, con combinazioni di parametri e valori uguali o diverse.
+
+SAP utilizza impostazioni Oracle specifiche per la configurazione del database. Queste impostazioni sono disponibili in inatit <SID>.ora all'indirizzo È necessario includerli nella specifica del clone.
+
+. Aprire un file di testo e inserire il testo come illustrato nell'esempio seguente:
++
+[listing]
+----
+<clone-specification xmlns="http://www.example.com>
+     <storage-specification/>
+     <database-specification/>
+ </clone-specification>
+----
+. Nel componente delle specifiche dello storage, inserire i punti di montaggio per i file di dati.
++
+La specifica dello storage elenca le posizioni per il nuovo storage creato per il clone, come ad esempio i punti di montaggio dei file di dati e i dispositivi raw. Questi elementi devono essere mappati dall'origine alla destinazione.
+
++
+L'esempio seguente mostra un singolo punto di montaggio NFS su uno storage collegato a NFS:
+
++
+[listing]
+----
+<mountpoint>
+      <source>\oracle\<SOURCE SID>_sapdata</source>
+      <destination>\oracle\<TARGET SID>_sapdata</destination>
+</mountpoint>
+----
+. Nel componente delle specifiche del database, identificare le informazioni del file di controllo come elenco dei file di controllo che si desidera creare per il clone.
++
+La specifica del database specifica le opzioni del database per il clone, ad esempio file di controllo, log di ripristino, log di archiviazione e parametri Oracle.
+
++
+Nell'esempio seguente viene visualizzata la sintassi del file di controllo utilizzata nella specifica del clone:
+
++
+[listing]
+----
+<controlfiles>
+     <file>\oracle\<TARGET SID>\origlogA\cntrl\cntrl<TARGET SID>.dbf</file>
+     <file>\oracle\<TARGET SID>\origlogB\cntrl\cntrl<TARGET SID>.dbf</file>
+     <file>\oracle\<TARGET SID>\sapdata1\cntrl\cntrl<TARGET SID>.dbf</file>
+</controlfiles>
+----
+. Specificare la struttura del log di ripristino per il clone.
++
+Nell'esempio seguente viene visualizzata la struttura di directory del log di ripristino per la clonazione:
+
++
+[listing]
+----
+<redologs>
+     <redogroup>
+        <file>E:\oracle\<TARGET SID>\origlogA\log_g11m1.dbf</file>
+        <file>E:\oracle\<TARGET SID>\mirrlogA\log_g11m2.dbf</file>
+        <number>1</number>
+        <size unit="M">100</size>
+     </redogroup>
+     <redogroup>
+        <file>E:\oracle\<TARGET SID>\origlogB\log_g12m1.dbf</file>
+        <file>E:\oracle\<TARGET SID>\mirrlogB\log_g12m2.dbf</file>
+        <number>2</number>
+        <size unit="M">100</size>
+     </redogroup>
+     <redogroup>
+        <file>E:\oracle\<TARGET SID>\origlogA\log_g13m1.dbf</file>
+        <file>E:\oracle\<TARGET SID>\mirrlogA\log_g13m2.dbf</file>
+        <number>3</number>
+        <size unit="M">100</size>
+     </redogroup>
+     <redogroup>
+        <file>E:\oracle\<TARGET SID>\origlogB\log_g14m1.dbf</file>
+        <file>E:\oracle\<TARGET SID>\mirrlogB\log_g14m2.dbf</file>
+        <number>4</number>
+        <size unit="M">100</size>
+     </redogroup>
+</redologs>
+----
+. Specificare i parametri Oracle che devono essere impostati su valori diversi nel database clonato. Se si utilizza Oracle 10, è necessario specificare i seguenti parametri:
++
+** Dump in background
+** Core dump
+** Dump dell'utente
+** (Facoltativo) registri di archiviazione
++
+
+NOTE: Se i valori dei parametri non sono impostati correttamente, l'operazione di clonazione viene interrotta e viene visualizzato un messaggio di errore.
+
+
+
++
+Se non si specifica la posizione in cui sono memorizzati i registri di archiviazione, SnapManager crea il clone in modalità noarchivelog. SnapManager copia le informazioni di questo parametro nel file init.ora del clone.
+
++
+L'esempio seguente mostra la sintassi dei parametri utilizzata nella specifica dei cloni:
+
++
++
+
++
+[listing]
+----
+<parameters>
+     <parameter>
+          <name>log_archive_dest</name>
+          <value>LOCATION=>E:\oracle\<TARGET SID>\oraarch</value>
+     </parameter>
+     <parameter>
+          <name>background_dump_dest</name>
+          <value>E:\oracle\<TARGET SID>\saptrace\background</value>
+     </parameter>
+     <parameter>
+          <name>core_dump_dest</name>
+          <value>E:\oracle\<TARGET SID>\saptrace\background</value>
+     </parameter>
+     <parameter>
+     <name>user_dump_dest</name>
+     <value>E:\oracle\<TARGET SID>\saptrace\usertrace</value>
+     </parameter>
+</parameters>
+----
++
++ è possibile utilizzare un valore predefinito utilizzando un elemento predefinito all'interno dell'elemento del parametro. Nell'esempio seguente, il parametro os_Authentication_PREFIX prenderà il valore predefinito perché viene specificato l'elemento predefinito:
+
++
++
+
++
+[listing]
+----
+<parameters>
+     <parameter>
+          <name>os_authent_prefix</name>
+          <default></default>
+     </parameter>
+</parameters>
+----
++
++ è possibile specificare una stringa vuota come valore per un parametro utilizzando un elemento vuoto. Nell'esempio seguente, os_Authentication_PREFIX viene impostato su una stringa vuota:
+
++
++
+
++
+[listing]
+----
+<parameters>
+     <parameter>
+          <name>os_authent_prefix</name>
+          <value></value>
+     </parameter>
+</parameters>
+----
++
++ NOTA: È possibile utilizzare il valore del file init.ora del database di origine per il parametro senza specificare alcun elemento.
+
++
++ se un parametro ha valori multipli, è possibile fornire i valori dei parametri separati da virgole. Ad esempio, se si desidera spostare i file di dati da una posizione all'altra, è possibile utilizzare il parametro db_file_name_convert e specificare i percorsi dei file di dati separati da virgole, come illustrato nell'esempio seguente:
+
++
++ se si desidera spostare i file di log da una posizione all'altra, è possibile utilizzare il parametro log_file_name_convert e specificare i percorsi dei file di log separati da virgole, come illustrato nell'esempio seguente:
+
+. Facoltativo: Specificare istruzioni SQL arbitrarie da eseguire sul clone quando è online.
++
+È possibile utilizzare le istruzioni SQL per eseguire attività come la ricreazione dei file temporanei nel database clonato.
+
++
+
+NOTE: È necessario assicurarsi che un punto e virgola non sia incluso alla fine dell'istruzione SQL.
+
++
+Di seguito viene riportata un'istruzione SQL di esempio eseguita come parte dell'operazione di clonazione:
+
++
+[listing]
+----
+<sql-statements>
+   <sql-statement>
+     ALTER TABLESPACE TEMP ADD
+     TEMPFILE 'E:\path\clonename\temp_user01.dbf'
+     SIZE 41943040 REUSE AUTOEXTEND ON NEXT 655360
+     MAXSIZE 32767M
+   </sql-statement>
+</sql-statements>
+----
+
+
+
+
+== Esempio di specifica di clonazione
+
+Nell'esempio seguente viene illustrata la struttura delle specifiche dei cloni, inclusi i componenti delle specifiche di storage e database, per un ambiente Windows:
+
+[listing]
+----
+<clone-specification xmlns="http://www.example.com>
+
+<storage-specification>
+    <storage-mapping>
+        <mountpoint>
+            <source>D:\oracle\<SOURCE SID>_sapdata</source>
+            <destination>D:\oracle\<TARGET SID>_sapdata</destination>
+        </mountpoint>
+    </storage-mapping>
+</storage-specification>
+
+<database-specification>
+    <controlfiles>
+        <file>D:\oracle\<TARGET SID>\origlogA\cntrl\cntrl<TARGET SID>.dbf</file>
+        <file>D:\oracle\<TARGET SID>\origlogB\cntrl\cntrl<TARGET SID>.dbf</file>
+        <file>D:\oracle\<TARGET SID>\sapdata1\cntrl\cntrl<TARGET SID>.dbf</file>
+     </controlfiles>
+
+     <redologs>
+        <redogroup>
+            <file>D:\oracle\<TARGET SID>\origlogA\log_g11m1.dbf</file>
+            <file>D:\oracle\<TARGET SID>\mirrlogA\log_g11m2.dbf</file>
+            <number>1</number>
+            <size unit="M">100</size>
+        </redogroup>
+        <redogroup>
+            <file>D:\oracle\<TARGET SID>\origlogB\log_g12m1.dbf</file>
+            <file>D:\oracle\<TARGET SID>\mirrlogB\log_g12m2.dbf</file>
+            <number>2</number>
+            <size unit="M">100</size>
+        </redogroup>
+        <redogroup>
+            <file>D:\oracle\<TARGET SID>\origlogA\log_g13m1.dbf</file>
+            <file>D:\oracle\<TARGET SID>\mirrlogA\log_g13m2.dbf</file>
+            <number>3</number>
+            <size unit="M">100</size>
+        </redogroup>
+        <redogroup>
+            <file>D:\oracle\<TARGET SID>\origlogB\log_g14m1.dbf</file>
+            <file>D:\oracle\<TARGET SID>\mirrlogB\log_g14m2.dbf</file>
+            <number>4</number>
+            <size unit="M">100</size>
+       </redogroup>
+    </redologs>
+
+    <parameters>
+        <parameter>
+            <name>log_archive_dest</name>
+            <value>LOCATION=>D:\oracle\<TARGET SID>\oraarch</value>
+        </parameter>
+        <parameter>
+            <name>background_dump_dest</name>
+            <value>D:\oracle\<TARGET SID>\saptrace\background</value>
+        </parameter>
+        <parameter>
+            <name>core_dump_dest</name>
+            <value>D:\oracle\<TARGET SID>\saptrace\background</value>
+        </parameter>
+        <parameter>
+            <name>user_dump_dest</name>
+            <value>D:\oracle\<TARGET SID>\saptrace\usertrace</value>
+        </parameter>
+    </parameters>
+  </database-specification>
+</clone-specification>
+----
+*Informazioni correlate*
+
+xref:task-cloning-databases-and-using-custom-plugin-scripts.adoc[Clonazione di database e utilizzo di script plug-in personalizzati]
+
+xref:task-cloning-databases-from-backups.adoc[Clonare i database dai backup]
+
+xref:task-cloning-databases-in-the-current-state.adoc[Clonazione dei database nello stato corrente]
+
+xref:concept-considerations-for-cloning-a-database-to-an-alternate-host.adoc[Considerazioni per clonare un database su un host alternativo]
