@@ -31,17 +31,9 @@ Vengono descritte le procedure dettagliate per l'esecuzione di diverse operazion
 
 NOTE: La _Guida in linea_ è integrata con l'interfaccia utente di SnapManager e non è disponibile sul sito del supporto.
 
-* http://www.netapp.com/us/media/tr-3761.pdf["Report tecnico di NetApp 3761: SnapManager per Oracle: Best practice"^]
-+
-Descrive le Best practice di SnapManager per Oracle.
-
 * http://www.netapp.com/us/media/tr-3633.pdf["Report tecnico di NetApp 3633: Best practice per i database Oracle su storage NetApp"^]
 +
 Descrive le Best practice per configurare i database Oracle sul sistema di storage NetApp.
-
-* http://www.netapp.com/us/media/tr-3442.pdf["Report tecnico di NetApp 3442: SAP con Oracle su UNIX, NFS e storage NetApp"^]
-+
-Descrive le Best practice per l'implementazione dello storage NetApp per supportare le soluzioni SAP.
 
 
 

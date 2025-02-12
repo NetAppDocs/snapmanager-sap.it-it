@@ -25,7 +25,3 @@ tablespace_name è il nome della tablespace.
 SnapManager richiede una dimensione minima del blocco 4-K per lo spazio tabella.
 
 
-
-*Informazioni correlate*
-
-http://www.netapp.com/us/media/tr-3761.pdf["Report tecnico di NetApp 3761: SnapManager per Oracle: Best practice"]

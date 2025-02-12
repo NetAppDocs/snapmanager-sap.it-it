@@ -145,7 +145,3 @@ NOTE: Per la conservazione a lungo termine delle copie di backup, è necessario 
 == Verificare le copie di backup utilizzando il volume di origine o un volume di destinazione?
 
 Se si utilizza SnapMirror o SnapVault, è possibile verificare le copie di backup utilizzando la copia Snapshot sul volume di destinazione SnapMirror o SnapVault invece della copia Snapshot sul sistema di storage primario. L'utilizzo di un volume di destinazione per la verifica riduce il carico sul sistema di storage primario.
-
-*Informazioni correlate*
-
-http://www.netapp.com/us/media/tr-3761.pdf["Report tecnico di NetApp 3761: SnapManager per Oracle: Best practice"^]
